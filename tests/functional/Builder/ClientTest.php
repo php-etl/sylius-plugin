@@ -1,13 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace functional\Kiboko\Plugin\Akeneo\Builder;
+namespace functional\Kiboko\Plugin\Sylius\Builder;
 
-use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
-use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
-use functional\Kiboko\Plugin\Akeneo\Mock\ResponseFactory;
+use Diglin\Sylius\ApiClient\SyliusClientInterface;
+use functional\Kiboko\Plugin\Sylius\Mock\ResponseFactory;
 use Http\Mock\Client;
-use Kiboko\Plugin\Akeneo\Builder;
-use Kiboko\Plugin\Akeneo\MissingAuthenticationMethodException;
+use Kiboko\Plugin\Sylius\Builder;
+use Kiboko\Plugin\Sylius\MissingAuthenticationMethodException;
 use PhpParser\Node;
 
 final class ClientTest extends BuilderTestCase
@@ -55,28 +54,6 @@ final class ClientTest extends BuilderTestCase
 
         $client->withHttpClient($this->getClientNode());
 
-        $this->assertNodeIsInstanceOf(AkeneoPimClientInterface::class, $client);
-        $this->assertNodeIsNotInstanceOf(AkeneoPimEnterpriseClientInterface::class, $client);
-    }
-
-    public function testWithTokenForEnterprise(): void
-    {
-        $client = new Builder\Client(
-            new Node\Scalar\String_('http://demo.akeneo.com'),
-            new Node\Scalar\String_(''),
-            new Node\Scalar\String_(''),
-        );
-
-        $client->withToken(
-            new Node\Scalar\String_(''),
-            new Node\Scalar\String_(''),
-        );
-
-        $client->withHttpClient($this->getClientNode());
-
-        $client->withEnterpriseSupport(true);
-
-        $this->assertNodeIsInstanceOf(AkeneoPimClientInterface::class, $client);
-        $this->assertNodeIsInstanceOf(AkeneoPimEnterpriseClientInterface::class, $client);
+        $this->assertNodeIsInstanceOf(SyliusClientInterface::class, $client);
     }
 }

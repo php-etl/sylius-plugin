@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Kiboko\Plugin\Akeneo\Builder;
+namespace Kiboko\Plugin\Sylius\Builder;
 
 use Kiboko\Contract\Configurator\InvalidConfigurationException;
 use PhpParser\Builder;
@@ -120,7 +120,7 @@ final class Search implements Builder
     public function getNode(): Node
     {
         $instance = new Node\Expr\New_(
-            class: new Node\Name\FullyQualified('Akeneo\\Pim\\ApiClient\\Search\\SearchBuilder')
+            class: new Node\Name\FullyQualified('Diglin\\Sylius\\ApiClient\\Search\\SearchBuilder')
         );
 
         foreach ($this->filters as $filterSpec) {

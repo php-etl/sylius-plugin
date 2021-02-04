@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Kiboko\Plugin\Akeneo\Factory\Repository;
+namespace Kiboko\Plugin\Sylius\Factory\Repository;
 
 use Kiboko\Contract\Configurator;
 

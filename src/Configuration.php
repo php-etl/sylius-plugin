@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Kiboko\Plugin\Akeneo;
+namespace Kiboko\Plugin\Sylius;
 
 use Kiboko\Plugin\Log;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -21,7 +21,7 @@ final class Configuration implements ConfigurationInterface
         $extractor = new Configuration\Extractor();
         $loader = new Configuration\Loader();
 
-        $builder = new TreeBuilder('akeneo');
+        $builder = new TreeBuilder('sylius');
 
         /** @phpstan-ignore-next-line */
         $builder->getRootNode()
@@ -32,7 +32,6 @@ final class Configuration implements ConfigurationInterface
                 ->thenInvalid('Your configuration should either contain the "extractor" or the "loader" key, not both.')
             ->end()
             ->children()
-                ->booleanNode('enterprise')->defaultFalse()->end()
                 ->append(node: $extractor->getConfigTreeBuilder()->getRootNode())
                 ->append(node: $loader->getConfigTreeBuilder()->getRootNode())
                 ->append(node: $client->getConfigTreeBuilder()->getRootNode())

@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Kiboko\Plugin\Akeneo\Factory;
+namespace Kiboko\Plugin\Sylius\Factory;
 
-use Kiboko\Plugin\Akeneo;
+use Kiboko\Plugin\Sylius;
 use Kiboko\Contract\Configurator;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception as Symfony;
@@ -12,15 +12,15 @@ final class Loader implements Configurator\FactoryInterface
 {
     private Processor $processor;
     private ConfigurationInterface $configuration;
-    /** @var iterable<Akeneo\Capacity\CapacityInterface>  */
+    /** @var iterable<Sylius\Capacity\CapacityInterface>  */
     private iterable $capacities;
 
     public function __construct()
     {
         $this->processor = new Processor();
-        $this->configuration = new Akeneo\Configuration\Loader();
+        $this->configuration = new Sylius\Configuration\Loader();
         $this->capacities = [
-            new Akeneo\Capacity\Upsert(),
+            new Sylius\Capacity\Upsert(),
         ];
     }
 
@@ -52,7 +52,7 @@ final class Loader implements Configurator\FactoryInterface
         }
     }
 
-    private function findCapacity(array $config): Akeneo\Capacity\CapacityInterface
+    private function findCapacity(array $config): Sylius\Capacity\CapacityInterface
     {
         foreach ($this->capacities as $capacity) {
             if ($capacity->applies($config)) {
@@ -67,19 +67,15 @@ final class Loader implements Configurator\FactoryInterface
 
     public function compile(array $config): Repository\Loader
     {
-        $builder = new Akeneo\Builder\Loader();
+        $builder = new Sylius\Builder\Loader();
 
         try {
             $builder->withCapacity($this->findCapacity($config)->getBuilder($config));
         } catch (NoApplicableCapacityException $exception) {
             throw new Configurator\InvalidConfigurationException(
-                message: 'Your Akeneo API configuration is using some unsupported capacity, check your "type" and "method" properties to a suitable set.',
+                message: 'Your Sylius API configuration is using some unsupported capacity, check your "type" and "method" properties to a suitable set.',
                 previous: $exception,
             );
-        }
-
-        if (isset($config['enterprise'])) {
-            $builder->withEnterpriseSupport($config['enterprise']);
         }
 
         try {

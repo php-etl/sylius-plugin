@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Kiboko\Plugin\Akeneo\Builder\Capacity;
+namespace Kiboko\Plugin\Sylius\Builder\Capacity;
 
-use Kiboko\Plugin\Akeneo\MissingEndpointException;
-use Kiboko\Plugin\Akeneo\MissingParameterException;
+use Kiboko\Plugin\Sylius\MissingEndpointException;
+use Kiboko\Plugin\Sylius\MissingParameterException;
 use PhpParser\Builder;
 use PhpParser\Node;
 
@@ -100,7 +100,7 @@ final class Upsert implements Builder
                         new Node\Stmt\Catch_(
                             types: [
                                 new Node\Name\FullyQualified(
-                                    name: 'Akeneo\\Pim\\ApiClient\\Exception\\HttpException',
+                                    name: 'Diglin\\Sylius\\ApiClient\\Exception\\HttpException',
                                 ),
                             ],
                             var: new Node\Expr\Variable('exception'),

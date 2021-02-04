@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Kiboko\Plugin\Akeneo\Factory;
+namespace Kiboko\Plugin\Sylius\Factory;
 
-use Kiboko\Plugin\Akeneo;
+use Kiboko\Plugin\Sylius;
 use Kiboko\Contract\Configurator;
 use PhpParser\Node;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -17,7 +17,7 @@ final class Client implements Configurator\FactoryInterface
     public function __construct()
     {
         $this->processor = new Processor();
-        $this->configuration = new Akeneo\Configuration\Client();
+        $this->configuration = new Sylius\Configuration\Client();
     }
 
     public function configuration(): ConfigurationInterface
@@ -65,7 +65,7 @@ final class Client implements Configurator\FactoryInterface
     public function compile(array $config): Repository\Client
     {
         try {
-            $clientBuilder = new Akeneo\Builder\Client(
+            $clientBuilder = new Sylius\Builder\Client(
                 new Node\Scalar\String_($config['api_url']),
                 new Node\Scalar\String_($config['client_id']),
                 new Node\Scalar\String_($config['secret']),
@@ -99,9 +99,9 @@ final class Client implements Configurator\FactoryInterface
             }
 
             return new Repository\Client($clientBuilder);
-        } catch (Akeneo\MissingAuthenticationMethodException $exception) {
+        } catch (Sylius\MissingAuthenticationMethodException $exception) {
             throw new Configurator\InvalidConfigurationException(
-                message: 'Your Akeneo API configuration is missing an authentication method, you should either define "username" or "token" options.',
+                message: 'Your Sylius API configuration is missing an authentication method, you should either define "username" or "token" options.',
                 previous: $exception,
             );
         } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {

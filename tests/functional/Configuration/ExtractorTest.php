@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace functional\Kiboko\Plugin\Akeneo\Configuration;
+namespace functional\Kiboko\Plugin\Sylius\Configuration;
 
-use Kiboko\Plugin\Akeneo\Configuration;
+use Kiboko\Plugin\Sylius\Configuration;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config;
 

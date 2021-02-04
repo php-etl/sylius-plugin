@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Kiboko\Plugin\Akeneo;
+namespace Kiboko\Plugin\Sylius;
 
 use Kiboko\Contract\Configurator\RepositoryInterface;
-use Kiboko\Plugin\Akeneo\Factory;
+use Kiboko\Plugin\Sylius\Factory;
 use Kiboko\Contract\Configurator\InvalidConfigurationException;
 use Kiboko\Contract\Configurator\ConfigurationExceptionInterface;
 use Kiboko\Contract\Configurator\FactoryInterface;
@@ -46,7 +46,7 @@ final class Service implements FactoryInterface
             $this->processor->processConfiguration($this->configuration, $config);
 
             return true;
-        } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
+        } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException) {
             return false;
         }
     }
@@ -69,7 +69,6 @@ final class Service implements FactoryInterface
                 $logger = $loggerFactory->compile($config['logger'] ?? []);
 
                 $client = $clientFactory->compile($config['client']);
-                $client->getBuilder()->withEnterpriseSupport($config['enterprise']);
 
                 $extractorBuilder
                     ->withClient($client->getBuilder()->getNode())
@@ -89,7 +88,6 @@ final class Service implements FactoryInterface
                 $logger = $loggerFactory->compile($config['logger'] ?? []);
 
                 $client = $clientFactory->compile($config['client']);
-                $client->getBuilder()->withEnterpriseSupport($config['enterprise']);
 
                 $loaderBuilder
                     ->withClient($client->getBuilder()->getNode())
@@ -107,7 +105,7 @@ final class Service implements FactoryInterface
             }
         } catch (MissingAuthenticationMethodException $exception) {
             throw new InvalidConfigurationException(
-                'Your Akeneo API configuration is missing an authentication method, you should either define "username" or "token" options.',
+                'Your Sylius API configuration is missing an authentication method, you should either define "username" or "token" options.',
                 0,
                 $exception,
             );

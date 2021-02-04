@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Kiboko\Plugin\Akeneo\Factory;
+namespace Kiboko\Plugin\Sylius\Factory;
 
-use Kiboko\Plugin\Akeneo;
+use Kiboko\Plugin\Sylius;
 use Kiboko\Plugin\Log;
 use Kiboko\Contract\Configurator;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -51,7 +51,7 @@ final class Search implements Configurator\FactoryInterface
     public function compile(array $config): Repository\Search
     {
         try {
-            $builder = new Akeneo\Builder\Search();
+            $builder = new Sylius\Builder\Search();
 
             foreach ($config as $field) {
                 $builder->addFilter(...$field);

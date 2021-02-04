@@ -1,16 +1,16 @@
 {
-    "name": "php-etl/akeneo-plugin",
-    "description": "Adapters for the Akeneo API client",
+    "name": "php-etl/sylius-plugin",
+    "description": "Adapters for the Sylius API client",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Kiboko\\Plugin\\Akeneo\\": "src/"
+            "Kiboko\\Plugin\\Sylius\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "functional\\Kiboko\\Plugin\\Akeneo\\": "tests/functional/"
+            "functional\\Kiboko\\Plugin\\Sylius\\": "tests/functional/"
         }
     },
     "config": {
@@ -29,7 +29,6 @@
         "symfony/yaml": "^5.2@dev",
         "symfony/console": "^5.2@dev",
         "php-etl/bucket-contracts": "^0.1.0@dev",
-        "akeneo/api-php-client-ee": "^4.0",
         "php-etl/pipeline-contracts": "^0.1.0@dev",
         "php-etl/pipeline": "^0.2.0@dev",
         "phpunit/phpunit": "^9.0",
@@ -42,7 +41,8 @@
         "phpunit/php-invoker": "*",
         "phpstan/phpstan": "^0.12",
         "infection/infection": "^0.20",
-        "php-etl/phpspec-extension": "^0.2@dev"
+        "php-etl/phpspec-extension": "^0.2@dev",
+        "diglin/sylius-api-php-client": "^1.2"
     },
     "authors": [
         {

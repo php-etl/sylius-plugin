@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace functional\Kiboko\Plugin\Akeneo\Configuration;
+namespace functional\Kiboko\Plugin\Sylius\Configuration;
 
-use Kiboko\Plugin\Akeneo\Configuration;
+use Kiboko\Plugin\Sylius\Configuration;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config;
 
@@ -81,7 +81,7 @@ final class ClientTest extends TestCase
             Config\Definition\Exception\InvalidConfigurationException::class,
         );
         $this->expectExceptionMessage(
-            'You must choose between "username" and "token" as authentication method for Akeneo API, both are mutually exclusive.',
+            'You must choose between "username" and "token" as authentication method for Sylius API, both are mutually exclusive.',
         );
 
         $this->processor->processConfiguration(
@@ -105,7 +105,7 @@ final class ClientTest extends TestCase
             Config\Definition\Exception\InvalidConfigurationException::class,
         );
         $this->expectExceptionMessage(
-            'You must choose between "username" and "token" as authentication method for Akeneo API, both are mutually exclusive.',
+            'You must choose between "username" and "token" as authentication method for Sylius API, both are mutually exclusive.',
         );
 
         $this->processor->processConfiguration(

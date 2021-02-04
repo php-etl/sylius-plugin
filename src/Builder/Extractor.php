@@ -1,29 +1,20 @@
 <?php declare(strict_types=1);
 
-namespace Kiboko\Plugin\Akeneo\Builder;
+namespace Kiboko\Plugin\Sylius\Builder;
 
 use PhpParser\Builder;
 use PhpParser\Node;
 
 final class Extractor implements Builder
 {
-    private bool $withEnterpriseSupport;
     private ?Node\Expr $client;
     private ?Node\Expr $logger;
     private ?Builder $capacity;
 
     public function __construct()
     {
-        $this->withEnterpriseSupport = false;
         $this->client = null;
         $this->capacity = null;
-    }
-
-    public function withEnterpriseSupport(bool $withEnterpriseSupport): self
-    {
-        $this->withEnterpriseSupport = $withEnterpriseSupport;
-
-        return $this;
     }
 
     public function withClient(Node\Expr $client): self
@@ -64,9 +55,7 @@ final class Extractor implements Builder
                                 'params' => [
                                     new Node\Param(
                                         var: new Node\Expr\Variable('client'),
-                                        type: !$this->withEnterpriseSupport ?
-                                            new Node\Name\FullyQualified(name: 'Akeneo\\Pim\\ApiClient\\AkeneoPimClientInterface') :
-                                            new Node\Name\FullyQualified(name: 'Akeneo\\PimEnterprise\\ApiClient\\AkeneoPimEnterpriseClientInterface'),
+                                        type: new Node\Name\FullyQualified(name: 'Diglin\\Sylius\\ApiClient\\SyliusClientInterface'),
                                         flags: Node\Stmt\Class_::MODIFIER_PUBLIC,
                                     ),
                                     new Node\Param(

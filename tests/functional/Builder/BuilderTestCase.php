@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace functional\Kiboko\Plugin\Akeneo\Builder;
+namespace functional\Kiboko\Plugin\Sylius\Builder;
 
 use PhpParser\Node;
 use PhpParser\PrettyPrinter;

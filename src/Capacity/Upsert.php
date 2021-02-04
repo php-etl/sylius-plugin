@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Kiboko\Plugin\Akeneo\Capacity;
+namespace Kiboko\Plugin\Sylius\Capacity;
 
-use Kiboko\Plugin\Akeneo;
+use Kiboko\Plugin\Sylius;
 use PhpParser\Builder;
 use PhpParser\Node;
 
@@ -47,7 +47,7 @@ final class Upsert implements CapacityInterface
 
     public function getBuilder(array $config): Builder
     {
-        $builder = (new Akeneo\Builder\Capacity\Upsert())
+        $builder = (new Sylius\Builder\Capacity\Upsert())
             ->withEndpoint(endpoint: new Node\Identifier(sprintf('get%sApi', ucfirst($config['type']))))
             ->withCode(code: new Node\Expr\ArrayDimFetch(
                 var: new Node\Expr\Variable('line'),

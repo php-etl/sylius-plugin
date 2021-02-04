@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace functional\Kiboko\Plugin\Akeneo\Builder\Capacity;
+namespace functional\Kiboko\Plugin\Sylius\Builder\Capacity;
 
-use functional\Kiboko\Plugin\Akeneo\Builder\BuilderTestCase;
-use Kiboko\Plugin\Akeneo\Builder\Capacity\Upsert;
-use Kiboko\Plugin\Akeneo\MissingEndpointException;
-use Kiboko\Plugin\Akeneo\MissingParameterException;
+use functional\Kiboko\Plugin\Sylius\Builder\BuilderTestCase;
+use Kiboko\Plugin\Sylius\Builder\Capacity\Upsert;
+use Kiboko\Plugin\Sylius\MissingEndpointException;
+use Kiboko\Plugin\Sylius\MissingParameterException;
 use PhpParser\Node;
 
 final class UpsertTest extends BuilderTestCase

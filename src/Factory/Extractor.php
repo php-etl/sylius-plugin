@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Kiboko\Plugin\Akeneo\Factory;
+namespace Kiboko\Plugin\Sylius\Factory;
 
-use Kiboko\Plugin\Akeneo;
+use Kiboko\Plugin\Sylius;
 use Kiboko\Contract\Configurator;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception as Symfony;
@@ -12,16 +12,16 @@ final class Extractor implements Configurator\FactoryInterface
 {
     private Processor $processor;
     private ConfigurationInterface $configuration;
-    /** @var iterable<Akeneo\Capacity\CapacityInterface>  */
+    /** @var iterable<Sylius\Capacity\CapacityInterface>  */
     private iterable $capacities;
 
     public function __construct()
     {
         $this->processor = new Processor();
-        $this->configuration = new Akeneo\Configuration\Extractor();
+        $this->configuration = new Sylius\Configuration\Extractor();
         $this->capacities = [
-            new Akeneo\Capacity\All(),
-            new Akeneo\Capacity\ListPerPage(),
+            new Sylius\Capacity\All(),
+            new Sylius\Capacity\ListPerPage(),
         ];
     }
 
@@ -53,7 +53,7 @@ final class Extractor implements Configurator\FactoryInterface
         }
     }
 
-    private function findCapacity(array $config): Akeneo\Capacity\CapacityInterface
+    private function findCapacity(array $config): Sylius\Capacity\CapacityInterface
     {
         foreach ($this->capacities as $capacity) {
             if ($capacity->applies($config)) {
@@ -68,19 +68,15 @@ final class Extractor implements Configurator\FactoryInterface
 
     public function compile(array $config): Repository\Extractor
     {
-        $builder = new Akeneo\Builder\Extractor();
+        $builder = new Sylius\Builder\Extractor();
 
         try {
             $builder->withCapacity($this->findCapacity($config)->getBuilder($config));
         } catch (NoApplicableCapacityException $exception) {
             throw new Configurator\InvalidConfigurationException(
-                message: 'Your Akeneo API configuration is using some unsupported capacity, check your "type" and "method" properties to a suitable set.',
+                message: 'Your Sylius API configuration is using some unsupported capacity, check your "type" and "method" properties to a suitable set.',
                 previous: $exception,
             );
-        }
-
-        if (isset($config['enterprise'])) {
-            $builder->withEnterpriseSupport($config['enterprise']);
         }
 
         try {

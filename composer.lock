@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8794224409ad786781f30dae844875ac",
+    "content-hash": "fa4d597d7b656a8d7da47f023ee18470",
     "packages": [
         {
             "name": "nikic/php-parser",
@@ -615,112 +615,6 @@
             "time": "2016-04-22T07:46:29+00:00"
         },
         {
-            "name": "akeneo/api-php-client",
-            "version": "4.0.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/akeneo/api-php-client.git",
-                "reference": "b8121b4d78392a35a48aa2aef5752aa65c07c259"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/akeneo/api-php-client/zipball/b8121b4d78392a35a48aa2aef5752aa65c07c259",
-                "reference": "b8121b4d78392a35a48aa2aef5752aa65c07c259",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1",
-                "php-http/client-implementation": "^1.0",
-                "php-http/discovery": "^1.6",
-                "php-http/httplug": "^2.0",
-                "php-http/message": "^1.7",
-                "php-http/message-factory": "^v1.0",
-                "php-http/multipart-stream-builder": "^1.0",
-                "psr/http-message": "^1.0"
-            },
-            "require-dev": {
-                "donatj/mock-webserver": "^2.0",
-                "friendsofphp/php-cs-fixer": "^2.14",
-                "php-http/guzzle6-adapter": "^2.0",
-                "phpspec/phpspec": "^5.0",
-                "phpunit/phpunit": "^5.7",
-                "symfony/yaml": "^4.2"
-            },
-            "suggest": {
-                "php-http/guzzle6-adapter": "In order to use Guzzle v6 as the HTTP client"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Akeneo\\Pim\\ApiClient\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "OSL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "Akeneo",
-                    "homepage": "http://www.akeneo.com"
-                }
-            ],
-            "description": "Akeneo PIM client for the API",
-            "support": {
-                "issues": "https://github.com/akeneo/api-php-client/issues",
-                "source": "https://github.com/akeneo/api-php-client/tree/4.0"
-            },
-            "time": "2019-06-13T15:31:24+00:00"
-        },
-        {
-            "name": "akeneo/api-php-client-ee",
-            "version": "4.0.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/akeneo/api-php-client-ee.git",
-                "reference": "f7a46fc525a1ef91f88c8f96e4dff157ebe3d52d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/akeneo/api-php-client-ee/zipball/f7a46fc525a1ef91f88c8f96e4dff157ebe3d52d",
-                "reference": "f7a46fc525a1ef91f88c8f96e4dff157ebe3d52d",
-                "shasum": ""
-            },
-            "require": {
-                "akeneo/api-php-client": "4.0.x-dev"
-            },
-            "require-dev": {
-                "donatj/mock-webserver": "^2.0",
-                "friendsofphp/php-cs-fixer": "^2.14",
-                "php-http/guzzle6-adapter": "^2.0",
-                "phpspec/phpspec": "^5.0",
-                "phpunit/phpunit": "^5.7",
-                "symfony/yaml": "^4.2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Akeneo\\PimEnterprise\\ApiClient\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "OSL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "Akeneo",
-                    "homepage": "http://www.akeneo.com"
-                }
-            ],
-            "description": "Akeneo PIM ENTERPRISE client for the API",
-            "support": {
-                "issues": "https://github.com/akeneo/api-php-client-ee/issues",
-                "source": "https://github.com/akeneo/api-php-client-ee/tree/4.0"
-            },
-            "time": "2019-06-13T15:36:58+00:00"
-        },
-        {
             "name": "clue/stream-filter",
             "version": "v1.5.0",
             "source": {
@@ -848,6 +742,70 @@
                 }
             ],
             "time": "2020-11-13T08:04:11+00:00"
+        },
+        {
+            "name": "diglin/sylius-api-php-client",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/diglin/sylius-api-php-client.git",
+                "reference": "390c19567bef3fe37df3872c447473e653467dfc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/diglin/sylius-api-php-client/zipball/390c19567bef3fe37df3872c447473e653467dfc",
+                "reference": "390c19567bef3fe37df3872c447473e653467dfc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1",
+                "php-http/client-implementation": "^1.0",
+                "php-http/discovery": "^1.6",
+                "php-http/httplug": "^1.1 || ^2.0",
+                "php-http/message": "^1.7",
+                "php-http/message-factory": "^v1.0",
+                "php-http/multipart-stream-builder": "^1.0",
+                "psr/http-client": "^1.0",
+                "psr/http-message": "^1.0",
+                "symfony/expression-language": "^3.0|^4.0|^5.0"
+            },
+            "require-dev": {
+                "donatj/mock-webserver": "^2.0",
+                "friendsofphp/php-cs-fixer": "^2.14",
+                "php-http/guzzle6-adapter": "^2.0",
+                "phpspec/phpspec": "^5.0",
+                "phpunit/phpunit": "^5.7",
+                "symfony/yaml": "^4.2"
+            },
+            "suggest": {
+                "php-http/guzzle6-adapter": "In order to use Guzzle v6 as the HTTP client"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Diglin\\Sylius\\ApiClient\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "OSL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Akeneo (Original Work)",
+                    "homepage": "https://www.akeneo.com"
+                },
+                {
+                    "name": "Diglin (Derivative Work)",
+                    "homepage": "https://www.diglin.com"
+                }
+            ],
+            "description": "Sylius client for the API",
+            "support": {
+                "issues": "https://github.com/diglin/sylius-api-php-client/issues",
+                "source": "https://github.com/diglin/sylius-api-php-client/tree/1.2.0"
+            },
+            "time": "2021-02-04T18:17:01+00:00"
         },
         {
             "name": "doctrine/inflector",

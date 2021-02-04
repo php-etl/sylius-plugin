@@ -1,21 +1,21 @@
 <?php declare(strict_types=1);
 
-namespace Kiboko\Plugin\Akeneo\Factory\Repository;
+namespace Kiboko\Plugin\Sylius\Factory\Repository;
 
 use Kiboko\Contract\Configurator;
-use Kiboko\Plugin\Akeneo;
+use Kiboko\Plugin\Sylius;
 
 final class Search implements Configurator\RepositoryInterface
 {
     use RepositoryTrait;
 
-    public function __construct(private Akeneo\Builder\Search $builder)
+    public function __construct(private Sylius\Builder\Search $builder)
     {
         $this->files = [];
         $this->packages = [];
     }
 
-    public function getBuilder(): Akeneo\Builder\Search
+    public function getBuilder(): Sylius\Builder\Search
     {
         return $this->builder;
     }

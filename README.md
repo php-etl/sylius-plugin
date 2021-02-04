@@ -1,13 +1,12 @@
-Akeneo Data Flows
+Sylius Data Flows
 ===
 
 Goal
 ---
 
-This package aims at integration the Akeneo PHP clients into the
+This package aims at integration the Sylius PHP clients into the
 [Pipeline](https://github.com/php-etl/pipeline) stack. This integration is
-compatible with both [Akeneo Enterprise Edition client](https://github.com/akeneo/api-php-client-ee)
-and the [Akeneo Community Edition client](https://github.com/akeneo/api-php-client)
+compatible with both [Sylius client](https://github.com/diglin/sylius-api-php-client)
 
 Principles
 ---
@@ -22,8 +21,7 @@ Configuration format
 ### Building an extractor
 
 ```yaml
-akeneo:
-  enterprise: false
+sylius:
   extractor:
     type: productModel
     method: all
@@ -46,8 +44,7 @@ akeneo:
 ### Building a loader
 
 ```yaml
-akeneo:
-  enterprise: true
+sylius:
   loader:
     type: productModel
     method: upsert
@@ -64,7 +61,7 @@ akeneo:
 Usage
 ---
 
-This library will build for you either an extractor or a loader, compatible with the Akeneo API.
+This library will build for you either an extractor or a loader, compatible with the Sylius API.
 
 You can use the following PHP script to test and print the result of your configuration.
 
@@ -73,7 +70,7 @@ You can use the following PHP script to test and print the result of your config
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use Kiboko\Component\ETL\Flow\Akeneo;
+use Kiboko\Plugin\Sylius;
 use PhpParser\Node;
 use PhpParser\PrettyPrinter;
 use Symfony\Component\Console;
@@ -93,7 +90,7 @@ class DefaultCommand extends Console\Command\Command
 
     protected function execute(Console\Input\InputInterface $input, Console\Output\OutputInterface $output)
     {
-        $factory = new Akeneo\Service();
+        $factory = new Sylius\Service();
 
         $style = new Console\Style\SymfonyStyle(
             $input,
@@ -108,7 +105,7 @@ class DefaultCommand extends Console\Command\Command
         $style->writeln(\json_encode($config = $factory->normalize($config), JSON_PRETTY_PRINT));
         $style->section('Generated code');
         $style->writeln((new PrettyPrinter\Standard())->prettyPrintFile([
-            new Node\Stmt\Return_($factory->compile($config)->getNode()),
+            new Node\Stmt\Return_($factory->compile($config)->getBuilder()->getNode()),
         ]));
 
         return 0;

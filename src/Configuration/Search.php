@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Kiboko\Plugin\Akeneo\Configuration;
+namespace Kiboko\Plugin\Sylius\Configuration;
 
 use Symfony\Component\Config;
 

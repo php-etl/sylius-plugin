@@ -1,14 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Kiboko\Plugin\Akeneo\Builder;
+namespace Kiboko\Plugin\Sylius\Builder;
 
-use Kiboko\Plugin\Akeneo\MissingAuthenticationMethodException;
+use Kiboko\Plugin\Sylius\MissingAuthenticationMethodException;
 use PhpParser\Builder;
 use PhpParser\Node;
 
 final class Client implements Builder
 {
-    private bool $withEnterpriseSupport;
     private ?Node\Expr $username;
     private ?Node\Expr $password;
     private ?Node\Expr $token;
@@ -23,7 +22,6 @@ final class Client implements Builder
         private Node\Expr $clientId,
         private Node\Expr $secret
     ) {
-        $this->withEnterpriseSupport = false;
         $this->username = null;
         $this->password = null;
         $this->token = null;
@@ -32,13 +30,6 @@ final class Client implements Builder
         $this->httpRequestFactory = null;
         $this->httpStreamFactory = null;
         $this->fileSystem = null;
-    }
-
-    public function withEnterpriseSupport(bool $withEnterpriseSupport): self
-    {
-        $this->withEnterpriseSupport = $withEnterpriseSupport;
-
-        return $this;
     }
 
     public function withToken(Node\Expr $token, Node\Expr $refreshToken): self
@@ -88,9 +79,7 @@ final class Client implements Builder
     public function getNode(): Node\Expr\MethodCall
     {
         $instance = new Node\Expr\New_(
-            !$this->withEnterpriseSupport ?
-                new Node\Name\FullyQualified('Akeneo\\Pim\\ApiClient\\AkeneoPimClientBuilder') :
-                new Node\Name\FullyQualified('Akeneo\\PimEnterprise\\ApiClient\\AkeneoPimEnterpriseClientBuilder'),
+            new Node\Name\FullyQualified('Diglin\\Sylius\\ApiClient\\SyliusClientBuilder'),
             [
                 new Node\Arg($this->baseUrl),
             ],
