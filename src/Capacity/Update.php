@@ -45,7 +45,7 @@ final class Update implements CapacityInterface
         return isset($config['type'])
             && in_array($config['type'], self::$endpoints)
             && isset($config['method'])
-            && $config['method'] === 'upsert';
+            && $config['method'] === 'update';
     }
 
     public function getBuilder(array $config): Builder

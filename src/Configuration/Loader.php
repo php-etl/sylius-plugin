@@ -8,163 +8,92 @@ final class Loader implements Config\Definition\ConfigurationInterface
 {
     private static array $endpoints = [
         // Core Endpoints
-        'product' => [
+        'channels' => [
             'create',
-            'upsert',
-            'upsertList',
             'delete',
         ],
-        'category' => [
+        'countries' => [
             'create',
-            'upsert',
-            'upsertList',
-        ],
-        'attribute' => [
-            'create',
-            'upsert',
-            'upsertList',
-        ],
-        'attributeOption' => [
-            'create',
-            'upsert',
-            'upsertList',
-        ],
-        'attributeGroup' => [
-            'create',
-            'upsert',
-            'upsertList',
-        ],
-        'family' => [
-            'create',
-            'upsert',
-            'upsertList',
             'delete',
         ],
-        'productMediaFile' => [
+        'carts' => [
             'create',
-            'upsert',
-            'upsertList',
             'delete',
         ],
-        'locale' => [
+        'currencies' => [
             'create',
-            'upsert',
-            'upsertList',
             'delete',
         ],
-        'channel' => [
+        'customers' => [
             'create',
-            'upsert',
-            'upsertList',
             'delete',
         ],
-        'currency' => [
+        'exchangeRates' => [
             'create',
-            'upsert',
-            'upsertList',
             'delete',
         ],
-        'measureFamily' => [
+        'locales' => [
             'create',
-            'upsert',
-            'upsertList',
             'delete',
         ],
-        'associationType' => [
+        'orders' => [
             'create',
-            'upsert',
-            'upsertList',
             'delete',
         ],
-        'familyVariant' => [
+        'payments' => [
             'create',
-            'upsert',
-            'upsertList',
             'delete',
         ],
-        'productModel' => [
+        'paymentMethods' => [
             'create',
-            'upsert',
-            'upsertList',
             'delete',
         ],
-        // Enterprise Endpoints
-        'publishedProduct' => [
+        'products' => [
             'create',
-            'upsert',
-            'upsertList',
             'delete',
         ],
-        'productModelDraft' => [
+        'productAttributes' => [
             'create',
-            'upsert',
-            'upsertList',
             'delete',
         ],
-        'productDraft' => [
+        'productAssociationTypes' => [
             'create',
-            'upsert',
-            'upsertList',
             'delete',
         ],
-        'asset' => [
+        'productOptions' => [
             'create',
-            'upsert',
-            'upsertList',
             'delete',
         ],
-        'assetCategory' => [
+        'promotions' => [
             'create',
-            'upsert',
-            'upsertList',
             'delete',
         ],
-        'assetTag' => [
+        'shipments' => [
             'create',
-            'upsert',
-            'upsertList',
             'delete',
         ],
-        'assetReferenceFile' => [
+        'shippingCategories' => [
             'create',
-            'upsert',
-            'upsertList',
             'delete',
         ],
-        'assetVariationFile' => [
+        'taxCategories' => [
             'create',
-            'upsert',
-            'upsertList',
             'delete',
         ],
-        'referenceEntityRecord' => [
+        'taxRates' => [
             'create',
-            'upsert',
-            'upsertList',
             'delete',
         ],
-        'referenceEntityMediaFile' => [
+        'taxons' => [
             'create',
-            'upsert',
-            'upsertList',
             'delete',
         ],
-        'referenceEntityAttribute' => [
+        'users' => [
             'create',
-            'upsert',
-            'upsertList',
             'delete',
         ],
-        'referenceEntityAttributeOption' => [
+        'zones' => [
             'create',
-            'upsert',
-            'upsertList',
-            'delete',
-        ],
-        'referenceEntity' => [
-            'create',
-            'upsert',
-            'upsertList',
             'delete',
         ],
     ];
