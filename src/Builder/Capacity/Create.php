@@ -7,7 +7,7 @@ use Kiboko\Plugin\Sylius\MissingParameterException;
 use PhpParser\Builder;
 use PhpParser\Node;
 
-final class Upsert implements Builder
+final class Create implements Builder
 {
     private null|Node\Expr|Node\Identifier $endpoint;
     private null|Node\Expr $code;
@@ -76,7 +76,7 @@ final class Upsert implements Builder
                                     ),
                                     name: $this->endpoint,
                                 ),
-                                new Node\Identifier('upsert'),
+                                new Node\Identifier('create'),
                                 [
                                     new Node\Arg(value: $this->code),
                                     new Node\Arg(value: $this->data),

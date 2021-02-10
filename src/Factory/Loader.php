@@ -20,7 +20,7 @@ final class Loader implements Configurator\FactoryInterface
         $this->processor = new Processor();
         $this->configuration = new Sylius\Configuration\Loader();
         $this->capacities = [
-            new Sylius\Capacity\Upsert(),
+            new Sylius\Capacity\Update(),
         ];
     }
 

@@ -10,11 +10,13 @@ final class ListPerPage implements Builder
 {
     private null|Node\Expr|Node\Identifier $endpoint;
     private null|Node\Expr $search;
+    private null|string $code;
 
     public function __construct()
     {
         $this->endpoint = null;
         $this->search = null;
+        $this->code = null;
     }
 
     public function withEndpoint(Node\Expr|Node\Identifier $endpoint): self
@@ -31,6 +33,13 @@ final class ListPerPage implements Builder
         return $this;
     }
 
+    public function withCode(string $code): self
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
     public function getNode(): Node
     {
         if ($this->endpoint === null) {
@@ -39,28 +48,42 @@ final class ListPerPage implements Builder
             );
         }
 
+        $arguments = [
+            new Node\Arg(
+                value: new Node\Expr\Array_(
+                    items: $this->compileSearch(),
+                    attributes: [
+                        'kind' => Node\Expr\Array_::KIND_SHORT,
+                    ]
+                ),
+                name: new Node\Identifier('queryParameters')
+            )
+        ];
+
+        if ($this->code !== null) {
+            $arguments[] = new Node\Arg(
+                value: new Node\Expr\Array_(
+                items: $this->compileSearch(),
+                    attributes: [
+                        'kind' => Node\Expr\Array_::KIND_SHORT,
+                    ]
+                ),
+                name: new Node\Identifier('code')
+            );
+        }
+
         return new Node\Stmt\Expression(
             expr: new Node\Expr\YieldFrom(
                 expr: new Node\Expr\MethodCall(
-                    new Node\Expr\MethodCall(
+                    var: new Node\Expr\MethodCall(
                         var: new Node\Expr\PropertyFetch(
                             var: new Node\Expr\Variable('this'),
                             name: new Node\Identifier('client')
                         ),
                         name: $this->endpoint
                     ),
-                    new Node\Identifier('listPerPage'),
-                    [
-                        new Node\Arg(
-                            value: new Node\Expr\Array_(
-                                items: $this->compileSearch(),
-                                attributes: [
-                                    'kind' => Node\Expr\Array_::KIND_SHORT,
-                                ]
-                            ),
-                            name: new Node\Identifier('queryParameters')
-                        ),
-                    ],
+                    name: new Node\Identifier('listPerPage'),
+                    args: $arguments,
                 ),
             ),
         );

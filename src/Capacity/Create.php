@@ -6,35 +6,36 @@ use Kiboko\Plugin\Sylius;
 use PhpParser\Builder;
 use PhpParser\Node;
 
-final class Upsert implements CapacityInterface
+final class Create implements CapacityInterface
 {
     private static $endpoints = [
         // Core Endpoints
-        'product',
-        'category',
-        'attribute',
-        'attributeOption',
-        'attributeGroup',
-        'family',
-        'productMediaFile',
-        'locale',
-        'channel',
-        'currency',
-        'measureFamily',
-        'associationType',
-        'familyVariant',
-        'productModel',
-        // Enterprise Endpoints
-        'publishedProduct',
-        'productModelDraft',
-        'productDraft',
-        'asset',
-        'assetCategory',
-        'assetTag',
-        'referenceEntityRecord',
-        'referenceEntityAttribute',
-        'referenceEntityAttributeOption',
-        'referenceEntity',
+        'channels',
+        'countries',
+        'carts',
+        'channels',
+        'countries',
+        'currencies',
+        'customers',
+        'exchangeRates',
+        'locales',
+        'orders',
+        'payments',
+        'paymentMethods',
+        'products',
+        'productAttributes',
+        'productAssociationTypes',
+        'productOptions',
+        'productReviews',
+        'productVariants',
+        'promotions',
+        'promotionCoupons',
+        'shipments',
+        'taxCategories',
+        'taxRates',
+        'taxons',
+        'users',
+        'zones',
     ];
 
     public function applies(array $config): bool
@@ -42,12 +43,12 @@ final class Upsert implements CapacityInterface
         return isset($config['type'])
             && in_array($config['type'], self::$endpoints)
             && isset($config['method'])
-            && $config['method'] === 'upsert';
+            && $config['method'] === 'create';
     }
 
     public function getBuilder(array $config): Builder
     {
-        $builder = (new Sylius\Builder\Capacity\Upsert())
+        $builder = (new Sylius\Builder\Capacity\Create())
             ->withEndpoint(endpoint: new Node\Identifier(sprintf('get%sApi', ucfirst($config['type']))))
             ->withCode(code: new Node\Expr\ArrayDimFetch(
                 var: new Node\Expr\Variable('line'),

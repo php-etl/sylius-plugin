@@ -9,38 +9,44 @@ use PhpParser\Node;
 final class All implements CapacityInterface
 {
     private static $endpoints = [
-        // Core Endpoints
-        'product',
-        'category',
-        'attribute',
-        'attributeOption',
-        'attributeGroup',
-        'family',
-        'productMediaFile',
-        'locale',
-        'channel',
-        'currency',
-        'measureFamily',
-        'associationType',
-        'familyVariant',
-        'productModel',
-        // Enterprise Endpoints
-        'publishedProduct',
-        'productModelDraft',
-        'productDraft',
-        'asset',
-        'assetCategory',
-        'assetTag',
-        'referenceEntityRecord',
-        'referenceEntityAttribute',
-        'referenceEntityAttributeOption',
-        'referenceEntity',
+        // Simple resources Endpoints
+        'channels',
+        'countries',
+        'carts',
+        'channels',
+        'countries',
+        'currencies',
+        'customers',
+        'exchangeRates',
+        'locales',
+        'orders',
+        'payments',
+        'paymentMethods',
+        'products',
+        'productAttributes',
+        'productAssociationTypes',
+        'productOptions',
+        'promotions',
+        'shipments',
+        'shippingCategories',
+        'taxCategories',
+        'taxRates',
+        'taxons',
+        'users',
+        'zones',
+    ];
+
+    private static $doubleEndpoints = [
+        // Double resources Endpoints
+        'productReviews',
+        'productVariants',
+        'promotionCoupons',
     ];
 
     public function applies(array $config): bool
     {
         return isset($config['type'])
-            && in_array($config['type'], self::$endpoints)
+            && (in_array($config['type'], self::$endpoints) || in_array($config['type'], self::$doubleEndpoints))
             && isset($config['method'])
             && $config['method'] === 'all';
     }

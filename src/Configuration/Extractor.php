@@ -8,122 +8,123 @@ final class Extractor implements Config\Definition\ConfigurationInterface
 {
     private static array $endpoints = [
         // Core Endpoints
-        'product' => [
+        'channels' => [
             'listPerPage',
             'all',
             'get',
         ],
-        'category' => [
+        'countries' => [
             'listPerPage',
             'all',
             'get',
         ],
-        'attribute' => [
+        'carts' => [
             'listPerPage',
             'all',
             'get',
         ],
-        'attributeOption' => [
+        'currencies' => [
             'listPerPage',
             'all',
             'get',
         ],
-        'attributeGroup' => [
+        'customers' => [
             'listPerPage',
             'all',
             'get',
         ],
-        'family' => [
+        'exchangeRates' => [
             'listPerPage',
             'all',
             'get',
         ],
-        'productMediaFile' => [
+        'locales' => [
             'listPerPage',
             'all',
             'get',
         ],
-        'locale' => [
+        'orders' => [
             'listPerPage',
             'all',
             'get',
         ],
-        'channel' => [
+        'payments' => [
             'listPerPage',
             'all',
             'get',
         ],
-        'currency' => [
+        'paymentMethods' => [
             'listPerPage',
             'all',
             'get',
         ],
-        'measureFamily' => [
+        'products' => [
             'listPerPage',
             'all',
             'get',
         ],
-        'associationType' => [
+        'productAttributes' => [
             'listPerPage',
             'all',
             'get',
         ],
-        'familyVariant' => [
+        'productAssociationTypes' => [
             'listPerPage',
             'all',
             'get',
         ],
-        'productModel' => [
+        'productOptions' => [
             'listPerPage',
             'all',
             'get',
         ],
-        // Enterprise Endpoints
-        'publishedProduct' => [
+        'promotions' => [
             'listPerPage',
             'all',
             'get',
         ],
-        'productModelDraft' => [
-            'get',
-        ],
-        'productDraft' => [
-            'get',
-        ],
-        'asset' => [
+        'shipments' => [
             'listPerPage',
             'all',
             'get',
         ],
-        'assetCategory' => [
+        'shippingCategories' => [
             'listPerPage',
             'all',
             'get',
         ],
-        'assetTag' => [
+        'taxCategories' => [
             'listPerPage',
             'all',
             'get',
         ],
-//        'assetReferenceFile' => [], // no support
-//        'assetVariationFile' => [], // no support
-        'referenceEntityRecord' => [
+        'taxRates' => [
+            'listPerPage',
             'all',
             'get',
         ],
-//        'referenceEntityMediaFile' => [], // no support
-        'referenceEntityAttribute' => [
+        'taxons' => [
+            'listPerPage',
             'all',
             'get',
         ],
-        'referenceEntityAttributeOption' => [
+        'users' => [
+            'listPerPage',
             'all',
             'get',
         ],
-        'referenceEntity' => [
+        'zones' => [
+            'listPerPage',
             'all',
             'get',
         ],
+    ];
+
+    private static $doubleEndpoints = [
+        // Double resources Endpoints
+        'productReviews',
+        'productVariants',
+        'promotionCoupons',
     ];
 
     public function getConfigTreeBuilder()
@@ -139,7 +140,19 @@ final class Extractor implements Config\Definition\ConfigurationInterface
                 ->then(function (array $item) {
                     if (!in_array($item['method'], self::$endpoints[$item['type']])) {
                         throw new \InvalidArgumentException(
-                            sprintf('the value should be one of [%s], got %s', implode(', ', self::$endpoints[$item['type']]), \json_encode($item['method']))
+                            sprintf('The value should be one of [%s], got %s.', implode(', ', self::$endpoints[$item['type']]), \json_encode($item['method']))
+                        );
+                    }
+
+                    return $item;
+                })
+            ->end()
+            ->validate()
+                ->ifArray()
+                ->then(function (array $item) {
+                    if (in_array($item['type'], self::$doubleEndpoints) && !array_key_exists('code', $item)) {
+                        throw new \InvalidArgumentException(
+                            sprintf('The %s type should have a "code" field set.', $item['type'])
                         );
                     }
 
@@ -157,6 +170,7 @@ final class Extractor implements Config\Definition\ConfigurationInterface
                     ->end()
                 ->end()
                 ->scalarNode('method')->end()
+                ->scalarNode('code')->end()
                 ->append($filters->getConfigTreeBuilder())
             ->end();
 
