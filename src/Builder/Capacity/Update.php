@@ -60,10 +60,7 @@ final class Update implements Builder
         }
 
         return new Node\Stmt\While_(
-            cond: new Node\Expr\Assign(
-                var: new Node\Expr\Variable(name: 'line'),
-                expr: new Node\Expr\Yield_(),
-            ),
+            cond: new Node\Expr\ConstFetch(new Node\Name('true')),
             stmts: [
                 new Node\Stmt\TryCatch(
                     stmts: [
@@ -84,14 +81,17 @@ final class Update implements Builder
                             ),
                         ),
                         new Node\Stmt\Expression(
-                            expr: new Node\Expr\Yield_(
-                                value: new Node\Expr\New_(
-                                    class: new Node\Name\FullyQualified(name: 'Kiboko\\Component\\Bucket\\AcceptanceResultBucket'),
-                                    args: [
-                                        new Node\Arg(
-                                            value: new Node\Expr\Variable('line'),
-                                        ),
-                                    ],
+                            expr: new Node\Expr\Assign(
+                                var: new Node\Expr\Variable('line'),
+                                expr: new Node\Expr\Yield_(
+                                    value: new Node\Expr\New_(
+                                        class: new Node\Name\FullyQualified(name: 'Kiboko\\Component\\Bucket\\AcceptanceResultBucket'),
+                                        args: [
+                                            new Node\Arg(
+                                                value: new Node\Expr\Variable('line'),
+                                            ),
+                                        ],
+                                    ),
                                 ),
                             ),
                         ),
@@ -140,19 +140,22 @@ final class Update implements Builder
                                     ),
                                 ),
                                 new Node\Stmt\Expression(
-                                    new Node\Expr\Yield_(
-                                        value: new Node\Expr\New_(
-                                            class: new Node\Name\FullyQualified(
-                                                name: 'Kiboko\\Component\\Bucket\\RejectionResultBucket'
+                                    expr: new Node\Expr\Assign(
+                                        var: new Node\Expr\Variable('line'),
+                                        expr: new Node\Expr\Yield_(
+                                            value: new Node\Expr\New_(
+                                                class: new Node\Name\FullyQualified(
+                                                    name: 'Kiboko\\Component\\Bucket\\RejectionResultBucket'
+                                                ),
+                                                args: [
+                                                    new Node\Arg(
+                                                        value: new Node\Expr\Variable('exception'),
+                                                    ),
+                                                    new Node\Arg(
+                                                        value: new Node\Expr\Variable('item'),
+                                                    ),
+                                                ],
                                             ),
-                                            args: [
-                                                new Node\Arg(
-                                                    value: new Node\Expr\Variable('exception'),
-                                                ),
-                                                new Node\Arg(
-                                                    value: new Node\Expr\Variable('item'),
-                                                ),
-                                            ],
                                         ),
                                     ),
                                 ),

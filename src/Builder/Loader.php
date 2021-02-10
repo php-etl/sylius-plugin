@@ -75,6 +75,12 @@ final class Loader implements Builder
                                 'stmts' => [
                                     new Node\Stmt\TryCatch(
                                         stmts: [
+                                            new Node\Stmt\Expression(
+                                                new Node\Expr\Assign(
+                                                    var: new Node\Expr\Variable(name: 'line'),
+                                                    expr: new Node\Expr\Yield_(),
+                                                ),
+                                            ),
                                             $this->capacity->getNode(),
                                         ],
                                         catches: [
