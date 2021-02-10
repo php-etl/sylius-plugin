@@ -152,7 +152,7 @@ final class Create implements Builder
                                                         value: new Node\Expr\Variable('exception'),
                                                     ),
                                                     new Node\Arg(
-                                                        value: new Node\Expr\Variable('item'),
+                                                        value: new Node\Expr\Variable('line'),
                                                     ),
                                                 ],
                                             ),

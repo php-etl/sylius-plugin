@@ -128,7 +128,7 @@ final class Update implements Builder
                                                         ),
                                                         new Node\Expr\ArrayItem(
                                                             value: new Node\Expr\Variable('line'),
-                                                            key: new Node\Scalar\String_('item'),
+                                                            key: new Node\Scalar\String_('line'),
                                                         ),
                                                     ],
                                                     attributes: [
