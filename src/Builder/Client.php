@@ -78,9 +78,12 @@ final class Client implements Builder
 
     public function getNode(): Node\Expr\MethodCall
     {
-        $instance = new Node\Expr\New_(
-            new Node\Name\FullyQualified('Diglin\\Sylius\\ApiClient\\SyliusClientBuilder'),
-            [
+        $instance = new Node\Expr\MethodCall(
+            var: new Node\Expr\New_(
+                new Node\Name\FullyQualified('Diglin\\Sylius\\ApiClient\\SyliusClientBuilder'),
+            ),
+            name: new Node\Identifier('setBaseUri'),
+            args: [
                 new Node\Arg($this->baseUrl),
             ],
         );
