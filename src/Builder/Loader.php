@@ -56,12 +56,12 @@ final class Loader implements Builder
                                     new Node\Param(
                                         var: new Node\Expr\Variable('client'),
                                         type: new Node\Name\FullyQualified(name: 'Diglin\\Sylius\\ApiClient\\SyliusClientInterface'),
-                                        flags: Node\Stmt\Class_::MODIFIER_PUBLIC,
+                                        flags: Node\Stmt\Class_::MODIFIER_PRIVATE,
                                     ),
                                     new Node\Param(
                                         var: new Node\Expr\Variable('logger'),
                                         type: new Node\Name\FullyQualified(name: 'Psr\\Log\\LoggerInterface'),
-                                        flags: Node\Stmt\Class_::MODIFIER_PUBLIC,
+                                        flags: Node\Stmt\Class_::MODIFIER_PRIVATE,
                                     ),
                                 ],
                             ],
