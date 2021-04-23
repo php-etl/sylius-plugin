@@ -36,7 +36,7 @@ final class Configuration implements ConfigurationInterface
                 ->append(node: $loader->getConfigTreeBuilder()->getRootNode())
                 ->append(node: $client->getConfigTreeBuilder()->getRootNode())
                 ->append(node: $this->loggerConfiguration->getConfigTreeBuilder()->getRootNode()
-                    ->setDeprecated('php-etl/csv-plugin', '0.1')
+                    ->setDeprecated('php-etl/sylius-plugin', '0.1')
                 )
             ->end()
         ;
