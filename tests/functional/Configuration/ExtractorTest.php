@@ -19,36 +19,36 @@ final class ExtractorTest extends TestCase
     {
         yield [
             'config' => [
-                'type' => 'product',
+                'type' => 'products',
                 'method' => 'all',
                 'search' => [],
             ],
             'expected' => [
-                'type' => 'product',
+                'type' => 'products',
                 'method' => 'all',
                 'search' => [],
             ],
         ];
         yield [
             'config' => [
-                'type' => 'product',
+                'type' => 'products',
                 'method' => 'listPerPage',
                 'search' => [],
             ],
             'expected' => [
-                'type' => 'product',
+                'type' => 'products',
                 'method' => 'listPerPage',
                 'search' => [],
             ],
         ];
         yield [
             'config' => [
-                'type' => 'product',
+                'type' => 'products',
                 'method' => 'get',
                 'search' => [],
             ],
             'expected' => [
-                'type' => 'product',
+                'type' => 'products',
                 'method' => 'get',
                 'search' => [],
             ],
@@ -71,12 +71,12 @@ final class ExtractorTest extends TestCase
             Config\Definition\Exception\InvalidConfigurationException::class,
         );
         $this->expectExceptionMessage(
-            'Invalid configuration for path "extractor": the value should be one of [listPerPage, all, get], got "invalidValue"',
+            'Invalid configuration for path "extractor": The value should be one of [listPerPage, all, get], got "invalidValue".',
         );
 
         $this->processor->processConfiguration($client, [
             [
-                'type' => 'product',
+                'type' => 'products',
                 'method' => 'invalidValue'
             ]
         ]);
