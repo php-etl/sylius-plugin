@@ -130,6 +130,30 @@ final class Create implements Builder
                                                             value: new Node\Expr\Variable('line'),
                                                             key: new Node\Scalar\String_('item'),
                                                         ),
+                                                        new Node\Expr\ArrayItem(
+                                                            value: new Node\Expr\MethodCall(
+                                                                new Node\Expr\Variable('exception'),
+                                                                new Node\Identifier('getResponse')
+                                                            ),
+                                                            key: new Node\Scalar\String_('response'),
+                                                        ),
+                                                        new Node\Expr\ArrayItem(
+                                                            value: new Node\Expr\FuncCall(
+                                                                new Node\Name\FullyQualified('json_decode'),
+                                                                [
+                                                                    new Node\Arg(
+                                                                        new Node\Expr\MethodCall(
+                                                                            new Node\Expr\MethodCall(
+                                                                                new Node\Expr\Variable('exception'),
+                                                                                new Node\Identifier('getResponse'),
+                                                                            ),
+                                                                            new Node\Identifier('getBody')
+                                                                        ),
+                                                                    ),
+                                                                ]
+                                                            ),
+                                                            key: new Node\Scalar\String_('body'),
+                                                        ),
                                                     ],
                                                     attributes: [
                                                         'kind' => Node\Expr\Array_::KIND_SHORT,
