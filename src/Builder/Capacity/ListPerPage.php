@@ -78,7 +78,7 @@ final class ListPerPage implements Builder
                     class: new Node\Name\FullyQualified(name: 'Kiboko\\Component\\Bucket\\AcceptanceResultBucket'),
                     args: [
                         new Node\Arg(
-                            new Node\Expr\MethodCall(
+                            value: new Node\Expr\MethodCall(
                                 var: new Node\Expr\MethodCall(
                                     var: new Node\Expr\PropertyFetch(
                                         var: new Node\Expr\Variable('this'),
@@ -89,6 +89,7 @@ final class ListPerPage implements Builder
                                 name: new Node\Identifier('listPerPage'),
                                 args: $arguments,
                             ),
+                            unpack: true,
                         ),
                     ],
                 ),
