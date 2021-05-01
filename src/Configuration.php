@@ -2,19 +2,11 @@
 
 namespace Kiboko\Plugin\Sylius;
 
-use Kiboko\Plugin\Log;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 final class Configuration implements ConfigurationInterface
 {
-    private ConfigurationInterface $loggerConfiguration;
-
-    public function __construct(?ConfigurationInterface $loggerConfiguration = null)
-    {
-        $this->loggerConfiguration = $loggerConfiguration ?? new Log\Configuration();
-    }
-
     public function getConfigTreeBuilder()
     {
         $client = new Configuration\Client();
@@ -35,9 +27,6 @@ final class Configuration implements ConfigurationInterface
                 ->append(node: $extractor->getConfigTreeBuilder()->getRootNode())
                 ->append(node: $loader->getConfigTreeBuilder()->getRootNode())
                 ->append(node: $client->getConfigTreeBuilder()->getRootNode())
-                ->append(node: $this->loggerConfiguration->getConfigTreeBuilder()->getRootNode()
-                    ->setDeprecated('php-etl/sylius-plugin', '0.1')
-                )
             ->end()
         ;
 
