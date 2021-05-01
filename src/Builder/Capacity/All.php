@@ -73,17 +73,24 @@ final class All implements Builder
         }
 
         return new Node\Stmt\Expression(
-            expr: new Node\Expr\YieldFrom(
-                expr: new Node\Expr\MethodCall(
-                    var: new Node\Expr\MethodCall(
-                        var: new Node\Expr\PropertyFetch(
-                            var: new Node\Expr\Variable('this'),
-                            name: new Node\Identifier('client')
+            expr: new Node\Expr\Yield_(
+                value: new Node\Expr\New_(
+                    class: new Node\Name\FullyQualified(name: 'Kiboko\\Component\\Bucket\\AcceptanceResultBucket'),
+                    args: [
+                        new Node\Arg(
+                            new Node\Expr\MethodCall(
+                                var: new Node\Expr\MethodCall(
+                                    var: new Node\Expr\PropertyFetch(
+                                        var: new Node\Expr\Variable('this'),
+                                        name: new Node\Identifier('client')
+                                    ),
+                                    name: $this->endpoint
+                                ),
+                                name: new Node\Identifier('all'),
+                                args: $arguments,
+                            ),
                         ),
-                        name: $this->endpoint
-                    ),
-                    name: new Node\Identifier('all'),
-                    args: $arguments,
+                    ],
                 ),
             ),
         );
