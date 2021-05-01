@@ -5,7 +5,7 @@ namespace Kiboko\Plugin\Sylius\Factory\Repository;
 use Kiboko\Contract\Configurator;
 use Kiboko\Plugin\Sylius;
 
-final class Extractor implements Configurator\RepositoryInterface
+final class Extractor implements Configurator\StepRepositoryInterface
 {
     use RepositoryTrait;
 
