@@ -13,9 +13,10 @@
     "require": {
         "php": "^8.0",
         "ext-json": "*",
-        "php-etl/configurator-contracts": "^0.2.0",
         "nikic/php-parser": "^4.10",
-        "symfony/config": "^5.2"
+        "symfony/config": "^5.2",
+        "php-etl/configurator-contracts": "^0.3.0",
+        "php-etl/packaging-contracts": "^0.1.0"
     },
     "require-dev": {
         "php-http/mock-client": "^1.4@dev",
@@ -25,12 +26,9 @@
         "phpunit/phpunit": "^9.0",
         "laminas/laminas-diactoros": "^2.6",
         "adlawson/vfs": "dev-develop",
-        "friends-of-phpspec/phpspec-code-coverage": "*",
-        "phpspec/phpspec": "^7.0",
         "johnkary/phpunit-speedtrap": "*",
         "mybuilder/phpunit-accelerator": "*",
         "phpunit/php-invoker": "*",
-        "php-etl/phpspec-extension": "*",
         "diglin/sylius-api-php-client": "^1.2"
     },
     "autoload": {
@@ -45,7 +43,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.2.x-dev"
+            "dev-master": "0.3.x-dev"
         }
     },
     "config": {
