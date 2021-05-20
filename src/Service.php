@@ -10,6 +10,7 @@ use Kiboko\Contract\Configurator\FactoryInterface;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception as Symfony;
 use Symfony\Component\Config\Definition\Processor;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 final class Service implements FactoryInterface
 {
@@ -55,11 +56,21 @@ final class Service implements FactoryInterface
      */
     public function compile(array $config): RepositoryInterface
     {
-        $clientFactory = new Factory\Client();
+        $interpreter = new ExpressionLanguage();
+        if (array_key_exists('expression_language', $config)
+            && is_array($config['expression_language'])
+            && count($config['expression_language'])
+        ) {
+            foreach ($config['expression_language'] as $provider) {
+                $interpreter->registerProvider(new $provider);
+            }
+        }
+
+        $clientFactory = new Factory\Client($interpreter);
 
         try {
             if (array_key_exists('extractor', $config)) {
-                $extractorFactory = new Factory\Extractor();
+                $extractorFactory = new Factory\Extractor($interpreter);
 
                 $extractor = $extractorFactory->compile($config['extractor']);
                 $extractorBuilder = $extractor->getBuilder();

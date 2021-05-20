@@ -5,6 +5,7 @@ namespace Kiboko\Plugin\Sylius\Builder\Capacity;
 use Kiboko\Plugin\Sylius\MissingEndpointException;
 use PhpParser\Builder;
 use PhpParser\Node;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 final class All implements Builder
 {
@@ -12,7 +13,7 @@ final class All implements Builder
     private null|Node\Expr $search;
     private null|string $code;
 
-    public function __construct()
+    public function __construct(private ExpressionLanguage $interpreter)
     {
         $this->endpoint = null;
         $this->search = null;

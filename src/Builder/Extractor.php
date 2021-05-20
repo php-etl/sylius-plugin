@@ -5,6 +5,7 @@ namespace Kiboko\Plugin\Sylius\Builder;
 use Kiboko\Contract\Configurator\StepBuilderInterface;
 use PhpParser\Builder;
 use PhpParser\Node;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 final class Extractor implements StepBuilderInterface
 {
@@ -14,7 +15,7 @@ final class Extractor implements StepBuilderInterface
     private ?Node\Expr $client;
     private ?Builder $capacity;
 
-    public function __construct()
+    public function __construct(private ExpressionLanguage $interpreter)
     {
         $this->logger = null;
         $this->rejection = null;
@@ -146,7 +147,7 @@ final class Extractor implements StepBuilderInterface
             ),
             args: [
                 new Node\Arg(value: $this->client),
-                new Node\Arg(value: $this->logger),
+                new Node\Arg(value: $this->logger ?? new Node\Expr\New_(new Node\Name\FullyQualified('Psr\\Log\\NullLogger'))),
             ],
         );
     }

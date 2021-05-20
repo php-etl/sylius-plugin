@@ -5,6 +5,7 @@ namespace Kiboko\Plugin\Sylius\Capacity;
 use Kiboko\Plugin\Sylius;
 use PhpParser\Builder;
 use PhpParser\Node;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 final class ListPerPage implements CapacityInterface
 {
@@ -43,6 +44,9 @@ final class ListPerPage implements CapacityInterface
         'promotionCoupons',
     ];
 
+    public function __construct(private ExpressionLanguage $interpreter)
+    {}
+
     public function applies(array $config): bool
     {
         return isset($config['type'])
@@ -53,7 +57,7 @@ final class ListPerPage implements CapacityInterface
 
     private function compileFilters(array ...$filters): Node
     {
-        $builder = new Sylius\Builder\Search();
+        $builder = new Sylius\Builder\Search($this->interpreter);
         foreach ($filters as $filter) {
             $builder->addFilter(...$filter);
         }
@@ -63,7 +67,7 @@ final class ListPerPage implements CapacityInterface
 
     public function getBuilder(array $config): Builder
     {
-        $builder = (new Sylius\Builder\Capacity\ListPerPage())
+        $builder = (new Sylius\Builder\Capacity\ListPerPage($this->interpreter))
             ->withEndpoint(new Node\Identifier(sprintf('get%sApi', ucfirst($config['type']))));
 
         if (isset($config['search']) && is_array($config['search'])) {

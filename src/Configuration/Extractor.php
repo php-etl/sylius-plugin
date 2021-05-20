@@ -3,6 +3,7 @@
 namespace Kiboko\Plugin\Sylius\Configuration;
 
 use Symfony\Component\Config;
+use Symfony\Component\ExpressionLanguage\Expression;
 
 final class Extractor implements Config\Definition\ConfigurationInterface
 {
@@ -170,7 +171,12 @@ final class Extractor implements Config\Definition\ConfigurationInterface
                     ->end()
                 ->end()
                 ->scalarNode('method')->end()
-                ->scalarNode('code')->end()
+                ->scalarNode('code')
+                    ->validate()
+                        ->ifTrue(fn ($data) => str_starts_with($data, '@='))
+                        ->then(fn ($data) => new Expression(substr($data, 2)))
+                    ->end()
+                ->end()
                 ->append($filters->getConfigTreeBuilder())
             ->end();
 
