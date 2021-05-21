@@ -5,13 +5,15 @@ namespace Kiboko\Plugin\Sylius\Builder\Capacity;
 use Kiboko\Plugin\Sylius\MissingEndpointException;
 use PhpParser\Builder;
 use PhpParser\Node;
+use PhpParser\ParserFactory;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 final class ListPerPage implements Builder
 {
     private null|Node\Expr|Node\Identifier $endpoint;
     private null|Node\Expr $search;
-    private null|string $code;
+    private null|string|Expression $code;
 
     public function __construct(private ExpressionLanguage $interpreter)
     {
@@ -34,7 +36,7 @@ final class ListPerPage implements Builder
         return $this;
     }
 
-    public function withCode(string $code): self
+    public function withCode(string|Expression $code): self
     {
         $this->code = $code;
 
@@ -43,33 +45,11 @@ final class ListPerPage implements Builder
 
     public function getNode(): Node
     {
+        $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7, null);
+
         if ($this->endpoint === null) {
             throw new MissingEndpointException(
                 message: 'Please check your capacity builder, you should have selected an endpoint.'
-            );
-        }
-
-        $arguments = [
-            new Node\Arg(
-                value: new Node\Expr\Array_(
-                    items: $this->compileSearch(),
-                    attributes: [
-                        'kind' => Node\Expr\Array_::KIND_SHORT,
-                    ]
-                ),
-                name: new Node\Identifier('queryParameters')
-            )
-        ];
-
-        if ($this->code !== null) {
-            $arguments[] = new Node\Arg(
-                value: new Node\Expr\Array_(
-                items: $this->compileSearch(),
-                    attributes: [
-                        'kind' => Node\Expr\Array_::KIND_SHORT,
-                    ]
-                ),
-                name: new Node\Identifier('code')
             );
         }
 
@@ -88,7 +68,34 @@ final class ListPerPage implements Builder
                                     name: $this->endpoint
                                 ),
                                 name: new Node\Identifier('listPerPage'),
-                                args: $arguments,
+                                args: array_filter(
+                                    [
+                                        new Node\Arg(
+                                            value: new Node\Expr\Array_(
+                                                items: $this->compileSearch(),
+                                                attributes: [
+                                                    'kind' => Node\Expr\Array_::KIND_SHORT,
+                                                ]
+                                            ),
+                                            name: new Node\Identifier('queryParameters')
+                                        ),
+                                        (function () use ($parser) {
+                                            if (is_string($this->code)) {
+                                                return new Node\Arg(
+                                                    value: new Node\Scalar\String_($this->code),
+                                                    name: new Node\Identifier('code'),
+                                                );
+                                            }
+                                            if ($this->code instanceof Expression) {
+                                                return new Node\Arg(
+                                                    value: $parser->parse('<?php ' . $this->interpreter->compile($this->code, ['input']) . ';')[0]->expr,
+                                                    name: new Node\Identifier('code'),
+                                                );
+                                            }
+                                            return null;
+                                        })()
+                                    ]
+                                ),
                             ),
                             unpack: true,
                         ),

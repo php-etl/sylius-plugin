@@ -81,8 +81,8 @@ final class Search implements Builder
         string $field,
         string $operator,
         null|bool|string|int|array|Expression $value = null,
-        null|string|array $scope = null,
-        null|string|array $locale = null
+        null|string|array|Expression $scope = null,
+        null|string|array|Expression $locale = null
     ): self {
         $arguments = [
             new Node\Arg(
@@ -99,13 +99,13 @@ final class Search implements Builder
         $options = [];
         if (null !== $scope) {
             $options[] = new Node\Expr\ArrayItem(
-                value: new Node\Scalar\String_($scope),
+                value: $this->compileValue($scope),
                 key: new Node\Scalar\String_('scope'),
             );
         }
         if (null !== $locale) {
             $options[] = new Node\Expr\ArrayItem(
-                value: new Node\Scalar\String_($locale),
+                value: $this->compileValue($scope),
                 key: new Node\Scalar\String_('locale'),
             );
         }

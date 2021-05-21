@@ -45,7 +45,8 @@ final class All implements CapacityInterface
     ];
 
     public function __construct(private ExpressionLanguage $interpreter)
-    {}
+    {
+    }
 
     public function applies(array $config): bool
     {

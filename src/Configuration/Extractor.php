@@ -3,7 +3,8 @@
 namespace Kiboko\Plugin\Sylius\Configuration;
 
 use Symfony\Component\Config;
-use Symfony\Component\ExpressionLanguage\Expression;
+use function Kiboko\Component\SatelliteToolbox\Configuration\asExpression;
+use function Kiboko\Component\SatelliteToolbox\Configuration\isExpression;
 
 final class Extractor implements Config\Definition\ConfigurationInterface
 {
@@ -173,8 +174,8 @@ final class Extractor implements Config\Definition\ConfigurationInterface
                 ->scalarNode('method')->end()
                 ->scalarNode('code')
                     ->validate()
-                        ->ifTrue(fn ($data) => str_starts_with($data, '@='))
-                        ->then(fn ($data) => new Expression(substr($data, 2)))
+                        ->ifTrue(isExpression())
+                        ->then(asExpression())
                     ->end()
                 ->end()
                 ->append($filters->getConfigTreeBuilder())
