@@ -1,6 +1,6 @@
 sylius:
-#  expression_language:
-#    - 'Kiboko\Component\ArrayExpressionLanguage\ArrayExpressionLanguageProvider'
+  expression_language:
+    - 'functional\Kiboko\Plugin\Sylius\ExpressionLanguage\Provider'
   extractor:
     type: countries
     code: '@=input["code"]'
@@ -8,8 +8,8 @@ sylius:
     search:
       - { field: enabled, operator: '=', value: '@=input["code"]', scope: '@=input["scope"]', locale: '@=input["fr_FR"]' }
   client:
-    api_url: 'http://demo.akeneo.com/'
-    client_id: '5_5555o1hi5vggs8k0kw8gks80wwow4ckgogok48cgc8ggsco8os'
-    secret: 't04o6nh5vtw4wkcg0swocs8wcoskg0ck84sggcs4ok0oo8c8k'
-    username: 'sylius_9794'
-    password: 'a60d900c9'
+    api_url: '@=env("API_URL")' # or, 'http://demo.akeneo.com/'
+    client_id: '@=env("CLIENT_ID")' # or, '5_5555o1hi5vggs8k0kw8gks80wwow4ckgogok48cgc8ggsco8os'
+    secret: '@=env("SECRET")' # or, 't04o6nh5vtw4wkcg0swocs8wcoskg0ck84sggcs4ok0oo8c8k'
+    username: '@=env("USERNAME")' # or, 'sylius_9794'
+    password: '@=env("PASSWORD")' # or, 'a60d900c9'
