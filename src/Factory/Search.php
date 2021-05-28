@@ -51,7 +51,7 @@ final class Search implements Configurator\FactoryInterface
     public function compile(array $config): Repository\Search
     {
         try {
-            $builder = new Sylius\Builder\Search($this->interpreter);
+            $builder = new Sylius\Builder\Search();
 
             foreach ($config as $field) {
                 $builder->addFilter(...$field);

@@ -69,7 +69,7 @@ final class Extractor implements Configurator\FactoryInterface
 
     public function compile(array $config): Repository\Extractor
     {
-        $builder = new Sylius\Builder\Extractor($this->interpreter);
+        $builder = new Sylius\Builder\Extractor();
 
         try {
             $builder->withCapacity($this->findCapacity($config)->getBuilder($config));

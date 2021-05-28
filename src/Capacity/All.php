@@ -6,6 +6,7 @@ use Kiboko\Plugin\Sylius;
 use PhpParser\Builder;
 use PhpParser\Node;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+use function Kiboko\Component\SatelliteToolbox\Configuration\compileValue;
 
 final class All implements CapacityInterface
 {
@@ -58,9 +59,15 @@ final class All implements CapacityInterface
 
     private function compileFilters(array ...$filters): Node
     {
-        $builder = new Sylius\Builder\Search($this->interpreter);
+        $builder = new Sylius\Builder\Search();
         foreach ($filters as $filter) {
-            $builder->addFilter(...$filter);
+            $builder->addFilter(
+                field: compileValue($this->interpreter, $filter["field"]),
+                operator: compileValue($this->interpreter, $filter["operator"]),
+                value: compileValue($this->interpreter, $filter["value"]),
+                scope: array_key_exists('scope', $filter) ? compileValue($this->interpreter, $filter["scope"]) : null,
+                locale: array_key_exists('locale', $filter) ? compileValue($this->interpreter, $filter["locale"]) : null
+            );
         }
 
         return $builder->getNode();
@@ -68,7 +75,7 @@ final class All implements CapacityInterface
 
     public function getBuilder(array $config): Builder
     {
-        $builder = (new Sylius\Builder\Capacity\All($this->interpreter))
+        $builder = (new Sylius\Builder\Capacity\All())
             ->withEndpoint(new Node\Identifier(sprintf('get%sApi', ucfirst($config['type']))));
 
         if (isset($config['search']) && is_array($config['search'])) {
