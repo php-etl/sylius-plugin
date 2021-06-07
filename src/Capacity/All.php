@@ -5,6 +5,8 @@ namespace Kiboko\Plugin\Sylius\Capacity;
 use Kiboko\Plugin\Sylius;
 use PhpParser\Builder;
 use PhpParser\Node;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+use function Kiboko\Component\SatelliteToolbox\Configuration\compileValue;
 
 final class All implements CapacityInterface
 {
@@ -43,6 +45,10 @@ final class All implements CapacityInterface
         'promotionCoupons',
     ];
 
+    public function __construct(private ExpressionLanguage $interpreter)
+    {
+    }
+
     public function applies(array $config): bool
     {
         return isset($config['type'])
@@ -55,7 +61,13 @@ final class All implements CapacityInterface
     {
         $builder = new Sylius\Builder\Search();
         foreach ($filters as $filter) {
-            $builder->addFilter(...$filter);
+            $builder->addFilter(
+                field: compileValue($this->interpreter, $filter["field"]),
+                operator: compileValue($this->interpreter, $filter["operator"]),
+                value: compileValue($this->interpreter, $filter["value"]),
+                scope: array_key_exists('scope', $filter) ? compileValue($this->interpreter, $filter["scope"]) : null,
+                locale: array_key_exists('locale', $filter) ? compileValue($this->interpreter, $filter["locale"]) : null
+            );
         }
 
         return $builder->getNode();

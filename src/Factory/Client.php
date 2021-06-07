@@ -8,13 +8,15 @@ use PhpParser\Node;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception as Symfony;
 use Symfony\Component\Config\Definition\Processor;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+use function Kiboko\Component\SatelliteToolbox\Configuration\compileValueWhenExpression;
 
 final class Client implements Configurator\FactoryInterface
 {
     private Processor $processor;
     private ConfigurationInterface $configuration;
 
-    public function __construct()
+    public function __construct(private ExpressionLanguage $interpreter)
     {
         $this->processor = new Processor();
         $this->configuration = new Sylius\Configuration\Client();
@@ -66,9 +68,9 @@ final class Client implements Configurator\FactoryInterface
     {
         try {
             $clientBuilder = new Sylius\Builder\Client(
-                new Node\Scalar\String_($config['api_url']),
-                new Node\Scalar\String_($config['client_id']),
-                new Node\Scalar\String_($config['secret']),
+                compileValueWhenExpression($this->interpreter, $config['api_url']),
+                compileValueWhenExpression($this->interpreter, $config['client_id']),
+                compileValueWhenExpression($this->interpreter, $config['secret']),
             );
 
             if (isset($config['context'])) {
@@ -88,13 +90,13 @@ final class Client implements Configurator\FactoryInterface
 
             if (isset($config['password'])) {
                 $clientBuilder->withPassword(
-                    new Node\Scalar\String_($config['username']),
-                    new Node\Scalar\String_($config['password']),
+                    compileValueWhenExpression($this->interpreter, $config['username']),
+                    compileValueWhenExpression($this->interpreter, $config['password']),
                 );
             } elseif (isset($config['refresh_token'])) {
                 $clientBuilder->withToken(
-                    new Node\Scalar\String_($config['token']),
-                    new Node\Scalar\String_($config['refresh_token']),
+                    compileValueWhenExpression($this->interpreter, $config['token']),
+                    compileValueWhenExpression($this->interpreter, $config['refresh_token']),
                 );
             }
 

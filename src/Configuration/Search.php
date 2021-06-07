@@ -3,6 +3,9 @@
 namespace Kiboko\Plugin\Sylius\Configuration;
 
 use Symfony\Component\Config;
+use Symfony\Component\ExpressionLanguage\Expression;
+use function Kiboko\Component\SatelliteToolbox\Configuration\asExpression;
+use function Kiboko\Component\SatelliteToolbox\Configuration\isExpression;
 
 final class Search implements Config\Definition\ConfigurationInterface
 {
@@ -16,9 +19,28 @@ final class Search implements Config\Definition\ConfigurationInterface
                 ->children()
                     ->scalarNode('field')->cannotBeEmpty()->isRequired()->end()
                     ->scalarNode('operator')->cannotBeEmpty()->isRequired()->end()
-                    ->variableNode('value')->cannotBeEmpty()->isRequired()->end()
-                    ->scalarNode('scope')->cannotBeEmpty()->end()
-                    ->scalarNode('locale')->cannotBeEmpty()->end()
+                    ->variableNode('value')
+                        ->cannotBeEmpty()
+                        ->isRequired()
+                        ->validate()
+                            ->ifTrue(isExpression())
+                            ->then(asExpression())
+                        ->end()
+                    ->end()
+                    ->scalarNode('scope')
+                        ->cannotBeEmpty()
+                        ->validate()
+                            ->ifTrue(isExpression())
+                            ->then(asExpression())
+                        ->end()
+                    ->end()
+                    ->scalarNode('locale')
+                        ->cannotBeEmpty()
+                        ->validate()
+                            ->ifTrue(isExpression())
+                            ->then(asExpression())
+                        ->end()
+                    ->end()
                 ->end()
             ->end();
     }

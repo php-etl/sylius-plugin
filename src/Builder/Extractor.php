@@ -146,7 +146,7 @@ final class Extractor implements StepBuilderInterface
             ),
             args: [
                 new Node\Arg(value: $this->client),
-                new Node\Arg(value: $this->logger),
+                new Node\Arg(value: $this->logger ?? new Node\Expr\New_(new Node\Name\FullyQualified('Psr\\Log\\NullLogger'))),
             ],
         );
     }
