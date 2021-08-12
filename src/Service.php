@@ -2,17 +2,20 @@
 
 namespace Kiboko\Plugin\Sylius;
 
+use Kiboko\Contract\Configurator\ConfigurationExceptionInterface;
+use Kiboko\Contract\Configurator\ConfiguratorExtractorInterface;
+use Kiboko\Contract\Configurator\ConfiguratorLoaderInterface;
+use Kiboko\Contract\Configurator\ConfiguratorPackagesInterface;
+use Kiboko\Contract\Configurator\FactoryInterface;
+use Kiboko\Contract\Configurator\InvalidConfigurationException;
 use Kiboko\Contract\Configurator\RepositoryInterface;
 use Kiboko\Plugin\Sylius\Factory;
-use Kiboko\Contract\Configurator\InvalidConfigurationException;
-use Kiboko\Contract\Configurator\ConfigurationExceptionInterface;
-use Kiboko\Contract\Configurator\FactoryInterface;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception as Symfony;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
-final class Service implements FactoryInterface
+final class Service implements FactoryInterface, ConfiguratorPackagesInterface, ConfiguratorLoaderInterface, ConfiguratorExtractorInterface
 {
     private Processor $processor;
     private ConfigurationInterface $configuration;
@@ -110,5 +113,24 @@ final class Service implements FactoryInterface
         } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
             throw new InvalidConfigurationException($exception->getMessage(), 0, $exception);
         }
+    }
+
+    public function getPackages(): array
+    {
+        return [
+            'diglin/sylius-api-php-client',
+            'laminas/laminas-diactoros',
+            'php-http/guzzle7-adapter',
+        ];
+    }
+
+    public function getExtractorKey(): string
+    {
+        return 'extractor';
+    }
+
+    public function getLoaderKeys(): array
+    {
+        return ['loader'];
     }
 }
