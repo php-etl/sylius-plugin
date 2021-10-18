@@ -87,10 +87,7 @@ final class Upsert implements Builder
                                 new Node\Stmt\Catch_(
                                     types: [
                                         new Node\Name\FullyQualified(
-                                            name: 'Diglin\\Sylius\\ApiClient\\Exception\\UnauthorizedHttpException',
-                                        ),
-                                        new Node\Name\FullyQualified(
-                                            name: 'Diglin\\Sylius\\ApiClient\\Exception\\BadRequestHttpException',
+                                            name: 'Diglin\\Sylius\\ApiClient\\Exception\\NotFoundHttpException',
                                         ),
                                     ],
                                     var: new Node\Expr\Variable('exception'),
