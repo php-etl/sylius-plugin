@@ -73,7 +73,7 @@ final class Update implements Builder
                                     ),
                                     name: $this->endpoint,
                                 ),
-                                new Node\Identifier('update'),
+                                new Node\Identifier('upsert'),
                                 [
                                     new Node\Arg(value: $this->code),
                                     new Node\Arg(value: $this->data),

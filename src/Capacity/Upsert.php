@@ -6,7 +6,7 @@ use Kiboko\Plugin\Sylius;
 use PhpParser\Builder;
 use PhpParser\Node;
 
-final class Update implements CapacityInterface
+final class Upsert implements CapacityInterface
 {
     private static $endpoints = [
         // Core Endpoints
@@ -45,7 +45,7 @@ final class Update implements CapacityInterface
         return isset($config['type'])
             && in_array($config['type'], self::$endpoints)
             && isset($config['method'])
-            && $config['method'] === 'update';
+            && $config['method'] === 'upsert';
     }
 
     public function getBuilder(array $config): Builder
