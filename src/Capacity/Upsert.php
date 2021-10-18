@@ -50,7 +50,7 @@ final class Upsert implements CapacityInterface
 
     public function getBuilder(array $config): Builder
     {
-        $builder = (new Sylius\Builder\Capacity\Update())
+        $builder = (new Sylius\Builder\Capacity\Upsert())
             ->withEndpoint(endpoint: new Node\Identifier(sprintf('get%sApi', ucfirst($config['type']))))
             ->withCode(code: new Node\Expr\ArrayDimFetch(
                 var: new Node\Expr\Variable('line'),
