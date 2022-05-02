@@ -18,8 +18,8 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
         'php-http/guzzle7-adapter',
     ],
     steps: [
-        "extractor" => "extractor",
-        "loader" => "loader",
+        new Configurator\Pipeline\StepExtractor(),
+        new Configurator\Pipeline\StepLoader(),
     ],
 )]
 final class Service implements Configurator\PipelinePluginInterface
