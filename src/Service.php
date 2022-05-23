@@ -15,7 +15,7 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 #[Configurator\Pipeline(
     name: "sylius",
     dependencies: [
-        'diglin/sylius-api-php-client:dev-next',
+        'php-etl/sylius-api-php-client:^2.0',
         'laminas/laminas-diactoros',
         'php-http/guzzle7-adapter',
     ],
