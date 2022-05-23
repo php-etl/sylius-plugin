@@ -6,8 +6,6 @@ use Kiboko\Contract\Configurator;
 use Kiboko\Plugin\Sylius\Factory;
 use Kiboko\Contract\Configurator\InvalidConfigurationException;
 use Kiboko\Contract\Configurator\ConfigurationExceptionInterface;
-use Kiboko\Contract\Configurator\FactoryInterface;
-use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception as Symfony;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
@@ -20,14 +18,14 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
         'php-http/guzzle7-adapter',
     ],
     steps: [
-        "extractor" => "extractor",
-        "loader" => "loader",
+        new Configurator\Pipeline\StepExtractor(),
+        new Configurator\Pipeline\StepLoader(),
     ],
 )]
-final class Service implements FactoryInterface
+final class Service implements Configurator\PipelinePluginInterface
 {
     private Processor $processor;
-    private ConfigurationInterface $configuration;
+    private Configurator\PluginConfigurationInterface $configuration;
     private ExpressionLanguage $interpreter;
 
     public function __construct(?ExpressionLanguage $interpreter = null)
@@ -37,7 +35,12 @@ final class Service implements FactoryInterface
         $this->interpreter = $interpreter ?? new ExpressionLanguage();
     }
 
-    public function configuration(): ConfigurationInterface
+    public function interpreter(): ExpressionLanguage
+    {
+        return $this->interpreter;
+    }
+
+    public function configuration(): Configurator\PluginConfigurationInterface
     {
         return $this->configuration;
     }
