@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kiboko\Plugin\Sylius\Builder;
 
@@ -9,16 +11,12 @@ use PhpParser\Node;
 final class Extractor implements StepBuilderInterface
 {
     private ?Node\Expr $logger;
-    private ?Node\Expr $rejection;
-    private ?Node\Expr $state;
     private ?Node\Expr $client;
     private ?Builder $capacity;
 
     public function __construct()
     {
         $this->logger = null;
-        $this->rejection = null;
-        $this->state = null;
         $this->client = null;
         $this->capacity = null;
     }
@@ -39,15 +37,11 @@ final class Extractor implements StepBuilderInterface
 
     public function withRejection(Node\Expr $rejection): self
     {
-        $this->rejection = $rejection;
-
         return $this;
     }
 
     public function withState(Node\Expr $state): self
     {
-        $this->state = $state;
-
         return $this;
     }
 
@@ -100,7 +94,7 @@ final class Extractor implements StepBuilderInterface
                                         catches: [
                                             new Node\Stmt\Catch_(
                                                 types: [
-                                                    new Node\Name\FullyQualified('Throwable')
+                                                    new Node\Name\FullyQualified('Throwable'),
                                                 ],
                                                 var: new Node\Expr\Variable('exception'),
                                                 stmts: [

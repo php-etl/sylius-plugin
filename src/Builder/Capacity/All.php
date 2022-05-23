@@ -1,12 +1,12 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kiboko\Plugin\Sylius\Builder\Capacity;
 
 use Kiboko\Plugin\Sylius\MissingEndpointException;
 use PhpParser\Builder;
 use PhpParser\Node;
-use PhpParser\ParserFactory;
-use Symfony\Component\ExpressionLanguage\Expression;
 
 final class All implements Builder
 {
@@ -44,10 +44,8 @@ final class All implements Builder
 
     public function getNode(): Node
     {
-        if ($this->endpoint === null) {
-            throw new MissingEndpointException(
-                message: 'Please check your capacity builder, you should have selected an endpoint.'
-            );
+        if (null === $this->endpoint) {
+            throw new MissingEndpointException(message: 'Please check your capacity builder, you should have selected an endpoint.');
         }
 
         return new Node\Stmt\Expression(
@@ -76,10 +74,10 @@ final class All implements Builder
                                             ),
                                             name: new Node\Identifier('queryParameters')
                                         ),
-                                        $this->code !== null ? new Node\Arg(
+                                        null !== $this->code ? new Node\Arg(
                                             value: $this->code,
                                             name: new Node\Identifier('code'),
-                                        ) : null
+                                        ) : null,
                                     ]
                                 ),
                             ),
@@ -93,7 +91,7 @@ final class All implements Builder
 
     private function compileSearch(): array
     {
-        if ($this->search === null) {
+        if (null === $this->search) {
             return [];
         }
 

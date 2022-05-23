@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5f2d9aad57e24c6b9ba89db79179799d",
+    "content-hash": "bdcddc3fa95fa89c5d4ff4d080a1f15e",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -159,16 +159,16 @@
         },
         {
             "name": "php-etl/configurator-contracts",
-            "version": "v0.4.0",
+            "version": "v0.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/configurator-contracts.git",
-                "reference": "46ffa3bd58a7c60a3150b6ccdf505d12d039a261"
+                "reference": "c98c11de81f004c6c96351d108b36de574d8c60d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/configurator-contracts/zipball/46ffa3bd58a7c60a3150b6ccdf505d12d039a261",
-                "reference": "46ffa3bd58a7c60a3150b6ccdf505d12d039a261",
+                "url": "https://api.github.com/repos/php-etl/configurator-contracts/zipball/c98c11de81f004c6c96351d108b36de574d8c60d",
+                "reference": "c98c11de81f004c6c96351d108b36de574d8c60d",
                 "shasum": ""
             },
             "require": {
@@ -205,22 +205,22 @@
             "description": "This library describes contracts for defining configuration formats and building optimized code from it",
             "support": {
                 "issues": "https://github.com/php-etl/configurator-contracts/issues",
-                "source": "https://github.com/php-etl/configurator-contracts/tree/v0.4.0"
+                "source": "https://github.com/php-etl/configurator-contracts/tree/v0.4.1"
             },
-            "time": "2021-09-26T19:30:48+00:00"
+            "time": "2022-03-28T21:03:54+00:00"
         },
         {
             "name": "php-etl/fast-map",
-            "version": "dev-master",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/fast-map.git",
-                "reference": "f2844f6d9ad7c8e70e1609396f7d95f9d3a02191"
+                "reference": "3d5a7e5fd5a4502dab86a256a05b27bdbb59e7bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/fast-map/zipball/f2844f6d9ad7c8e70e1609396f7d95f9d3a02191",
-                "reference": "f2844f6d9ad7c8e70e1609396f7d95f9d3a02191",
+                "url": "https://api.github.com/repos/php-etl/fast-map/zipball/3d5a7e5fd5a4502dab86a256a05b27bdbb59e7bb",
+                "reference": "3d5a7e5fd5a4502dab86a256a05b27bdbb59e7bb",
                 "shasum": ""
             },
             "require": {
@@ -249,7 +249,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.2.x-dev"
+                    "dev-main": "0.2.x-dev"
                 }
             },
             "autoload": {
@@ -274,22 +274,22 @@
             "description": "This library implements a compiled data mapping library",
             "support": {
                 "issues": "https://github.com/php-etl/fast-map/issues",
-                "source": "https://github.com/php-etl/fast-map/tree/master"
+                "source": "https://github.com/php-etl/fast-map/tree/main"
             },
-            "time": "2021-09-21T21:54:46+00:00"
+            "time": "2022-05-16T19:37:26+00:00"
         },
         {
             "name": "php-etl/fast-map-config",
-            "version": "dev-master",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/fast-map-config.git",
-                "reference": "56bdf2447328465df53ec171608ec03aa644ab4b"
+                "reference": "4c8e3ac81fcef28f1852af493ae9c59bd8a11a95"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/fast-map-config/zipball/56bdf2447328465df53ec171608ec03aa644ab4b",
-                "reference": "56bdf2447328465df53ec171608ec03aa644ab4b",
+                "url": "https://api.github.com/repos/php-etl/fast-map-config/zipball/4c8e3ac81fcef28f1852af493ae9c59bd8a11a95",
+                "reference": "4c8e3ac81fcef28f1852af493ae9c59bd8a11a95",
                 "shasum": ""
             },
             "require": {
@@ -310,7 +310,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.3.x-dev"
+                    "dev-main": "0.3.x-dev"
                 }
             },
             "autoload": {
@@ -335,32 +335,32 @@
             "description": "This library implements the Extract-Transform-Load pattern asynchronously in PHP with the help of iterators and generators",
             "support": {
                 "issues": "https://github.com/php-etl/fast-map-config/issues",
-                "source": "https://github.com/php-etl/fast-map-config/tree/master"
+                "source": "https://github.com/php-etl/fast-map-config/tree/main"
             },
-            "time": "2021-06-03T09:09:09+00:00"
+            "time": "2022-05-16T19:37:25+00:00"
         },
         {
             "name": "php-etl/fast-map-plugin",
-            "version": "dev-master",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/fast-map-plugin.git",
-                "reference": "abdffe1a5bf305f897fd5b78af1cb96f8b1afdab"
+                "reference": "c7d8936ac497736e89d66bf61bc59ae7aa16fcee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/fast-map-plugin/zipball/abdffe1a5bf305f897fd5b78af1cb96f8b1afdab",
-                "reference": "abdffe1a5bf305f897fd5b78af1cb96f8b1afdab",
+                "url": "https://api.github.com/repos/php-etl/fast-map-plugin/zipball/c7d8936ac497736e89d66bf61bc59ae7aa16fcee",
+                "reference": "c7d8936ac497736e89d66bf61bc59ae7aa16fcee",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "nikic/php-parser": "^4.10",
                 "php": "^8.0",
-                "php-etl/configurator-contracts": "^0.4.0@dev",
-                "php-etl/fast-map-config": "^0.3.0@dev",
-                "php-etl/packaging-contracts": "^0.1.0@dev",
-                "php-etl/satellite-toolbox": "^0.2.0@dev",
+                "php-etl/configurator-contracts": "^0.4.0",
+                "php-etl/fast-map-config": "^0.3.0",
+                "php-etl/packaging-contracts": "^0.1.1",
+                "php-etl/satellite-toolbox": "^0.2.0",
                 "symfony/config": "^5.2"
             },
             "require-dev": {
@@ -378,10 +378,12 @@
             "type": "gyroscops-plugin",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.6.x-dev"
+                    "dev-main": "0.6.x-dev"
                 },
-                "satellite": {
-                    "class": "Kiboko\\Plugin\\FastMap\\Service"
+                "gyroscops": {
+                    "plugins": [
+                        "Kiboko\\Plugin\\FastMap\\Service"
+                    ]
                 }
             },
             "autoload": {
@@ -402,9 +404,9 @@
             "description": "Adapters for the Fast Map mapping library",
             "support": {
                 "issues": "https://github.com/php-etl/fast-map-plugin/issues",
-                "source": "https://github.com/php-etl/fast-map-plugin/tree/master"
+                "source": "https://github.com/php-etl/fast-map-plugin/tree/main"
             },
-            "time": "2021-10-05T14:05:12+00:00"
+            "time": "2022-05-16T19:37:24+00:00"
         },
         {
             "name": "php-etl/mapping-contracts",
@@ -460,16 +462,16 @@
         },
         {
             "name": "php-etl/metadata",
-            "version": "dev-master",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/metadata.git",
-                "reference": "16bd2980a576bc3e65715ef1ba595f39cf830920"
+                "reference": "2240d8ea1eb53152a715d7f35a2259ca866e0c2f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/metadata/zipball/16bd2980a576bc3e65715ef1ba595f39cf830920",
-                "reference": "16bd2980a576bc3e65715ef1ba595f39cf830920",
+                "url": "https://api.github.com/repos/php-etl/metadata/zipball/2240d8ea1eb53152a715d7f35a2259ca866e0c2f",
+                "reference": "2240d8ea1eb53152a715d7f35a2259ca866e0c2f",
                 "shasum": ""
             },
             "require": {
@@ -491,7 +493,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.2.x-dev"
+                    "dev-main": "0.2.x-dev"
                 }
             },
             "autoload": {
@@ -516,22 +518,22 @@
             "description": "Describe data structures, to auto-configure and handle data transformation and data manipulation.",
             "support": {
                 "issues": "https://github.com/php-etl/metadata/issues",
-                "source": "https://github.com/php-etl/metadata/tree/master"
+                "source": "https://github.com/php-etl/metadata/tree/main"
             },
-            "time": "2021-02-08T09:54:43+00:00"
+            "time": "2022-05-16T19:37:26+00:00"
         },
         {
             "name": "php-etl/metadata-contracts",
-            "version": "dev-master",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/metadata-contracts.git",
-                "reference": "652cddefa328c2819715a6ac1bc46f73d2b1666e"
+                "reference": "1f15158446f02e6397a0f95c728f377a3dcbb49f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/metadata-contracts/zipball/652cddefa328c2819715a6ac1bc46f73d2b1666e",
-                "reference": "652cddefa328c2819715a6ac1bc46f73d2b1666e",
+                "url": "https://api.github.com/repos/php-etl/metadata-contracts/zipball/1f15158446f02e6397a0f95c728f377a3dcbb49f",
+                "reference": "1f15158446f02e6397a0f95c728f377a3dcbb49f",
                 "shasum": ""
             },
             "require": {
@@ -541,7 +543,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.1.x-dev"
+                    "dev-main": "0.1.x-dev"
                 }
             },
             "autoload": {
@@ -566,9 +568,9 @@
             "description": "Interfaces for the Metadata package whose role is to describe data structures.",
             "support": {
                 "issues": "https://github.com/php-etl/metadata-contracts/issues",
-                "source": "https://github.com/php-etl/metadata-contracts/tree/master"
+                "source": "https://github.com/php-etl/metadata-contracts/tree/main"
             },
-            "time": "2021-02-04T13:29:20+00:00"
+            "time": "2022-05-16T19:37:24+00:00"
         },
         {
             "name": "php-etl/packaging-contracts",
@@ -622,16 +624,16 @@
         },
         {
             "name": "php-etl/satellite-toolbox",
-            "version": "dev-master",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/satellite-toolbox.git",
-                "reference": "306204b5d57beb0c0435ad072f76d8b24ee86a76"
+                "reference": "0009fd2be16d07b860b45b46b4ab99329b597417"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/satellite-toolbox/zipball/306204b5d57beb0c0435ad072f76d8b24ee86a76",
-                "reference": "306204b5d57beb0c0435ad072f76d8b24ee86a76",
+                "url": "https://api.github.com/repos/php-etl/satellite-toolbox/zipball/0009fd2be16d07b860b45b46b4ab99329b597417",
+                "reference": "0009fd2be16d07b860b45b46b4ab99329b597417",
                 "shasum": ""
             },
             "require": {
@@ -652,17 +654,17 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.2.x-dev"
+                    "dev-main": "0.2.x-dev"
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Kiboko\\Component\\SatelliteToolbox\\": "src/"
-                },
                 "files": [
                     "src/ast.php",
                     "src/configuration.php"
-                ]
+                ],
+                "psr-4": {
+                    "Kiboko\\Component\\SatelliteToolbox\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -681,9 +683,9 @@
             "description": "This library aims at building and running lambda PHP functions",
             "support": {
                 "issues": "https://github.com/php-etl/satellite-toolbox/issues",
-                "source": "https://github.com/php-etl/satellite-toolbox/tree/master"
+                "source": "https://github.com/php-etl/satellite-toolbox/tree/main"
             },
-            "time": "2021-09-21T21:51:45+00:00"
+            "time": "2022-05-18T15:53:16+00:00"
         },
         {
             "name": "phpactor/docblock",
@@ -5589,9 +5591,9 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.0",
+        "php": "^8.1",
         "ext-json": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.3.0"
 }

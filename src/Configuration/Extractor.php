@@ -1,10 +1,12 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kiboko\Plugin\Sylius\Configuration;
 
-use Symfony\Component\Config;
 use function Kiboko\Component\SatelliteToolbox\Configuration\asExpression;
 use function Kiboko\Component\SatelliteToolbox\Configuration\isExpression;
+use Symfony\Component\Config;
 
 final class Extractor implements Config\Definition\ConfigurationInterface
 {
@@ -135,14 +137,17 @@ final class Extractor implements Config\Definition\ConfigurationInterface
 
         $builder = new Config\Definition\Builder\TreeBuilder('extractor');
 
-        /** @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line */
         $builder->getRootNode()
             ->validate()
-                ->ifArray()
-                ->then(function (array $item) {
-                    if (!in_array($item['method'], self::$endpoints[$item['type']])) {
+            ->ifArray()
+            ->then(function (array $item) {
+                    if (!\in_array($item['method'], self::$endpoints[$item['type']])) {
                         throw new \InvalidArgumentException(
-                            sprintf('The value should be one of [%s], got %s.', implode(', ', self::$endpoints[$item['type']]), \json_encode($item['method']))
+                            sprintf(
+                                'The value should be one of [%s], got %s.',
+                                implode(', ', self::$endpoints[$item['type']]), json_encode($item['method'])
+                            )
                         );
                     }
 
@@ -152,9 +157,12 @@ final class Extractor implements Config\Definition\ConfigurationInterface
             ->validate()
                 ->ifArray()
                 ->then(function (array $item) {
-                    if (in_array($item['type'], self::$doubleEndpoints) && !array_key_exists('code', $item)) {
+                    if (\in_array($item['type'], self::$doubleEndpoints) && !\array_key_exists('code', $item)) {
                         throw new \InvalidArgumentException(
-                            sprintf('The %s type should have a "code" field set.', $item['type'])
+                            sprintf(
+                                'The %s type should have a "code" field set.',
+                                $item['type']
+                            )
                         );
                     }
 
@@ -167,7 +175,10 @@ final class Extractor implements Config\Definition\ConfigurationInterface
                     ->validate()
                         ->ifNotInArray(array_keys(self::$endpoints))
                         ->thenInvalid(
-                            sprintf('the value should be one of [%s], got %%s', implode(', ', array_keys(self::$endpoints)))
+                            sprintf(
+                                'the value should be one of [%s], got %%s',
+                                implode(', ', array_keys(self::$endpoints))
+                            )
                         )
                     ->end()
                 ->end()
@@ -179,7 +190,8 @@ final class Extractor implements Config\Definition\ConfigurationInterface
                     ->end()
                 ->end()
                 ->append($filters->getConfigTreeBuilder())
-            ->end();
+            ->end()
+        ;
 
         return $builder;
     }

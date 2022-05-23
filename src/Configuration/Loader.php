@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kiboko\Plugin\Sylius\Configuration;
 
@@ -103,14 +105,17 @@ final class Loader implements Config\Definition\ConfigurationInterface
     {
         $builder = new Config\Definition\Builder\TreeBuilder('loader');
 
-        /** @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line */
         $builder->getRootNode()
             ->validate()
-                ->ifArray()
+            ->ifArray()
                 ->then(function (array $item) {
-                    if (!in_array($item['method'], self::$endpoints[$item['type']])) {
+                    if (!\in_array($item['method'], self::$endpoints[$item['type']])) {
                         throw new \InvalidArgumentException(
-                            sprintf('the value should be one of [%s], got %s', implode(', ', self::$endpoints[$item['type']]), \json_encode($item['method']))
+                            sprintf(
+                                'the value should be one of [%s], got %s',
+                                implode(', ', self::$endpoints[$item['type']]), json_encode($item['method'])
+                            )
                         );
                     }
 

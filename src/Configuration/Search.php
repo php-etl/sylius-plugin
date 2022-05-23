@@ -1,11 +1,12 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kiboko\Plugin\Sylius\Configuration;
 
-use Symfony\Component\Config;
-use Symfony\Component\ExpressionLanguage\Expression;
 use function Kiboko\Component\SatelliteToolbox\Configuration\asExpression;
 use function Kiboko\Component\SatelliteToolbox\Configuration\isExpression;
+use Symfony\Component\Config;
 
 final class Search implements Config\Definition\ConfigurationInterface
 {
@@ -13,7 +14,7 @@ final class Search implements Config\Definition\ConfigurationInterface
     {
         $builder = new Config\Definition\Builder\TreeBuilder('search');
 
-        /** @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line */
         return $builder->getRootNode()
             ->arrayPrototype()
                 ->children()

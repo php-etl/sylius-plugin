@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kiboko\Plugin\Sylius\Capacity;
 
@@ -41,21 +43,20 @@ final class Create implements CapacityInterface
     public function applies(array $config): bool
     {
         return isset($config['type'])
-            && in_array($config['type'], self::$endpoints)
+            && \in_array($config['type'], self::$endpoints)
             && isset($config['method'])
-            && $config['method'] === 'create';
+            && 'create' === $config['method'];
     }
 
     public function getBuilder(array $config): Builder
     {
-        $builder = (new Sylius\Builder\Capacity\Create())
+        return (new Sylius\Builder\Capacity\Create())
             ->withEndpoint(endpoint: new Node\Identifier(sprintf('get%sApi', ucfirst($config['type']))))
             ->withCode(code: new Node\Expr\ArrayDimFetch(
                 var: new Node\Expr\Variable('line'),
                 dim: new Node\Scalar\String_('code')
             ))
-            ->withData(line: new Node\Expr\Variable('line'));
-
-        return $builder;
+            ->withData(line: new Node\Expr\Variable('line'))
+        ;
     }
 }
