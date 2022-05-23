@@ -50,7 +50,7 @@ final class Loader implements Config\Definition\ConfigurationInterface
         ],
         'products' => [
             'create',
-            'update',
+            'upsert',
             'delete',
         ],
         'productAttributes' => [
