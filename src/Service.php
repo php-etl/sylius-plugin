@@ -1,17 +1,18 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kiboko\Plugin\Sylius;
 
 use Kiboko\Contract\Configurator;
-use Kiboko\Plugin\Sylius\Factory;
-use Kiboko\Contract\Configurator\InvalidConfigurationException;
 use Kiboko\Contract\Configurator\ConfigurationExceptionInterface;
+use Kiboko\Contract\Configurator\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Exception as Symfony;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 #[Configurator\Pipeline(
-    name: "sylius",
+    name: 'sylius',
     dependencies: [
         'php-etl/sylius-api-php-client:^2.0',
         'laminas/laminas-diactoros',
@@ -73,19 +74,19 @@ final class Service implements Configurator\PipelinePluginInterface
      */
     public function compile(array $config): Factory\Repository\Extractor|Factory\Repository\Loader
     {
-        if (array_key_exists('expression_language', $config)
-            && is_array($config['expression_language'])
-            && count($config['expression_language'])
+        if (\array_key_exists('expression_language', $config)
+            && \is_array($config['expression_language'])
+            && \count($config['expression_language'])
         ) {
             foreach ($config['expression_language'] as $provider) {
-                $this->interpreter->registerProvider(new $provider);
+                $this->interpreter->registerProvider(new $provider());
             }
         }
 
         $clientFactory = new Factory\Client($this->interpreter);
 
         try {
-            if (array_key_exists('extractor', $config)) {
+            if (\array_key_exists('extractor', $config)) {
                 $extractorFactory = new Factory\Extractor($this->interpreter);
 
                 $extractor = $extractorFactory->compile($config['extractor']);
@@ -98,7 +99,8 @@ final class Service implements Configurator\PipelinePluginInterface
                 $extractor->merge($client);
 
                 return $extractor;
-            } elseif (array_key_exists('loader', $config)) {
+            }
+            if (\array_key_exists('loader', $config)) {
                 $loaderFactory = new Factory\Loader();
 
                 $loader = $loaderFactory->compile($config['loader']);
@@ -111,17 +113,10 @@ final class Service implements Configurator\PipelinePluginInterface
                 $loader->merge($client);
 
                 return $loader;
-            } else {
-                throw new InvalidConfigurationException(
-                    'Could not determine if the factory should build an extractor or a loader.'
-                );
             }
+            throw new InvalidConfigurationException('Could not determine if the factory should build an extractor or a loader.');
         } catch (MissingAuthenticationMethodException $exception) {
-            throw new InvalidConfigurationException(
-                'Your Sylius API configuration is missing an authentication method, you should either define "username" or "token" options.',
-                0,
-                $exception,
-            );
+            throw new InvalidConfigurationException('Your Sylius API configuration is missing an authentication method, you should either define "username" or "token" options.', 0, $exception);
         } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
             throw new InvalidConfigurationException($exception->getMessage(), 0, $exception);
         }

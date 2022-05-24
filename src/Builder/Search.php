@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kiboko\Plugin\Sylius\Builder;
 
@@ -44,11 +46,11 @@ final class Search implements Builder
             );
         }
 
-        if (count($options) > 0) {
+        if (\count($options) > 0) {
             $arguments[] = new Node\Expr\Array_(
                 items: $options,
                 attributes: [
-                    'kind' => Node\Expr\Array_::KIND_SHORT
+                    'kind' => Node\Expr\Array_::KIND_SHORT,
                 ]
             );
         }
