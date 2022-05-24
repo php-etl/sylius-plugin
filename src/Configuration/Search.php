@@ -43,6 +43,7 @@ final class Search implements Config\Definition\ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
-            ->end();
+            ->end()
+        ;
     }
 }

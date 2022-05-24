@@ -19,19 +19,19 @@ final class Client implements Config\Definition\ConfigurationInterface
             ->validate()
             ->ifArray()
             ->then(function (array $value) {
-                    if (isset($value['username']) && !isset($value['password'])) {
-                        throw new Config\Definition\Exception\InvalidConfigurationException('The configuration option "password" should be defined if you use the username authentication method for Sylius API.');
-                    }
-                    if (isset($value['token']) && !isset($value['refresh_token'])) {
-                        throw new Config\Definition\Exception\InvalidConfigurationException('The configuration option "refreshToken" should be defined if you use the token authentication method for Sylius API.');
-                    }
-                    if (isset($value['username'], $value['token']) || (!isset($value['username']) && !isset($value['token']))
+                if (isset($value['username']) && !isset($value['password'])) {
+                    throw new Config\Definition\Exception\InvalidConfigurationException('The configuration option "password" should be defined if you use the username authentication method for Sylius API.');
+                }
+                if (isset($value['token']) && !isset($value['refresh_token'])) {
+                    throw new Config\Definition\Exception\InvalidConfigurationException('The configuration option "refreshToken" should be defined if you use the token authentication method for Sylius API.');
+                }
+                if (isset($value['username'], $value['token']) || (!isset($value['username']) && !isset($value['token']))
                     ) {
-                        throw new Config\Definition\Exception\InvalidConfigurationException('You must choose between "username" and "token" as authentication method for Sylius API, both are mutually exclusive.');
-                    }
+                    throw new Config\Definition\Exception\InvalidConfigurationException('You must choose between "username" and "token" as authentication method for Sylius API, both are mutually exclusive.');
+                }
 
-                    return $value;
-                })
+                return $value;
+            })
             ->end()
             ->children()
                 ->arrayNode('context')
@@ -118,7 +118,8 @@ final class Client implements Config\Definition\ConfigurationInterface
                         ->then(asExpression())
                     ->end()
                 ->end()
-            ->end();
+            ->end()
+        ;
 
         return $builder;
     }

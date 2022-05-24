@@ -111,12 +111,7 @@ final class Loader implements Config\Definition\ConfigurationInterface
             ->ifArray()
                 ->then(function (array $item) {
                     if (!\in_array($item['method'], self::$endpoints[$item['type']])) {
-                        throw new \InvalidArgumentException(
-                            sprintf(
-                                'the value should be one of [%s], got %s',
-                                implode(', ', self::$endpoints[$item['type']]), json_encode($item['method'])
-                            )
-                        );
+                        throw new \InvalidArgumentException(sprintf('the value should be one of [%s], got %s', implode(', ', self::$endpoints[$item['type']]), json_encode($item['method'])));
                     }
 
                     return $item;
@@ -133,7 +128,8 @@ final class Loader implements Config\Definition\ConfigurationInterface
                     ->end()
                 ->end()
                 ->scalarNode('method')->end()
-            ->end();
+            ->end()
+        ;
 
         return $builder;
     }

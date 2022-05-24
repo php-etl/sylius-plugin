@@ -142,28 +142,18 @@ final class Extractor implements Config\Definition\ConfigurationInterface
             ->validate()
             ->ifArray()
             ->then(function (array $item) {
-                    if (!\in_array($item['method'], self::$endpoints[$item['type']])) {
-                        throw new \InvalidArgumentException(
-                            sprintf(
-                                'The value should be one of [%s], got %s.',
-                                implode(', ', self::$endpoints[$item['type']]), json_encode($item['method'])
-                            )
-                        );
-                    }
+                if (!\in_array($item['method'], self::$endpoints[$item['type']])) {
+                    throw new \InvalidArgumentException(sprintf('The value should be one of [%s], got %s.', implode(', ', self::$endpoints[$item['type']]), json_encode($item['method'])));
+                }
 
-                    return $item;
-                })
+                return $item;
+            })
             ->end()
             ->validate()
                 ->ifArray()
                 ->then(function (array $item) {
                     if (\in_array($item['type'], self::$doubleEndpoints) && !\array_key_exists('code', $item)) {
-                        throw new \InvalidArgumentException(
-                            sprintf(
-                                'The %s type should have a "code" field set.',
-                                $item['type']
-                            )
-                        );
+                        throw new \InvalidArgumentException(sprintf('The %s type should have a "code" field set.', $item['type']));
                     }
 
                     return $item;
