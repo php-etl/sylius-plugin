@@ -16,10 +16,10 @@
         "ext-json": "*",
         "nikic/php-parser": "^4.10",
         "symfony/config": "^5.2",
-        "php-etl/configurator-contracts": "^0.4.0",
+        "php-etl/configurator-contracts": "^0.5.0",
         "php-etl/packaging-contracts": "^0.1.0",
-        "php-etl/fast-map-plugin": "^0.6.0",
-        "php-etl/satellite-toolbox": "^0.2.0"
+        "php-etl/fast-map-plugin": "dev-feature/update-configurator-contracts",
+        "php-etl/satellite-toolbox": "^0.3.0"
     },
     "require-dev": {
         "php-http/mock-client": "^1.4@dev",
@@ -47,7 +47,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "0.5.x-dev"
+            "dev-main": "0.6.x-dev"
         },
         "gyroscops": {
             "plugins": ["Kiboko\\Plugin\\Sylius\\Service"]
