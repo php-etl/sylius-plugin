@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "74dc062f7b013e7c51c20dbcbcbd05d5",
+    "content-hash": "86843c74d7b47ffb07261e1937cdd716",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -159,28 +159,31 @@
         },
         {
             "name": "php-etl/configurator-contracts",
-            "version": "v0.4.1",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/configurator-contracts.git",
-                "reference": "c98c11de81f004c6c96351d108b36de574d8c60d"
+                "reference": "5d4e2fe0ec058c548a465da28ba65e403fef03ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/configurator-contracts/zipball/c98c11de81f004c6c96351d108b36de574d8c60d",
-                "reference": "c98c11de81f004c6c96351d108b36de574d8c60d",
+                "url": "https://api.github.com/repos/php-etl/configurator-contracts/zipball/5d4e2fe0ec058c548a465da28ba65e403fef03ad",
+                "reference": "5d4e2fe0ec058c548a465da28ba65e403fef03ad",
                 "shasum": ""
             },
             "require": {
                 "nikic/php-parser": "^4.10",
                 "php": "^8.0",
                 "php-etl/packaging-contracts": "^0.1.0",
-                "symfony/config": "^5.2"
+                "psr/log": "^1.0",
+                "symfony/config": "^5.2",
+                "symfony/expression-language": "^5.2"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.4.x-dev"
+                    "dev-main": "0.5.x-dev"
                 }
             },
             "autoload": {
@@ -205,9 +208,9 @@
             "description": "This library describes contracts for defining configuration formats and building optimized code from it",
             "support": {
                 "issues": "https://github.com/php-etl/configurator-contracts/issues",
-                "source": "https://github.com/php-etl/configurator-contracts/tree/v0.4.1"
+                "source": "https://github.com/php-etl/configurator-contracts/tree/main"
             },
-            "time": "2022-03-28T21:03:54+00:00"
+            "time": "2022-05-25T14:10:02+00:00"
         },
         {
             "name": "php-etl/fast-map",
@@ -215,12 +218,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/fast-map.git",
-                "reference": "3d5a7e5fd5a4502dab86a256a05b27bdbb59e7bb"
+                "reference": "30903f07f39211ab9eafec021dcf7005b8bd0099"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/fast-map/zipball/3d5a7e5fd5a4502dab86a256a05b27bdbb59e7bb",
-                "reference": "3d5a7e5fd5a4502dab86a256a05b27bdbb59e7bb",
+                "url": "https://api.github.com/repos/php-etl/fast-map/zipball/30903f07f39211ab9eafec021dcf7005b8bd0099",
+                "reference": "30903f07f39211ab9eafec021dcf7005b8bd0099",
                 "shasum": ""
             },
             "require": {
@@ -230,7 +233,7 @@
                 "php-etl/mapping-contracts": "^0.2.0",
                 "php-etl/metadata": "^0.2.0",
                 "php-etl/metadata-contracts": "^0.1.0",
-                "php-etl/satellite-toolbox": "^0.1.0 || ^0.2.0",
+                "php-etl/satellite-toolbox": "^0.3.0",
                 "symfony/cache": "^5.2",
                 "symfony/expression-language": "^5.2",
                 "symfony/property-access": "^5.2"
@@ -249,7 +252,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "0.2.x-dev"
+                    "dev-main": "0.3.x-dev"
                 }
             },
             "autoload": {
@@ -276,7 +279,7 @@
                 "issues": "https://github.com/php-etl/fast-map/issues",
                 "source": "https://github.com/php-etl/fast-map/tree/main"
             },
-            "time": "2022-05-16T19:37:26+00:00"
+            "time": "2022-05-27T08:57:42+00:00"
         },
         {
             "name": "php-etl/fast-map-config",
@@ -284,17 +287,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/fast-map-config.git",
-                "reference": "4c8e3ac81fcef28f1852af493ae9c59bd8a11a95"
+                "reference": "80967e7a83d4ff68a0e6e2ba5612d3e7a16dad18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/fast-map-config/zipball/4c8e3ac81fcef28f1852af493ae9c59bd8a11a95",
-                "reference": "4c8e3ac81fcef28f1852af493ae9c59bd8a11a95",
+                "url": "https://api.github.com/repos/php-etl/fast-map-config/zipball/80967e7a83d4ff68a0e6e2ba5612d3e7a16dad18",
+                "reference": "80967e7a83d4ff68a0e6e2ba5612d3e7a16dad18",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.0",
-                "php-etl/fast-map": "^0.2.0",
+                "php-etl/fast-map": "^0.3.0",
                 "php-etl/mapping-contracts": "^0.2.0",
                 "php-etl/metadata": "^0.2.0",
                 "symfony/expression-language": "^5.2",
@@ -310,7 +313,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "0.3.x-dev"
+                    "dev-main": "0.4.x-dev"
                 }
             },
             "autoload": {
@@ -337,7 +340,7 @@
                 "issues": "https://github.com/php-etl/fast-map-config/issues",
                 "source": "https://github.com/php-etl/fast-map-config/tree/main"
             },
-            "time": "2022-05-16T19:37:25+00:00"
+            "time": "2022-05-27T08:59:39+00:00"
         },
         {
             "name": "php-etl/fast-map-plugin",
@@ -345,27 +348,28 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/fast-map-plugin.git",
-                "reference": "c7d8936ac497736e89d66bf61bc59ae7aa16fcee"
+                "reference": "21834b666dc42506ae540305aea23addcc443fcf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/fast-map-plugin/zipball/c7d8936ac497736e89d66bf61bc59ae7aa16fcee",
-                "reference": "c7d8936ac497736e89d66bf61bc59ae7aa16fcee",
+                "url": "https://api.github.com/repos/php-etl/fast-map-plugin/zipball/21834b666dc42506ae540305aea23addcc443fcf",
+                "reference": "21834b666dc42506ae540305aea23addcc443fcf",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "nikic/php-parser": "^4.10",
                 "php": "^8.0",
-                "php-etl/configurator-contracts": "^0.4.0",
-                "php-etl/fast-map-config": "^0.3.0",
+                "php-etl/configurator-contracts": "^0.5.0",
+                "php-etl/fast-map-config": "^0.4.0",
                 "php-etl/packaging-contracts": "^0.1.1",
-                "php-etl/satellite-toolbox": "^0.2.0",
+                "php-etl/satellite-toolbox": "^0.3.0",
                 "symfony/config": "^5.2"
             },
             "require-dev": {
                 "adlawson/vfs": "dev-develop",
                 "friends-of-phpspec/phpspec-code-coverage": "*",
+                "friendsofphp/php-cs-fixer": "^3.0",
                 "johnkary/phpunit-speedtrap": "*",
                 "mybuilder/phpunit-accelerator": "*",
                 "php-etl/bucket": "0.2.x-dev",
@@ -378,7 +382,7 @@
             "type": "gyroscops-plugin",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "0.6.x-dev"
+                    "dev-main": "0.7.x-dev"
                 },
                 "gyroscops": {
                     "plugins": [
@@ -406,7 +410,7 @@
                 "issues": "https://github.com/php-etl/fast-map-plugin/issues",
                 "source": "https://github.com/php-etl/fast-map-plugin/tree/main"
             },
-            "time": "2022-05-16T19:37:24+00:00"
+            "time": "2022-05-27T09:11:19+00:00"
         },
         {
             "name": "php-etl/mapping-contracts",
@@ -628,18 +632,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/satellite-toolbox.git",
-                "reference": "0009fd2be16d07b860b45b46b4ab99329b597417"
+                "reference": "df511d63c05116c6b576e99d697941d8c6505841"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/satellite-toolbox/zipball/0009fd2be16d07b860b45b46b4ab99329b597417",
-                "reference": "0009fd2be16d07b860b45b46b4ab99329b597417",
+                "url": "https://api.github.com/repos/php-etl/satellite-toolbox/zipball/df511d63c05116c6b576e99d697941d8c6505841",
+                "reference": "df511d63c05116c6b576e99d697941d8c6505841",
                 "shasum": ""
             },
             "require": {
                 "nikic/php-parser": "^4.10",
                 "php": "^8.0",
-                "php-etl/configurator-contracts": "^0.4.0@dev",
+                "php-etl/configurator-contracts": "^0.5.0",
                 "symfony/expression-language": "^5.2"
             },
             "require-dev": {
@@ -654,7 +658,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "0.2.x-dev"
+                    "dev-main": "0.3.x-dev"
                 }
             },
             "autoload": {
@@ -685,7 +689,7 @@
                 "issues": "https://github.com/php-etl/satellite-toolbox/issues",
                 "source": "https://github.com/php-etl/satellite-toolbox/tree/main"
             },
-            "time": "2022-05-18T15:53:16+00:00"
+            "time": "2022-05-27T07:12:54+00:00"
         },
         {
             "name": "phpactor/docblock",
