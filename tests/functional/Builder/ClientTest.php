@@ -42,22 +42,4 @@ final class ClientTest extends BuilderTestCase
 
         $client->getNode();
     }
-
-//    public function testWithToken(): void
-//    {
-//        $client = new Builder\Client(
-//            new Node\Scalar\String_('http://demo.akeneo.com'),
-//            new Node\Scalar\String_(''),
-//            new Node\Scalar\String_(''),
-//        );
-//
-//        $client->withToken(
-//            new Node\Scalar\String_(''),
-//            new Node\Scalar\String_(''),
-//        );
-//
-//        $client->withHttpClient($this->getClientNode());
-//
-//        $this->assertBuilderProducesInstanceOf(SyliusLegacyClientInterface::class, $client);
-//    }
 }
