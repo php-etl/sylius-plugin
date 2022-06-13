@@ -69,10 +69,10 @@ final class Extractor implements Configurator\FactoryInterface
 
     public function compile(array $config): Repository\Extractor
     {
-        $builder = new Sylius\Builder\Extractor();
-
         try {
-            $builder->withCapacity($this->findCapacity($config)->getBuilder($config));
+            $builder = new Sylius\Builder\Extractor(
+                $this->findCapacity($config)->getBuilder($config)
+            );
         } catch (NoApplicableCapacityException $exception) {
             throw new Configurator\InvalidConfigurationException(message: 'Your Sylius API configuration is using some unsupported capacity, check your "type" and "method" properties to a suitable set.', previous: $exception);
         }
