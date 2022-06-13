@@ -142,7 +142,11 @@ final class Extractor implements Config\Definition\ConfigurationInterface
             ->validate()
             ->ifArray()
             ->then(function (array $item) {
-                if (!\in_array($item['method'], self::$endpoints[$item['type']])) {
+                if (
+                    \array_key_exists($item['type'], self::$endpoints) &&
+                    !\in_array($item['method'], self::$endpoints[$item['type']]) &&
+                    !\in_array($item['type'], self::$doubleEndpoints)
+                ) {
                     throw new \InvalidArgumentException(sprintf('The value should be one of [%s], got %s.', implode(', ', self::$endpoints[$item['type']]), json_encode($item['method'])));
                 }
 
@@ -163,11 +167,11 @@ final class Extractor implements Config\Definition\ConfigurationInterface
                 ->scalarNode('type')
                     ->isRequired()
                     ->validate()
-                        ->ifNotInArray(array_keys(self::$endpoints))
+                        ->ifNotInArray(array_merge(array_keys(self::$endpoints), self::$doubleEndpoints))
                         ->thenInvalid(
                             sprintf(
                                 'the value should be one of [%s], got %%s',
-                                implode(', ', array_keys(self::$endpoints))
+                                implode(', ', array_merge(array_keys(self::$endpoints), self::$doubleEndpoints))
                             )
                         )
                     ->end()
