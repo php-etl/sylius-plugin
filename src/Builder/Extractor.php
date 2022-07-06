@@ -12,13 +12,12 @@ final class Extractor implements StepBuilderInterface
 {
     private ?Node\Expr $logger;
     private ?Node\Expr $client;
-    private ?Builder $capacity;
 
-    public function __construct()
-    {
+    public function __construct(
+        private Builder $capacity,
+    ) {
         $this->logger = null;
         $this->client = null;
-        $this->capacity = null;
     }
 
     public function withClient(Node\Expr $client): self
@@ -45,13 +44,6 @@ final class Extractor implements StepBuilderInterface
         return $this;
     }
 
-    public function withCapacity(Builder $capacity): self
-    {
-        $this->capacity = $capacity;
-
-        return $this;
-    }
-
     public function getNode(): Node
     {
         return new Node\Expr\New_(
@@ -69,7 +61,7 @@ final class Extractor implements StepBuilderInterface
                                 'params' => [
                                     new Node\Param(
                                         var: new Node\Expr\Variable('client'),
-                                        type: new Node\Name\FullyQualified(name: 'Diglin\\Sylius\\ApiClient\\SyliusClientInterface'),
+                                        type: new Node\Name\FullyQualified(name: 'Diglin\\Sylius\\ApiClient\\SyliusLegacyClientInterface'),
                                         flags: Node\Stmt\Class_::MODIFIER_PUBLIC,
                                     ),
                                     new Node\Param(

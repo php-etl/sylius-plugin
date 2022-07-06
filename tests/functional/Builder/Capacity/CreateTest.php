@@ -2,17 +2,17 @@
 
 namespace functional\Kiboko\Plugin\Sylius\Builder\Capacity;
 
-use Kiboko\Plugin\Sylius\Builder\Capacity\Upsert;
+use Kiboko\Plugin\Sylius\Builder\Capacity\Create;
 use Kiboko\Plugin\Sylius\MissingEndpointException;
 use Kiboko\Plugin\Sylius\MissingParameterException;
 use PhpParser\Node;
 use PHPUnit\Framework\TestCase;
 
-final class UpsertTest extends TestCase
+final class CreateTest extends TestCase
 {
     public function testWithoutEndpoint()
     {
-        $capacity = new Upsert();
+        $capacity = new Create();
 
         $capacity->withCode(new Node\Scalar\String_('foo'));
         $capacity->withData(new Node\Expr\Array_());
@@ -25,7 +25,7 @@ final class UpsertTest extends TestCase
 
     public function testWithoutCode()
     {
-        $capacity = new Upsert();
+        $capacity = new Create();
 
         $capacity->withEndpoint(new Node\Identifier('foo'));
         $capacity->withData(new Node\Expr\Array_());
@@ -38,7 +38,7 @@ final class UpsertTest extends TestCase
 
     public function testWithoutData()
     {
-        $capacity = new Upsert();
+        $capacity = new Create();
 
         $capacity->withEndpoint(new Node\Identifier('foo'));
         $capacity->withCode(new Node\Scalar\String_('foo'));
@@ -51,7 +51,7 @@ final class UpsertTest extends TestCase
 
     public function testWithEndpoint()
     {
-        $capacity = new Upsert();
+        $capacity = new Create();
 
         $capacity->withEndpoint(new Node\Identifier('foo'));
         $capacity->withCode(new Node\Scalar\String_('foo'));

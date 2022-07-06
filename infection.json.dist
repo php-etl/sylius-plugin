@@ -9,11 +9,7 @@
         "text": "infection.log",
         "summary": "summary.log",
         "json": "infection-log.json",
-        "perMutator": "per-mutator.md",
-        "github": true,
-        "badge": {
-            "branch": "master"
-        }
+        "perMutator": "per-mutator.md"
     },
     "phpUnit": {
         "configDir": "."
@@ -22,5 +18,7 @@
         "@default": true
     },
     "testFramework":"phpunit",
-    "testFrameworkOptions": "-vvv"
+    "initialTestsPhpOptions": "-d zend_extension=xdebug -d xdebug.mode=coverage",
+    "minMsi": 60,
+    "minCoveredMsi": 70
 }

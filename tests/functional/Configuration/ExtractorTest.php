@@ -63,7 +63,7 @@ final class ExtractorTest extends TestCase
         $this->assertSame($expected, $this->processor->processConfiguration($client, [$config]));
     }
 
-    public function testInvalidConfig()
+    public function testWrongMethod()
     {
         $client = new Configuration\Extractor();
 
@@ -78,6 +78,43 @@ final class ExtractorTest extends TestCase
             [
                 'type' => 'products',
                 'method' => 'invalidValue'
+            ]
+        ]);
+    }
+
+    public function testWrongType()
+    {
+        $client = new Configuration\Extractor();
+
+        $this->expectException(
+            Config\Definition\Exception\InvalidConfigurationException::class,
+        );
+        $this->expectExceptionMessage(
+            'Invalid configuration for path "extractor.type": the value should be one of [channels, countries, carts, currencies, customers, exchangeRates, locales, orders, payments, paymentMethods, products, productAttributes, productAssociationTypes, productOptions, promotions, shipments, shippingCategories, taxCategories, taxRates, taxons, users, zones, productReviews, productVariants, promotionCoupons], got "wrong"',
+        );
+
+        $this->processor->processConfiguration($client, [
+            [
+                'type' => 'wrong',
+            ]
+        ]);
+    }
+
+    public function testMissingCode()
+    {
+        $client = new Configuration\Extractor();
+
+        $this->expectException(
+            Config\Definition\Exception\InvalidConfigurationException::class,
+        );
+        $this->expectExceptionMessage(
+            'The productReviews type should have a "code" field set.',
+        );
+
+        $this->processor->processConfiguration($client, [
+            [
+                'type' => 'productReviews',
+                'method' => 'get'
             ]
         ]);
     }

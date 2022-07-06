@@ -47,7 +47,7 @@ final class Client implements Configurator\FactoryInterface
             $this->normalize($config);
 
             return true;
-        } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
+        } catch (Configurator\InvalidConfigurationException) {
             return false;
         }
     }
