@@ -6,6 +6,7 @@ namespace Kiboko\Plugin\Sylius\Configuration;
 
 use function Kiboko\Component\SatelliteToolbox\Configuration\asExpression;
 use function Kiboko\Component\SatelliteToolbox\Configuration\isExpression;
+
 use Symfony\Component\Config;
 
 final class Search implements Config\Definition\ConfigurationInterface

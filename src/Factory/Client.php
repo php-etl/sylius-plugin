@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Kiboko\Plugin\Sylius\Factory;
 
 use function Kiboko\Component\SatelliteToolbox\Configuration\compileValueWhenExpression;
+
 use Kiboko\Contract\Configurator;
 use Kiboko\Plugin\Sylius;
 use PhpParser\Node;
@@ -61,9 +62,9 @@ final class Client implements Configurator\FactoryInterface
         }
 
         return new Node\Expr\StaticCall(
-                new Node\Name\FullyQualified(substr($name, 0, $position)),
-                new Node\Identifier(substr($name, $position + 2)),
-            );
+            new Node\Name\FullyQualified(substr($name, 0, $position)),
+            new Node\Identifier(substr($name, $position + 2)),
+        );
     }
 
     public function compile(array $config): Repository\Client

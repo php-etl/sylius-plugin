@@ -6,6 +6,7 @@ namespace Kiboko\Plugin\Sylius\Configuration;
 
 use function Kiboko\Component\SatelliteToolbox\Configuration\asExpression;
 use function Kiboko\Component\SatelliteToolbox\Configuration\isExpression;
+
 use Symfony\Component\Config;
 
 final class Client implements Config\Definition\ConfigurationInterface
@@ -26,7 +27,7 @@ final class Client implements Config\Definition\ConfigurationInterface
                     throw new Config\Definition\Exception\InvalidConfigurationException('The configuration option "refreshToken" should be defined if you use the token authentication method for Sylius API.');
                 }
                 if (isset($value['username'], $value['token']) || (!isset($value['username']) && !isset($value['token']))
-                    ) {
+                ) {
                     throw new Config\Definition\Exception\InvalidConfigurationException('You must choose between "username" and "token" as authentication method for Sylius API, both are mutually exclusive.');
                 }
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Kiboko\Plugin\Sylius\Capacity;
 
 use function Kiboko\Component\SatelliteToolbox\Configuration\compileValue;
+
 use Kiboko\Plugin\Sylius;
 use PhpParser\Builder;
 use PhpParser\Node;
