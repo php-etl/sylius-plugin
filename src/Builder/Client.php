@@ -82,7 +82,7 @@ final class Client implements Builder
     {
         $instance = new Node\Expr\MethodCall(
             var: new Node\Expr\New_(
-                new Node\Name\FullyQualified('Diglin\\Sylius\\ApiClient\\SyliusLegacyClientInterface'),
+                new Node\Name\FullyQualified('Diglin\\Sylius\\ApiClient\\SyliusClientBuilder'),
             ),
             name: new Node\Identifier('setBaseUri'),
             args: [
