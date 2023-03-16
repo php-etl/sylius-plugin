@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Plugin\Sylius\Builder\Capacity;
 
@@ -8,9 +10,19 @@ use Kiboko\Plugin\Sylius\MissingParameterException;
 use PhpParser\Node;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
+#[\PHPUnit\Framework\Attributes\CoversNothing]
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 final class CreateTest extends TestCase
 {
-    public function testWithoutEndpoint()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function withoutEndpoint(): void
     {
         $capacity = new Create();
 
@@ -23,7 +35,8 @@ final class CreateTest extends TestCase
         $capacity->getNode();
     }
 
-    public function testWithoutCode()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function withoutCode(): void
     {
         $capacity = new Create();
 
@@ -36,7 +49,8 @@ final class CreateTest extends TestCase
         $capacity->getNode();
     }
 
-    public function testWithoutData()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function withoutData(): void
     {
         $capacity = new Create();
 
@@ -49,7 +63,8 @@ final class CreateTest extends TestCase
         $capacity->getNode();
     }
 
-    public function testWithEndpoint()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function withEndpoint(): void
     {
         $capacity = new Create();
 

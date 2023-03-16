@@ -101,7 +101,7 @@ final class Loader implements Config\Definition\ConfigurationInterface
         ],
     ];
 
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): \Symfony\Component\Config\Definition\Builder\TreeBuilder
     {
         $builder = new Config\Definition\Builder\TreeBuilder('loader');
 
@@ -111,7 +111,7 @@ final class Loader implements Config\Definition\ConfigurationInterface
             ->ifArray()
                 ->then(function (array $item) {
                     if (!\in_array($item['method'], self::$endpoints[$item['type']])) {
-                        throw new \InvalidArgumentException(sprintf('the value should be one of [%s], got %s', implode(', ', self::$endpoints[$item['type']]), json_encode($item['method'])));
+                        throw new \InvalidArgumentException(sprintf('the value should be one of [%s], got %s', implode(', ', self::$endpoints[$item['type']]), json_encode($item['method'], \JSON_THROW_ON_ERROR)));
                     }
 
                     return $item;

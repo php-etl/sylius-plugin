@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Plugin\Sylius\Factory\Repository;
 
@@ -10,31 +12,42 @@ use PhpParser\Builder as Capacity;
 use PhpParser\Node;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
+#[\PHPUnit\Framework\Attributes\CoversNothing]
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 final class ExtractorTest extends TestCase
 {
     public function fileMock(string $filename): FileInterface
     {
-        $file = $this->getMockBuilder(FileInterface::class)
-            ->getMock();
+        $file = $this->createMock(FileInterface::class);
 
         $file->method('getPath')
-            ->willReturn($filename);
+            ->willReturn($filename)
+        ;
 
         $file->method('asResource')
-            ->willReturn(fopen('php://temp', 'w+'));
+            ->willReturn(fopen('php://temp', 'w+'))
+        ;
 
         return $file;
     }
 
-    public function testMergeWithPackages(): void
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function mergeWithPackages(): void
     {
-        $capacity = $this->getMockBuilder(Capacity::class)->getMock();
+        $capacity = $this->createMock(Capacity::class);
 
         $capacity->method('getNode')->willReturn(new Node\Stmt\Nop());
 
         $builder = new Builder\Extractor($capacity);
 
-        $child = $this->getMockBuilder(RepositoryInterface::class)->getMock();
+        $child = $this->createMock(RepositoryInterface::class);
 
         $child->method('getFiles')->willReturn([]);
         $child->method('getPackages')->willReturn(['baz/baz']);
@@ -48,18 +61,19 @@ final class ExtractorTest extends TestCase
         $this->assertCount(3, $repository->getPackages());
     }
 
-    public function testMergeWithFiles(): void
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function mergeWithFiles(): void
     {
-        $capacity = $this->getMockBuilder(Capacity::class)->getMock();
+        $capacity = $this->createMock(Capacity::class);
 
         $capacity->method('getNode')->willReturn(new Node\Stmt\Nop());
 
         $builder = new Builder\Extractor($capacity);
 
-        $child = $this->getMockBuilder(RepositoryInterface::class)->getMock();
+        $child = $this->createMock(RepositoryInterface::class);
 
         $child->method('getFiles')->willReturn([
-            $this->fileMock('baz.php')
+            $this->fileMock('baz.php'),
         ]);
         $child->method('getPackages')->willReturn([]);
 

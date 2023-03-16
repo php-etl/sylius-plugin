@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Plugin\Sylius\Factory;
 
@@ -6,65 +8,80 @@ use Kiboko\Contract\Configurator\InvalidConfigurationException;
 use Kiboko\Plugin\Sylius\Factory\Loader;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
+#[\PHPUnit\Framework\Attributes\CoversNothing]
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 final class LoaderTest extends TestCase
 {
-    public function validDataProvider(): \Generator
+    public static function validDataProvider(): \Generator
     {
         yield [
             [
                 'type' => 'products',
                 'method' => 'create',
-            ]
+            ],
         ];
 
         yield [
             [
                 'type' => 'products',
                 'method' => 'upsert',
-            ]
+            ],
         ];
     }
 
-    public function wrongConfigs(): \Generator
+    public static function wrongConfigs(): \Generator
     {
         yield [
             'config' => [
-            ]
+            ],
         ];
         yield [
             'config' => [
                 'wrong',
-            ]
+            ],
         ];
         yield [
             'config' => [
                 'type' => 'wrong',
                 'method' => 'all',
-            ]
+            ],
         ];
         yield [
             'config' => [
                 'type' => 'products',
                 'method' => 'wrong',
-            ]
+            ],
         ];
         yield [
             'config' => [
                 'type' => 'products',
-            ]
+            ],
         ];
     }
 
-    /** @dataProvider validDataProvider */
-    public function testValidateConfiguration(array $config): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('validDataProvider')]
+    /**
+     * @test
+     */
+    public function validateConfiguration(array $config): void
     {
         $client = new Loader();
         $this->assertTrue($client->validate([$config]));
         $client->compile($config);
     }
 
-    /** @dataProvider wrongConfigs */
-    public function testMissingCapacity(array $config): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('wrongConfigs')]
+    /**
+     * @test
+     */
+    public function missingCapacity(array $config): void
     {
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionCode(0);

@@ -11,7 +11,7 @@ final class Loader implements Configurator\StepRepositoryInterface
 {
     use RepositoryTrait;
 
-    public function __construct(private Sylius\Builder\Loader $builder)
+    public function __construct(private readonly Sylius\Builder\Loader $builder)
     {
         $this->files = [];
         $this->packages = [];

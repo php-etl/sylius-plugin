@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Plugin\Sylius\Builder\Capacity;
 
@@ -7,9 +9,19 @@ use Kiboko\Plugin\Sylius\MissingEndpointException;
 use PhpParser\Node;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
+#[\PHPUnit\Framework\Attributes\CoversNothing]
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 final class AllTest extends TestCase
 {
-    public function testWithoutEndpoint()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function withoutEndpoint(): void
     {
         $capacity = new All();
 
@@ -19,7 +31,8 @@ final class AllTest extends TestCase
         $capacity->getNode();
     }
 
-    public function testWithEndpoint()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function withEndpoint(): void
     {
         $capacity = new All();
 

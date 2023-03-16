@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Plugin\Sylius;
 
@@ -7,26 +9,35 @@ use Kiboko\Plugin\Sylius;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
+/**
+ * @internal
+ */
+#[\PHPUnit\Framework\Attributes\CoversNothing]
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 final class ServiceTest extends TestCase
 {
-    public function validDataProvider(): \Generator
+    public static function validDataProvider(): \Generator
     {
-        /** Get */
+        /* Get */
         yield [
             'expected' => [
                 'expression_language' => [],
                 'extractor' => [
                     'type' => 'products',
                     'method' => 'all',
-                    'search' => []
+                    'search' => [],
                 ],
                 'client' => [
                     'api_url' => '1234',
                     'client_id' => '1234',
                     'secret' => '1234',
                     'username' => '1234',
-                    'password' => '1234'
-                ]
+                    'password' => '1234',
+                ],
             ],
             'actual' => [
                 'extractor' => [
@@ -38,12 +49,12 @@ final class ServiceTest extends TestCase
                     'client_id' => '1234',
                     'secret' => '1234',
                     'username' => '1234',
-                    'password' => '1234'
-                ]
-            ]
+                    'password' => '1234',
+                ],
+            ],
         ];
 
-        /** Upsert */
+        /* Upsert */
         yield [
             'expected' => [
                 'expression_language' => [],
@@ -56,8 +67,8 @@ final class ServiceTest extends TestCase
                     'client_id' => '1234',
                     'secret' => '1234',
                     'username' => '1234',
-                    'password' => '1234'
-                ]
+                    'password' => '1234',
+                ],
             ],
             'actual' => [
                 'expression_language' => [],
@@ -70,13 +81,14 @@ final class ServiceTest extends TestCase
                     'client_id' => '1234',
                     'secret' => '1234',
                     'username' => '1234',
-                    'password' => '1234'
-                ]
-            ]
+                    'password' => '1234',
+                ],
+            ],
         ];
     }
 
-    public function testEmptyConfiguration(): void
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function emptyConfiguration(): void
     {
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionCode(0);
@@ -85,11 +97,12 @@ final class ServiceTest extends TestCase
         $service = new Sylius\Service();
         $this->assertTrue($service->validate(['sylius' => []]));
         $service->compile([
-            'sylius' => []
+            'sylius' => [],
         ]);
     }
 
-    public function testWrongConfiguration(): void
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function wrongConfiguration(): void
     {
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionCode(0);
@@ -100,7 +113,8 @@ final class ServiceTest extends TestCase
         $service->normalize(['sylius' => 'wrong']);
     }
 
-    public function testMissingAuthentication(): void
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function missingAuthentication(): void
     {
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionCode(0);
@@ -118,12 +132,15 @@ final class ServiceTest extends TestCase
                 'client_id' => '1234',
                 'secret' => '1234',
                 'username' => '1234',
-            ]
+            ],
         ]);
     }
 
-    /** @dataProvider validDataProvider */
-    public function testWithConfigurationAndProcessor(array $expected, array $actual): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('validDataProvider')]
+    /**
+     * @test
+     */
+    public function withConfigurationAndProcessor(array $expected, array $actual): void
     {
         $service = new Sylius\Service(new ExpressionLanguage());
 

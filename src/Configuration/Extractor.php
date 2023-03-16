@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Kiboko\Plugin\Sylius\Configuration;
 
+use Symfony\Component\Config;
+
 use function Kiboko\Component\SatelliteToolbox\Configuration\asExpression;
 use function Kiboko\Component\SatelliteToolbox\Configuration\isExpression;
-use Symfony\Component\Config;
 
 final class Extractor implements Config\Definition\ConfigurationInterface
 {
@@ -124,14 +125,14 @@ final class Extractor implements Config\Definition\ConfigurationInterface
         ],
     ];
 
-    private static $doubleEndpoints = [
+    private static array $doubleEndpoints = [
         // Double resources Endpoints
         'productReviews',
         'productVariants',
         'promotionCoupons',
     ];
 
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): \Symfony\Component\Config\Definition\Builder\TreeBuilder
     {
         $filters = new Search();
 
@@ -147,7 +148,7 @@ final class Extractor implements Config\Definition\ConfigurationInterface
                     && !\in_array($item['method'], self::$endpoints[$item['type']])
                     && !\in_array($item['type'], self::$doubleEndpoints)
                 ) {
-                    throw new \InvalidArgumentException(sprintf('The value should be one of [%s], got %s.', implode(', ', self::$endpoints[$item['type']]), json_encode($item['method'])));
+                    throw new \InvalidArgumentException(sprintf('The value should be one of [%s], got %s.', implode(', ', self::$endpoints[$item['type']]), json_encode($item['method'], \JSON_THROW_ON_ERROR)));
                 }
 
                 return $item;

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Plugin\Sylius\Factory;
 
@@ -7,9 +9,18 @@ use Kiboko\Plugin\Sylius\Factory\Client;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
+/**
+ * @internal
+ */
+#[\PHPUnit\Framework\Attributes\CoversNothing]
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 final class ClientTest extends TestCase
 {
-    public function validDataProvider(): \Generator
+    public static function validDataProvider(): \Generator
     {
         yield [
             [
@@ -18,7 +29,7 @@ final class ClientTest extends TestCase
                 'secret' => '123',
                 'username' => '123',
                 'password' => '123',
-            ]
+            ],
         ];
 
         yield [
@@ -29,21 +40,25 @@ final class ClientTest extends TestCase
                 'username' => '123',
                 'password' => '123',
                 'context' => [
-                    'http_client' => 'truc'
-                ]
-            ]
+                    'http_client' => 'truc',
+                ],
+            ],
         ];
     }
 
-    /** @dataProvider validDataProvider */
-    public function testValidateConfiguration(array $config): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('validDataProvider')]
+    /**
+     * @test
+     */
+    public function validateConfiguration(array $config): void
     {
         $client = new Client(new ExpressionLanguage());
         $this->assertTrue($client->validate([$config]));
         $client->compile($config);
     }
 
-    public function testMissingCapacity()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function missingCapacity(): void
     {
         $this->expectException(InvalidConfigurationException::class);
 

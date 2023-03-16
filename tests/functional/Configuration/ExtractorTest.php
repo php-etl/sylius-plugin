@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Plugin\Sylius\Configuration;
 
@@ -6,6 +8,15 @@ use Kiboko\Plugin\Sylius\Configuration;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config;
 
+/**
+ * @internal
+ */
+#[\PHPUnit\Framework\Attributes\CoversNothing]
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 final class ExtractorTest extends TestCase
 {
     private ?Config\Definition\Processor $processor = null;
@@ -15,7 +26,7 @@ final class ExtractorTest extends TestCase
         $this->processor = new Config\Definition\Processor();
     }
 
-    public function validDataProvider(): iterable
+    public static function validDataProvider(): iterable
     {
         yield [
             'config' => [
@@ -55,15 +66,19 @@ final class ExtractorTest extends TestCase
         ];
     }
 
-    /** @dataProvider validDataProvider */
-    public function testValidConfig(array $config, array $expected)
+    #[\PHPUnit\Framework\Attributes\DataProvider('validDataProvider')]
+    /**
+     * @test
+     */
+    public function validConfig(array $config, array $expected): void
     {
         $client = new Configuration\Extractor();
 
         $this->assertSame($expected, $this->processor->processConfiguration($client, [$config]));
     }
 
-    public function testWrongMethod()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function wrongMethod(): void
     {
         $client = new Configuration\Extractor();
 
@@ -77,12 +92,13 @@ final class ExtractorTest extends TestCase
         $this->processor->processConfiguration($client, [
             [
                 'type' => 'products',
-                'method' => 'invalidValue'
-            ]
+                'method' => 'invalidValue',
+            ],
         ]);
     }
 
-    public function testWrongType()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function wrongType(): void
     {
         $client = new Configuration\Extractor();
 
@@ -96,11 +112,12 @@ final class ExtractorTest extends TestCase
         $this->processor->processConfiguration($client, [
             [
                 'type' => 'wrong',
-            ]
+            ],
         ]);
     }
 
-    public function testMissingCode()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function missingCode(): void
     {
         $client = new Configuration\Extractor();
 
@@ -114,8 +131,8 @@ final class ExtractorTest extends TestCase
         $this->processor->processConfiguration($client, [
             [
                 'type' => 'productReviews',
-                'method' => 'get'
-            ]
+                'method' => 'get',
+            ],
         ]);
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Plugin\Sylius\Builder\Extractor;
 
@@ -10,22 +12,32 @@ use Kiboko\Plugin\Sylius\Builder\Extractor;
 use Kiboko\Plugin\Sylius\Capacity;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
+/**
+ * @internal
+ */
+#[\PHPUnit\Framework\Attributes\CoversNothing]
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 final class ExtractorTest extends BuilderTestCase
 {
     use ExtractorBuilderAssertTrait;
 
-    public function testAllProducts(): void
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function allProducts(): void
     {
         $httpClient = new Mock\HttpClientBuilder(new Mock\ResponseFactoryBuilder());
 
         $httpClient
             ->expectResponse(
                 new Mock\RequestMatcher\RequestMatcherBuilder('/api/oauth/v2/token', methods: ['POST']),
-                new Mock\ResponseBuilder(__DIR__ . '/../token.php')
+                new Mock\ResponseBuilder(__DIR__.'/../token.php')
             )
             ->expectResponse(
                 new Mock\RequestMatcher\RequestMatcherBuilder('/products', methods: ['GET']),
-                new Mock\ResponseBuilder(__DIR__ . '/get-all-products.php')
+                new Mock\ResponseBuilder(__DIR__.'/get-all-products.php')
             )
         ;
 
@@ -50,8 +62,8 @@ final class ExtractorTest extends BuilderTestCase
                 [
                     '_links' => [
                         'self' => [
-                            'href' => 'http://test.com/api/rest/v1/products/123qwerty'
-                        ]
+                            'href' => 'http://test.com/api/rest/v1/products/123qwerty',
+                        ],
                     ],
                     'identifier' => '123qwerty',
                     'enabled' => true,
@@ -62,25 +74,25 @@ final class ExtractorTest extends BuilderTestCase
                     'values' => [
                         'color' => [
                             [
-                                "locale" => null,
-                                "scope" => null,
-                                "data" => "#fff"
-                            ]
+                                'locale' => null,
+                                'scope' => null,
+                                'data' => '#fff',
+                            ],
                         ],
                         'brand' => [
                             [
-                                "locale" => null,
-                                "scope" => null,
-                                "data" => ["8"]
-                            ]
+                                'locale' => null,
+                                'scope' => null,
+                                'data' => ['8'],
+                            ],
                         ],
                         'weight' => [
                             [
-                                "locale" => null,
-                                "scope" => null,
-                                "data" => "0.5300"
-                            ]
-                        ]
+                                'locale' => null,
+                                'scope' => null,
+                                'data' => '0.5300',
+                            ],
+                        ],
                     ],
                     'created' => '2021-06-18T03:30:11+00:00',
                     'updated' => '2022-05-16T08:37:11+00:00',
@@ -88,19 +100,19 @@ final class ExtractorTest extends BuilderTestCase
                         'UPSELL' => [
                             'products' => [],
                             'product_models' => [],
-                            'groups' => []
-                        ]
+                            'groups' => [],
+                        ],
                     ],
                     'quantified_associations' => [],
                     'metadata' => [
-                        'workflow_status' => 'working_copy'
-                    ]
+                        'workflow_status' => 'working_copy',
+                    ],
                 ],
                 [
                     '_links' => [
                         'self' => [
-                            'href' => 'http://test.com/api/rest/v1/products/123uiop'
-                        ]
+                            'href' => 'http://test.com/api/rest/v1/products/123uiop',
+                        ],
                     ],
                     'identifier' => '123uiop',
                     'enabled' => true,
@@ -111,25 +123,25 @@ final class ExtractorTest extends BuilderTestCase
                     'values' => [
                         'color' => [
                             [
-                                "locale" => null,
-                                "scope" => null,
-                                "data" => "#f00"
-                            ]
+                                'locale' => null,
+                                'scope' => null,
+                                'data' => '#f00',
+                            ],
                         ],
                         'brand' => [
                             [
-                                "locale" => null,
-                                "scope" => null,
-                                "data" => ["3"]
-                            ]
+                                'locale' => null,
+                                'scope' => null,
+                                'data' => ['3'],
+                            ],
                         ],
                         'weight' => [
                             [
-                                "locale" => null,
-                                "scope" => null,
-                                "data" => "0.1000"
-                            ]
-                        ]
+                                'locale' => null,
+                                'scope' => null,
+                                'data' => '0.1000',
+                            ],
+                        ],
                     ],
                     'created' => '2021-06-18T03:30:11+00:00',
                     'updated' => '2022-05-16T08:37:11+00:00',
@@ -137,31 +149,32 @@ final class ExtractorTest extends BuilderTestCase
                         'UPSELL' => [
                             'products' => [],
                             'product_models' => [],
-                            'groups' => []
-                        ]
+                            'groups' => [],
+                        ],
                     ],
                     'quantified_associations' => [],
                     'metadata' => [
-                        'workflow_status' => 'working_copy'
-                    ]
-                ]
+                        'workflow_status' => 'working_copy',
+                    ],
+                ],
             ],
             $builder,
         );
     }
 
-    public function testAllProductsWithSearch(): void
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function allProductsWithSearch(): void
     {
         $httpClient = new Mock\HttpClientBuilder(new Mock\ResponseFactoryBuilder());
 
         $httpClient
             ->expectResponse(
                 new Mock\RequestMatcher\RequestMatcherBuilder('/api/oauth/v2/token', methods: ['POST']),
-                new Mock\ResponseBuilder(__DIR__ . '/../token.php')
+                new Mock\ResponseBuilder(__DIR__.'/../token.php')
             )
             ->expectResponse(
                 new Mock\RequestMatcher\RequestMatcherBuilder('/products', methods: ['GET']),
-                new Mock\ResponseBuilder(__DIR__ . '/get-all-products.php')
+                new Mock\ResponseBuilder(__DIR__.'/get-all-products.php')
             )
         ;
 
@@ -180,9 +193,9 @@ final class ExtractorTest extends BuilderTestCase
                 [
                     'field' => 'parent',
                     'operator' => '=',
-                    'value' => '987qwerty'
-                ]
-            ]
+                    'value' => '987qwerty',
+                ],
+            ],
         ]);
 
         $builder = new Extractor($capacity);
@@ -193,8 +206,8 @@ final class ExtractorTest extends BuilderTestCase
                 [
                     '_links' => [
                         'self' => [
-                            'href' => 'http://test.com/api/rest/v1/products/123qwerty'
-                        ]
+                            'href' => 'http://test.com/api/rest/v1/products/123qwerty',
+                        ],
                     ],
                     'identifier' => '123qwerty',
                     'enabled' => true,
@@ -205,25 +218,25 @@ final class ExtractorTest extends BuilderTestCase
                     'values' => [
                         'color' => [
                             [
-                                "locale" => null,
-                                "scope" => null,
-                                "data" => "#fff"
-                            ]
+                                'locale' => null,
+                                'scope' => null,
+                                'data' => '#fff',
+                            ],
                         ],
                         'brand' => [
                             [
-                                "locale" => null,
-                                "scope" => null,
-                                "data" => ["8"]
-                            ]
+                                'locale' => null,
+                                'scope' => null,
+                                'data' => ['8'],
+                            ],
                         ],
                         'weight' => [
                             [
-                                "locale" => null,
-                                "scope" => null,
-                                "data" => "0.5300"
-                            ]
-                        ]
+                                'locale' => null,
+                                'scope' => null,
+                                'data' => '0.5300',
+                            ],
+                        ],
                     ],
                     'created' => '2021-06-18T03:30:11+00:00',
                     'updated' => '2022-05-16T08:37:11+00:00',
@@ -231,19 +244,19 @@ final class ExtractorTest extends BuilderTestCase
                         'UPSELL' => [
                             'products' => [],
                             'product_models' => [],
-                            'groups' => []
-                        ]
+                            'groups' => [],
+                        ],
                     ],
                     'quantified_associations' => [],
                     'metadata' => [
-                        'workflow_status' => 'working_copy'
-                    ]
+                        'workflow_status' => 'working_copy',
+                    ],
                 ],
                 [
                     '_links' => [
                         'self' => [
-                            'href' => 'http://test.com/api/rest/v1/products/123uiop'
-                        ]
+                            'href' => 'http://test.com/api/rest/v1/products/123uiop',
+                        ],
                     ],
                     'identifier' => '123uiop',
                     'enabled' => true,
@@ -254,25 +267,25 @@ final class ExtractorTest extends BuilderTestCase
                     'values' => [
                         'color' => [
                             [
-                                "locale" => null,
-                                "scope" => null,
-                                "data" => "#f00"
-                            ]
+                                'locale' => null,
+                                'scope' => null,
+                                'data' => '#f00',
+                            ],
                         ],
                         'brand' => [
                             [
-                                "locale" => null,
-                                "scope" => null,
-                                "data" => ["3"]
-                            ]
+                                'locale' => null,
+                                'scope' => null,
+                                'data' => ['3'],
+                            ],
                         ],
                         'weight' => [
                             [
-                                "locale" => null,
-                                "scope" => null,
-                                "data" => "0.1000"
-                            ]
-                        ]
+                                'locale' => null,
+                                'scope' => null,
+                                'data' => '0.1000',
+                            ],
+                        ],
                     ],
                     'created' => '2021-06-18T03:30:11+00:00',
                     'updated' => '2022-05-16T08:37:11+00:00',
@@ -280,14 +293,14 @@ final class ExtractorTest extends BuilderTestCase
                         'UPSELL' => [
                             'products' => [],
                             'product_models' => [],
-                            'groups' => []
-                        ]
+                            'groups' => [],
+                        ],
                     ],
                     'quantified_associations' => [],
                     'metadata' => [
-                        'workflow_status' => 'working_copy'
-                    ]
-                ]
+                        'workflow_status' => 'working_copy',
+                    ],
+                ],
             ],
             $builder,
         );

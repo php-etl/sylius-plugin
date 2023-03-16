@@ -11,7 +11,7 @@ final class Client implements Configurator\RepositoryInterface
 {
     use RepositoryTrait;
 
-    public function __construct(private Sylius\Builder\Client $builder)
+    public function __construct(private readonly Sylius\Builder\Client $builder)
     {
         $this->files = [];
         $this->packages = [];

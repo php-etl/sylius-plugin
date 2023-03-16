@@ -1,8 +1,9 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Plugin\Sylius\Builder;
 
-use Diglin\Sylius\ApiClient\SyliusLegacyClientInterface;
 use Http\Mock\Client;
 use Kiboko\Component\PHPUnitExtension\Assert\PipelineBuilderAssertTrait;
 use Kiboko\Component\PHPUnitExtension\BuilderTestCase;
@@ -11,6 +12,15 @@ use Kiboko\Plugin\Sylius\Builder;
 use Kiboko\Plugin\Sylius\MissingAuthenticationMethodException;
 use PhpParser\Node;
 
+/**
+ * @internal
+ */
+#[\PHPUnit\Framework\Attributes\CoversNothing]
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 final class ClientTest extends BuilderTestCase
 {
     use PipelineBuilderAssertTrait;
@@ -29,7 +39,8 @@ final class ClientTest extends BuilderTestCase
         );
     }
 
-    public function testExpectingTokenOrPassword(): void
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function expectingTokenOrPassword(): void
     {
         $client = new Builder\Client(
             new Node\Scalar\String_('http://demo.akeneo.com'),

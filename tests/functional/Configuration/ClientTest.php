@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Plugin\Sylius\Configuration;
 
@@ -6,6 +8,15 @@ use Kiboko\Plugin\Sylius\Configuration;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config;
 
+/**
+ * @internal
+ */
+#[\PHPUnit\Framework\Attributes\CoversNothing]
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 final class ClientTest extends TestCase
 {
     private ?Config\Definition\Processor $processor = null;
@@ -15,7 +26,8 @@ final class ClientTest extends TestCase
         $this->processor = new Config\Definition\Processor();
     }
 
-    public function testValidConfigWithPasswordAuthentication()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function validConfigWithPasswordAuthentication(): void
     {
         $client = new Configuration\Client();
 
@@ -38,13 +50,14 @@ final class ClientTest extends TestCase
                         'secret' => 'SECRET',
                         'username' => 'JOHNDOE',
                         'password' => 'PASSWORD',
-                    ]
+                    ],
                 ]
             )
         );
     }
 
-    public function testValidConfigWithTokenAuthentication()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function validConfigWithTokenAuthentication(): void
     {
         $client = new Configuration\Client();
 
@@ -67,13 +80,14 @@ final class ClientTest extends TestCase
                         'secret' => 'SECRET',
                         'token' => 'TOKEN',
                         'refresh_token' => 'REFRESH',
-                    ]
+                    ],
                 ]
             )
         );
     }
 
-    public function testMissingAuthenticationMethod()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function missingAuthenticationMethod(): void
     {
         $client = new Configuration\Client();
 
@@ -92,12 +106,13 @@ final class ClientTest extends TestCase
                     'api_url' => 'http://api.example.com',
                     'client_id' => 'LOREMIPSUM',
                     'secret' => 'SECRET',
-                ]
+                ],
             ]
         );
     }
 
-    public function testBothAuthenticationMethod()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function bothAuthenticationMethod(): void
     {
         $client = new Configuration\Client();
 
@@ -120,12 +135,13 @@ final class ClientTest extends TestCase
                     'password' => 'PASSWORD',
                     'token' => 'TOKEN',
                     'refresh_token' => 'REFRESH',
-                ]
+                ],
             ]
         );
     }
 
-    public function testMissingPasswordInAuthenticationMethod()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function missingPasswordInAuthenticationMethod(): void
     {
         $client = new Configuration\Client();
 
@@ -145,12 +161,13 @@ final class ClientTest extends TestCase
                     'client_id' => 'LOREMIPSUM',
                     'secret' => 'SECRET',
                     'username' => 'JOHNDOE',
-                ]
+                ],
             ]
         );
     }
 
-    public function testMissingRefreshTokenInAuthenticationMethod()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function missingRefreshTokenInAuthenticationMethod(): void
     {
         $client = new Configuration\Client();
 
@@ -170,7 +187,7 @@ final class ClientTest extends TestCase
                     'client_id' => 'LOREMIPSUM',
                     'secret' => 'SECRET',
                     'token' => 'TOKEN',
-                ]
+                ],
             ]
         );
     }

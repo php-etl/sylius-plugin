@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Plugin\Sylius\Factory\Repository;
 
@@ -8,27 +10,38 @@ use Kiboko\Plugin\Sylius\Builder;
 use Kiboko\Plugin\Sylius\Factory\Repository;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
+#[\PHPUnit\Framework\Attributes\CoversNothing]
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 final class SearchTest extends TestCase
 {
     public function fileMock(string $filename): FileInterface
     {
-        $file = $this->getMockBuilder(FileInterface::class)
-            ->getMock();
+        $file = $this->createMock(FileInterface::class);
 
         $file->method('getPath')
-            ->willReturn($filename);
+            ->willReturn($filename)
+        ;
 
         $file->method('asResource')
-            ->willReturn(fopen('php://temp', 'w+'));
+            ->willReturn(fopen('php://temp', 'w+'))
+        ;
 
         return $file;
     }
 
-    public function testMergeWithPackages(): void
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function mergeWithPackages(): void
     {
         $builder = new Builder\Search();
 
-        $child = $this->getMockBuilder(RepositoryInterface::class)->getMock();
+        $child = $this->createMock(RepositoryInterface::class);
 
         $child->method('getFiles')->willReturn([]);
         $child->method('getPackages')->willReturn(['baz/baz']);
@@ -42,14 +55,15 @@ final class SearchTest extends TestCase
         $this->assertCount(3, $repository->getPackages());
     }
 
-    public function testMergeWithFiles(): void
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function mergeWithFiles(): void
     {
         $builder = new Builder\Search();
 
-        $child = $this->getMockBuilder(RepositoryInterface::class)->getMock();
+        $child = $this->createMock(RepositoryInterface::class);
 
         $child->method('getFiles')->willReturn([
-            $this->fileMock('baz.php')
+            $this->fileMock('baz.php'),
         ]);
         $child->method('getPackages')->willReturn([]);
 
