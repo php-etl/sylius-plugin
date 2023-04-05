@@ -132,7 +132,7 @@ final class Extractor implements Config\Definition\ConfigurationInterface
         'promotionCoupons',
     ];
 
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): \Symfony\Component\Config\Definition\Builder\TreeBuilder
     {
         $filters = new Search();
 
