@@ -9,15 +9,6 @@ use Kiboko\Plugin\Sylius;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
-/**
- * @internal
- */
-#[\PHPUnit\Framework\Attributes\CoversNothing]
-/**
- * @internal
- *
- * @coversNothing
- */
 final class ServiceTest extends TestCase
 {
     public static function validDataProvider(): \Generator
@@ -87,8 +78,7 @@ final class ServiceTest extends TestCase
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function emptyConfiguration(): void
+    public function testEmptyConfiguration(): void
     {
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionCode(0);
@@ -101,8 +91,7 @@ final class ServiceTest extends TestCase
         ]);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function wrongConfiguration(): void
+    public function testWrongConfiguration(): void
     {
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionCode(0);
@@ -113,8 +102,7 @@ final class ServiceTest extends TestCase
         $service->normalize(['sylius' => 'wrong']);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function missingAuthentication(): void
+    public function testMissingAuthentication(): void
     {
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionCode(0);
@@ -137,10 +125,7 @@ final class ServiceTest extends TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('validDataProvider')]
-    /**
-     * @test
-     */
-    public function withConfigurationAndProcessor(array $expected, array $actual): void
+    public function testWithConfigurationAndProcessor(array $expected, array $actual): void
     {
         $service = new Sylius\Service(new ExpressionLanguage());
 

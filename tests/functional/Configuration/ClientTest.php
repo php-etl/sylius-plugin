@@ -8,15 +8,6 @@ use Kiboko\Plugin\Sylius\Configuration;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config;
 
-/**
- * @internal
- */
-#[\PHPUnit\Framework\Attributes\CoversNothing]
-/**
- * @internal
- *
- * @coversNothing
- */
 final class ClientTest extends TestCase
 {
     private ?Config\Definition\Processor $processor = null;
@@ -26,8 +17,7 @@ final class ClientTest extends TestCase
         $this->processor = new Config\Definition\Processor();
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function validConfigWithPasswordAuthentication(): void
+    public function testValidConfigWithPasswordAuthentication(): void
     {
         $client = new Configuration\Client();
 
@@ -56,8 +46,7 @@ final class ClientTest extends TestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function validConfigWithTokenAuthentication(): void
+    public function testValidConfigWithTokenAuthentication(): void
     {
         $client = new Configuration\Client();
 
@@ -86,8 +75,7 @@ final class ClientTest extends TestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function missingAuthenticationMethod(): void
+    public function testMissingAuthenticationMethod(): void
     {
         $client = new Configuration\Client();
 
@@ -111,8 +99,7 @@ final class ClientTest extends TestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function bothAuthenticationMethod(): void
+    public function testBothAuthenticationMethod(): void
     {
         $client = new Configuration\Client();
 
@@ -140,8 +127,7 @@ final class ClientTest extends TestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function missingPasswordInAuthenticationMethod(): void
+    public function testMissingPasswordInAuthenticationMethod(): void
     {
         $client = new Configuration\Client();
 
@@ -166,8 +152,7 @@ final class ClientTest extends TestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function missingRefreshTokenInAuthenticationMethod(): void
+    public function testMissingRefreshTokenInAuthenticationMethod(): void
     {
         $client = new Configuration\Client();
 

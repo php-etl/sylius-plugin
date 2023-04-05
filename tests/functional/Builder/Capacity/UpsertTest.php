@@ -10,19 +10,9 @@ use Kiboko\Plugin\Sylius\MissingParameterException;
 use PhpParser\Node;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-#[\PHPUnit\Framework\Attributes\CoversNothing]
-/**
- * @internal
- *
- * @coversNothing
- */
 final class UpsertTest extends TestCase
 {
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function withoutEndpoint(): void
+    public function testWithoutEndpoint(): void
     {
         $capacity = new Upsert();
 
@@ -35,8 +25,7 @@ final class UpsertTest extends TestCase
         $capacity->getNode();
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function withoutCode(): void
+    public function testWithoutCode(): void
     {
         $capacity = new Upsert();
 
@@ -49,8 +38,7 @@ final class UpsertTest extends TestCase
         $capacity->getNode();
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function withoutData(): void
+    public function testWithoutData(): void
     {
         $capacity = new Upsert();
 
@@ -63,8 +51,7 @@ final class UpsertTest extends TestCase
         $capacity->getNode();
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function withEndpoint(): void
+    public function testWithEndpoint(): void
     {
         $capacity = new Upsert();
 

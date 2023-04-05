@@ -12,15 +12,6 @@ use Kiboko\Plugin\Sylius\Builder;
 use Kiboko\Plugin\Sylius\MissingAuthenticationMethodException;
 use PhpParser\Node;
 
-/**
- * @internal
- */
-#[\PHPUnit\Framework\Attributes\CoversNothing]
-/**
- * @internal
- *
- * @coversNothing
- */
 final class ClientTest extends BuilderTestCase
 {
     use PipelineBuilderAssertTrait;
@@ -39,8 +30,7 @@ final class ClientTest extends BuilderTestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function expectingTokenOrPassword(): void
+    public function testExpectingTokenOrPassword(): void
     {
         $client = new Builder\Client(
             new Node\Scalar\String_('http://demo.akeneo.com'),

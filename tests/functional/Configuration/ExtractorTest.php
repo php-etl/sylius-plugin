@@ -8,15 +8,6 @@ use Kiboko\Plugin\Sylius\Configuration;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config;
 
-/**
- * @internal
- */
-#[\PHPUnit\Framework\Attributes\CoversNothing]
-/**
- * @internal
- *
- * @coversNothing
- */
 final class ExtractorTest extends TestCase
 {
     private ?Config\Definition\Processor $processor = null;
@@ -67,18 +58,14 @@ final class ExtractorTest extends TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('validDataProvider')]
-    /**
-     * @test
-     */
-    public function validConfig(array $config, array $expected): void
+    public function testValidConfig(array $config, array $expected): void
     {
         $client = new Configuration\Extractor();
 
         $this->assertSame($expected, $this->processor->processConfiguration($client, [$config]));
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function wrongMethod(): void
+    public function testWrongMethod(): void
     {
         $client = new Configuration\Extractor();
 
@@ -97,8 +84,7 @@ final class ExtractorTest extends TestCase
         ]);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function wrongType(): void
+    public function testWrongType(): void
     {
         $client = new Configuration\Extractor();
 
@@ -116,8 +102,7 @@ final class ExtractorTest extends TestCase
         ]);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function missingCode(): void
+    public function testMissingCode(): void
     {
         $client = new Configuration\Extractor();
 

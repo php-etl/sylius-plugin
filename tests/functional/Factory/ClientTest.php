@@ -9,15 +9,6 @@ use Kiboko\Plugin\Sylius\Factory\Client;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
-/**
- * @internal
- */
-#[\PHPUnit\Framework\Attributes\CoversNothing]
-/**
- * @internal
- *
- * @coversNothing
- */
 final class ClientTest extends TestCase
 {
     public static function validDataProvider(): \Generator
@@ -47,18 +38,14 @@ final class ClientTest extends TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('validDataProvider')]
-    /**
-     * @test
-     */
-    public function validateConfiguration(array $config): void
+    public function testValidateConfiguration(array $config): void
     {
         $client = new Client(new ExpressionLanguage());
         $this->assertTrue($client->validate([$config]));
         $client->compile($config);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function missingCapacity(): void
+    public function testMissingCapacity(): void
     {
         $this->expectException(InvalidConfigurationException::class);
 

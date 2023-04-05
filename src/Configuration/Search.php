@@ -11,12 +11,12 @@ use function Kiboko\Component\SatelliteToolbox\Configuration\isExpression;
 
 final class Search implements Config\Definition\ConfigurationInterface
 {
-    public function getConfigTreeBuilder(): \Symfony\Component\Config\Definition\Builder\TreeBuilder
+    public function getConfigTreeBuilder()
     {
         $builder = new Config\Definition\Builder\TreeBuilder('search');
 
         /* @phpstan-ignore-next-line */
-        return $builder->getRootNode()
+        $builder->getRootNode()
             ->arrayPrototype()
                 ->children()
                     ->scalarNode('field')->cannotBeEmpty()->isRequired()->end()
@@ -46,5 +46,7 @@ final class Search implements Config\Definition\ConfigurationInterface
                 ->end()
             ->end()
         ;
+
+        return $builder;
     }
 }

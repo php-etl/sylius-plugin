@@ -10,15 +10,6 @@ use Kiboko\Plugin\Sylius\Builder;
 use Kiboko\Plugin\Sylius\Factory\Repository;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-#[\PHPUnit\Framework\Attributes\CoversNothing]
-/**
- * @internal
- *
- * @coversNothing
- */
 final class SearchTest extends TestCase
 {
     public function fileMock(string $filename): FileInterface
@@ -36,8 +27,7 @@ final class SearchTest extends TestCase
         return $file;
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function mergeWithPackages(): void
+    public function testMergeWithPackages(): void
     {
         $builder = new Builder\Search();
 
@@ -55,8 +45,7 @@ final class SearchTest extends TestCase
         $this->assertCount(3, $repository->getPackages());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function mergeWithFiles(): void
+    public function testMergeWithFiles(): void
     {
         $builder = new Builder\Search();
 

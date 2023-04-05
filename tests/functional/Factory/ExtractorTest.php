@@ -9,15 +9,6 @@ use Kiboko\Plugin\Sylius\Factory\Extractor;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
-/**
- * @internal
- */
-#[\PHPUnit\Framework\Attributes\CoversNothing]
-/**
- * @internal
- *
- * @coversNothing
- */
 final class ExtractorTest extends TestCase
 {
     public static function validDataProvider(): \Generator
@@ -68,10 +59,7 @@ final class ExtractorTest extends TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('validDataProvider')]
-    /**
-     * @test
-     */
-    public function validateConfiguration(array $config): void
+    public function testValidateConfiguration(array $config): void
     {
         $client = new Extractor(new ExpressionLanguage());
         $this->assertTrue($client->validate([$config]));
@@ -79,10 +67,7 @@ final class ExtractorTest extends TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('wrongConfigs')]
-    /**
-     * @test
-     */
-    public function missingCapacity(array $config): void
+    public function testMissingCapacity(array $config): void
     {
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionCode(0);

@@ -11,21 +11,11 @@ use Kiboko\Component\PHPUnitExtension\Mock;
 use Kiboko\Plugin\Sylius\Builder\Loader;
 use Kiboko\Plugin\Sylius\Capacity;
 
-/**
- * @internal
- */
-#[\PHPUnit\Framework\Attributes\CoversNothing]
-/**
- * @internal
- *
- * @coversNothing
- */
 final class LoaderTest extends BuilderTestCase
 {
     use LoaderBuilderAssertTrait;
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function upsertProduct(): void
+    public function testUpsertProduct(): void
     {
         $httpClient = new Mock\HttpClientBuilder(new Mock\ResponseFactoryBuilder());
 
@@ -73,8 +63,7 @@ final class LoaderTest extends BuilderTestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function createProduct(): void
+    public function testCreateProduct(): void
     {
         $httpClient = new Mock\HttpClientBuilder(new Mock\ResponseFactoryBuilder());
 

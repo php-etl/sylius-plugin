@@ -8,15 +8,6 @@ use Kiboko\Contract\Configurator\InvalidConfigurationException;
 use Kiboko\Plugin\Sylius\Factory\Loader;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-#[\PHPUnit\Framework\Attributes\CoversNothing]
-/**
- * @internal
- *
- * @coversNothing
- */
 final class LoaderTest extends TestCase
 {
     public static function validDataProvider(): \Generator
@@ -67,10 +58,7 @@ final class LoaderTest extends TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('validDataProvider')]
-    /**
-     * @test
-     */
-    public function validateConfiguration(array $config): void
+    public function testValidateConfiguration(array $config): void
     {
         $client = new Loader();
         $this->assertTrue($client->validate([$config]));
@@ -78,10 +66,7 @@ final class LoaderTest extends TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('wrongConfigs')]
-    /**
-     * @test
-     */
-    public function missingCapacity(array $config): void
+    public function testMissingCapacity(array $config): void
     {
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionCode(0);

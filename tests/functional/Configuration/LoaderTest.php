@@ -8,15 +8,6 @@ use Kiboko\Plugin\Sylius\Configuration;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config;
 
-/**
- * @internal
- */
-#[\PHPUnit\Framework\Attributes\CoversNothing]
-/**
- * @internal
- *
- * @coversNothing
- */
 final class LoaderTest extends TestCase
 {
     private ?Config\Definition\Processor $processor = null;
@@ -26,8 +17,7 @@ final class LoaderTest extends TestCase
         $this->processor = new Config\Definition\Processor();
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function wrongMethod(): void
+    public function testWrongMethod(): void
     {
         $client = new Configuration\Loader();
 

@@ -12,21 +12,11 @@ use Kiboko\Plugin\Sylius\Builder\Extractor;
 use Kiboko\Plugin\Sylius\Capacity;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
-/**
- * @internal
- */
-#[\PHPUnit\Framework\Attributes\CoversNothing]
-/**
- * @internal
- *
- * @coversNothing
- */
 final class ExtractorTest extends BuilderTestCase
 {
     use ExtractorBuilderAssertTrait;
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function allProducts(): void
+    public function testAllProducts(): void
     {
         $httpClient = new Mock\HttpClientBuilder(new Mock\ResponseFactoryBuilder());
 
@@ -162,8 +152,7 @@ final class ExtractorTest extends BuilderTestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function allProductsWithSearch(): void
+    public function testAllProductsWithSearch(): void
     {
         $httpClient = new Mock\HttpClientBuilder(new Mock\ResponseFactoryBuilder());
 

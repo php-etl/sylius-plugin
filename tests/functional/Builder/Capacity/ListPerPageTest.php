@@ -9,19 +9,9 @@ use Kiboko\Plugin\Sylius\MissingEndpointException;
 use PhpParser\Node;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-#[\PHPUnit\Framework\Attributes\CoversNothing]
-/**
- * @internal
- *
- * @coversNothing
- */
 final class ListPerPageTest extends TestCase
 {
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function withoutEndpoint(): void
+    public function testWithoutEndpoint(): void
     {
         $capacity = new ListPerPage();
 
@@ -31,8 +21,7 @@ final class ListPerPageTest extends TestCase
         $capacity->getNode();
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function withEndpoint(): void
+    public function testWithEndpoint(): void
     {
         $capacity = new ListPerPage();
 

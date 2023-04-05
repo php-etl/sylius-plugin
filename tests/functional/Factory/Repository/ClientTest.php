@@ -11,15 +11,6 @@ use Kiboko\Plugin\Sylius\Factory\Repository;
 use PhpParser\Node;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-#[\PHPUnit\Framework\Attributes\CoversNothing]
-/**
- * @internal
- *
- * @coversNothing
- */
 final class ClientTest extends TestCase
 {
     public function fileMock(string $filename): FileInterface
@@ -37,8 +28,7 @@ final class ClientTest extends TestCase
         return $file;
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function mergeWithPackages(): void
+    public function testMergeWithPackages(): void
     {
         $builder = new Builder\Client(
             new Node\Scalar\String_(''),
@@ -60,8 +50,7 @@ final class ClientTest extends TestCase
         $this->assertCount(3, $repository->getPackages());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function mergeWithFiles(): void
+    public function testMergeWithFiles(): void
     {
         $builder = new Builder\Client(
             new Node\Scalar\String_(''),

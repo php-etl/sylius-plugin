@@ -12,15 +12,6 @@ use PhpParser\Builder as Capacity;
 use PhpParser\Node;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-#[\PHPUnit\Framework\Attributes\CoversNothing]
-/**
- * @internal
- *
- * @coversNothing
- */
 final class LoaderTest extends TestCase
 {
     public function fileMock(string $filename): FileInterface
@@ -38,8 +29,7 @@ final class LoaderTest extends TestCase
         return $file;
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function mergeWithPackages(): void
+    public function testMergeWithPackages(): void
     {
         $capacity = $this->createMock(Capacity::class);
 
@@ -61,8 +51,7 @@ final class LoaderTest extends TestCase
         $this->assertCount(3, $repository->getPackages());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function mergeWithFiles(): void
+    public function testMergeWithFiles(): void
     {
         $capacity = $this->createMock(Capacity::class);
 
