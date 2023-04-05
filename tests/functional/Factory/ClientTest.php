@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Plugin\Sylius\Factory;
 
@@ -9,7 +11,7 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 final class ClientTest extends TestCase
 {
-    public function validDataProvider(): \Generator
+    public static function validDataProvider(): \Generator
     {
         yield [
             [
@@ -18,7 +20,7 @@ final class ClientTest extends TestCase
                 'secret' => '123',
                 'username' => '123',
                 'password' => '123',
-            ]
+            ],
         ];
 
         yield [
@@ -29,13 +31,13 @@ final class ClientTest extends TestCase
                 'username' => '123',
                 'password' => '123',
                 'context' => [
-                    'http_client' => 'truc'
-                ]
-            ]
+                    'http_client' => 'truc',
+                ],
+            ],
         ];
     }
 
-    /** @dataProvider validDataProvider */
+    #[\PHPUnit\Framework\Attributes\DataProvider('validDataProvider')]
     public function testValidateConfiguration(array $config): void
     {
         $client = new Client(new ExpressionLanguage());
@@ -43,7 +45,7 @@ final class ClientTest extends TestCase
         $client->compile($config);
     }
 
-    public function testMissingCapacity()
+    public function testMissingCapacity(): void
     {
         $this->expectException(InvalidConfigurationException::class);
 

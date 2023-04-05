@@ -1,9 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Configuration;
 
-use PHPUnit\Framework\TestCase;
 use Kiboko\Plugin\Sylius\Configuration;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config;
 
 final class LoaderTest extends TestCase
@@ -15,7 +17,7 @@ final class LoaderTest extends TestCase
         $this->processor = new Config\Definition\Processor();
     }
 
-    public function testWrongMethod()
+    public function testWrongMethod(): void
     {
         $client = new Configuration\Loader();
 
@@ -29,8 +31,8 @@ final class LoaderTest extends TestCase
         $this->processor->processConfiguration($client, [
             [
                 'type' => 'products',
-                'method' => 'invalidValue'
-            ]
+                'method' => 'invalidValue',
+            ],
         ]);
     }
 }

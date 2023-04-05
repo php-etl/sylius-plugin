@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Plugin\Sylius\Factory;
 
@@ -8,54 +10,54 @@ use PHPUnit\Framework\TestCase;
 
 final class LoaderTest extends TestCase
 {
-    public function validDataProvider(): \Generator
+    public static function validDataProvider(): \Generator
     {
         yield [
             [
                 'type' => 'products',
                 'method' => 'create',
-            ]
+            ],
         ];
 
         yield [
             [
                 'type' => 'products',
                 'method' => 'upsert',
-            ]
+            ],
         ];
     }
 
-    public function wrongConfigs(): \Generator
+    public static function wrongConfigs(): \Generator
     {
         yield [
             'config' => [
-            ]
+            ],
         ];
         yield [
             'config' => [
                 'wrong',
-            ]
+            ],
         ];
         yield [
             'config' => [
                 'type' => 'wrong',
                 'method' => 'all',
-            ]
+            ],
         ];
         yield [
             'config' => [
                 'type' => 'products',
                 'method' => 'wrong',
-            ]
+            ],
         ];
         yield [
             'config' => [
                 'type' => 'products',
-            ]
+            ],
         ];
     }
 
-    /** @dataProvider validDataProvider */
+    #[\PHPUnit\Framework\Attributes\DataProvider('validDataProvider')]
     public function testValidateConfiguration(array $config): void
     {
         $client = new Loader();
@@ -63,7 +65,7 @@ final class LoaderTest extends TestCase
         $client->compile($config);
     }
 
-    /** @dataProvider wrongConfigs */
+    #[\PHPUnit\Framework\Attributes\DataProvider('wrongConfigs')]
     public function testMissingCapacity(array $config): void
     {
         $this->expectException(InvalidConfigurationException::class);

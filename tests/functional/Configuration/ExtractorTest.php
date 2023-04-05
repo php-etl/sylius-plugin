@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Plugin\Sylius\Configuration;
 
@@ -15,7 +17,7 @@ final class ExtractorTest extends TestCase
         $this->processor = new Config\Definition\Processor();
     }
 
-    public function validDataProvider(): iterable
+    public static function validDataProvider(): iterable
     {
         yield [
             'config' => [
@@ -55,15 +57,15 @@ final class ExtractorTest extends TestCase
         ];
     }
 
-    /** @dataProvider validDataProvider */
-    public function testValidConfig(array $config, array $expected)
+    #[\PHPUnit\Framework\Attributes\DataProvider('validDataProvider')]
+    public function testValidConfig(array $config, array $expected): void
     {
         $client = new Configuration\Extractor();
 
         $this->assertSame($expected, $this->processor->processConfiguration($client, [$config]));
     }
 
-    public function testWrongMethod()
+    public function testWrongMethod(): void
     {
         $client = new Configuration\Extractor();
 
@@ -77,12 +79,12 @@ final class ExtractorTest extends TestCase
         $this->processor->processConfiguration($client, [
             [
                 'type' => 'products',
-                'method' => 'invalidValue'
-            ]
+                'method' => 'invalidValue',
+            ],
         ]);
     }
 
-    public function testWrongType()
+    public function testWrongType(): void
     {
         $client = new Configuration\Extractor();
 
@@ -96,11 +98,11 @@ final class ExtractorTest extends TestCase
         $this->processor->processConfiguration($client, [
             [
                 'type' => 'wrong',
-            ]
+            ],
         ]);
     }
 
-    public function testMissingCode()
+    public function testMissingCode(): void
     {
         $client = new Configuration\Extractor();
 
@@ -114,8 +116,8 @@ final class ExtractorTest extends TestCase
         $this->processor->processConfiguration($client, [
             [
                 'type' => 'productReviews',
-                'method' => 'get'
-            ]
+                'method' => 'get',
+            ],
         ]);
     }
 }

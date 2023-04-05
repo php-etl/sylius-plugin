@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Plugin\Sylius\Builder\Loader;
 
@@ -20,11 +22,11 @@ final class LoaderTest extends BuilderTestCase
         $httpClient
             ->expectResponse(
                 new Mock\RequestMatcher\RequestMatcherBuilder('/api/oauth/v2/token', methods: ['POST']),
-                new Mock\ResponseBuilder(__DIR__ . '/../token.php')
+                new Mock\ResponseBuilder(__DIR__.'/../token.php')
             )
             ->expectResponse(
                 new Mock\RequestMatcher\RequestMatcherBuilder('/api/oauth/v2/products/[^/]+', methods: ['PATCH']),
-                new Mock\ResponseBuilder(__DIR__ . '/post-product.php')
+                new Mock\ResponseBuilder(__DIR__.'/post-product.php')
             )
         ;
 
@@ -40,7 +42,7 @@ final class LoaderTest extends BuilderTestCase
         $capacity = (new Capacity\Upsert())->getBuilder([
             'type' => 'products',
             'method' => 'all',
-            'code' => 'line[code]'
+            'code' => 'line[code]',
         ]);
 
         $builder = new Loader($capacity);
@@ -49,13 +51,13 @@ final class LoaderTest extends BuilderTestCase
         $this->assertBuildsLoaderLoadsExactly(
             [
                 [
-                    "code" => "0987uiop"
-                ]
+                    'code' => '0987uiop',
+                ],
             ],
             [
                 [
-                    "code" => "0987uiop"
-                ]
+                    'code' => '0987uiop',
+                ],
             ],
             $builder,
         );
@@ -68,11 +70,11 @@ final class LoaderTest extends BuilderTestCase
         $httpClient
             ->expectResponse(
                 new Mock\RequestMatcher\RequestMatcherBuilder('/api/oauth/v2/token', methods: ['POST']),
-                new Mock\ResponseBuilder(__DIR__ . '/../token.php')
+                new Mock\ResponseBuilder(__DIR__.'/../token.php')
             )
             ->expectResponse(
                 new Mock\RequestMatcher\RequestMatcherBuilder('/api/oauth/v2/products/[^/]+', methods: ['PATCH']),
-                new Mock\ResponseBuilder(__DIR__ . '/post-product.php')
+                new Mock\ResponseBuilder(__DIR__.'/post-product.php')
             )
         ;
 
@@ -88,7 +90,7 @@ final class LoaderTest extends BuilderTestCase
         $capacity = (new Capacity\Create())->getBuilder([
             'type' => 'products',
             'method' => 'all',
-            'code' => 'line[code]'
+            'code' => 'line[code]',
         ]);
 
         $builder = new Loader($capacity);
@@ -97,13 +99,13 @@ final class LoaderTest extends BuilderTestCase
         $this->assertBuildsLoaderLoadsExactly(
             [
                 [
-                    "code" => "0987uiop"
-                ]
+                    'code' => '0987uiop',
+                ],
             ],
             [
                 [
-                    "code" => "0987uiop"
-                ]
+                    'code' => '0987uiop',
+                ],
             ],
             $builder,
         );

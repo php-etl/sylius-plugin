@@ -10,7 +10,7 @@ use PhpParser\Node;
 
 final class Upsert implements CapacityInterface
 {
-    private static $endpoints = [
+    private static array $endpoints = [
         // Core Endpoints
         'carts',
         'channels',
@@ -53,7 +53,7 @@ final class Upsert implements CapacityInterface
     public function getBuilder(array $config): Builder
     {
         return (new Sylius\Builder\Capacity\Upsert())
-            ->withEndpoint(endpoint: new Node\Identifier(sprintf('get%sApi', ucfirst($config['type']))))
+            ->withEndpoint(endpoint: new Node\Identifier(sprintf('get%sApi', ucfirst((string) $config['type']))))
             ->withCode(code: new Node\Expr\ArrayDimFetch(
                 var: new Node\Expr\Variable('line'),
                 dim: new Node\Scalar\String_('code')

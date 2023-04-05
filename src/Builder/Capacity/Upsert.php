@@ -11,15 +11,12 @@ use PhpParser\Node;
 
 final class Upsert implements Builder
 {
-    private null|Node\Expr|Node\Identifier $endpoint;
-    private null|Node\Expr $code;
-    private null|Node\Expr $data;
+    private null|Node\Expr|Node\Identifier $endpoint = null;
+    private null|Node\Expr $code = null;
+    private null|Node\Expr $data = null;
 
     public function __construct()
     {
-        $this->endpoint = null;
-        $this->code = null;
-        $this->data = null;
     }
 
     public function withEndpoint(Node\Expr|Node\Identifier $endpoint): self
@@ -83,7 +80,7 @@ final class Upsert implements Builder
                                 new Node\Stmt\Catch_(
                                     types: [
                                         new Node\Name\FullyQualified(
-                                            name: 'Diglin\\Sylius\\ApiClient\\Exception\\NotFoundHttpException',
+                                            name: \Diglin\Sylius\ApiClient\Exception\NotFoundHttpException::class,
                                         ),
                                     ],
                                     var: new Node\Expr\Variable('exception'),
@@ -113,7 +110,7 @@ final class Upsert implements Builder
                                 var: new Node\Expr\Variable('line'),
                                 expr: new Node\Expr\Yield_(
                                     value: new Node\Expr\New_(
-                                        class: new Node\Name\FullyQualified(name: 'Kiboko\\Component\\Bucket\\AcceptanceResultBucket'),
+                                        class: new Node\Name\FullyQualified(name: \Kiboko\Component\Bucket\AcceptanceResultBucket::class),
                                         args: [
                                             new Node\Arg(
                                                 value: new Node\Expr\Variable('line'),
@@ -128,10 +125,10 @@ final class Upsert implements Builder
                         new Node\Stmt\Catch_(
                             types: [
                                 new Node\Name\FullyQualified(
-                                    name: 'Diglin\\Sylius\\ApiClient\\Exception\\UnauthorizedHttpException',
+                                    name: \Diglin\Sylius\ApiClient\Exception\UnauthorizedHttpException::class,
                                 ),
                                 new Node\Name\FullyQualified(
-                                    name: 'Diglin\\Sylius\\ApiClient\\Exception\\BadRequestHttpException',
+                                    name: \Diglin\Sylius\ApiClient\Exception\BadRequestHttpException::class,
                                 ),
                             ],
                             var: new Node\Expr\Variable('exception'),
@@ -200,7 +197,7 @@ final class Upsert implements Builder
                                         expr: new Node\Expr\Yield_(
                                             value: new Node\Expr\New_(
                                                 class: new Node\Name\FullyQualified(
-                                                    name: 'Kiboko\\Component\\Bucket\\RejectionResultBucket'
+                                                    name: \Kiboko\Component\Bucket\RejectionResultBucket::class
                                                 ),
                                                 args: [
                                                     new Node\Arg(
@@ -219,7 +216,7 @@ final class Upsert implements Builder
                         new Node\Stmt\Catch_(
                             types: [
                                 new Node\Name\FullyQualified(
-                                    name: 'Diglin\\Sylius\\ApiClient\\Exception\\HttpException',
+                                    name: \Diglin\Sylius\ApiClient\Exception\HttpException::class,
                                 ),
                             ],
                             var: new Node\Expr\Variable('exception'),
@@ -288,7 +285,7 @@ final class Upsert implements Builder
                                         expr: new Node\Expr\Yield_(
                                             value: new Node\Expr\New_(
                                                 class: new Node\Name\FullyQualified(
-                                                    name: 'Kiboko\\Component\\Bucket\\RejectionResultBucket'
+                                                    name: \Kiboko\Component\Bucket\RejectionResultBucket::class
                                                 ),
                                                 args: [
                                                     new Node\Arg(

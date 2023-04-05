@@ -1,8 +1,9 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Plugin\Sylius\Builder;
 
-use Diglin\Sylius\ApiClient\SyliusLegacyClientInterface;
 use Http\Mock\Client;
 use Kiboko\Component\PHPUnitExtension\Assert\PipelineBuilderAssertTrait;
 use Kiboko\Component\PHPUnitExtension\BuilderTestCase;

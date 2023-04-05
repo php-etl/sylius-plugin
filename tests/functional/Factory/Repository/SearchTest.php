@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Plugin\Sylius\Factory\Repository;
 
@@ -12,14 +14,15 @@ final class SearchTest extends TestCase
 {
     public function fileMock(string $filename): FileInterface
     {
-        $file = $this->getMockBuilder(FileInterface::class)
-            ->getMock();
+        $file = $this->createMock(FileInterface::class);
 
         $file->method('getPath')
-            ->willReturn($filename);
+            ->willReturn($filename)
+        ;
 
         $file->method('asResource')
-            ->willReturn(fopen('php://temp', 'w+'));
+            ->willReturn(fopen('php://temp', 'w+'))
+        ;
 
         return $file;
     }
@@ -28,7 +31,7 @@ final class SearchTest extends TestCase
     {
         $builder = new Builder\Search();
 
-        $child = $this->getMockBuilder(RepositoryInterface::class)->getMock();
+        $child = $this->createMock(RepositoryInterface::class);
 
         $child->method('getFiles')->willReturn([]);
         $child->method('getPackages')->willReturn(['baz/baz']);
@@ -46,10 +49,10 @@ final class SearchTest extends TestCase
     {
         $builder = new Builder\Search();
 
-        $child = $this->getMockBuilder(RepositoryInterface::class)->getMock();
+        $child = $this->createMock(RepositoryInterface::class);
 
         $child->method('getFiles')->willReturn([
-            $this->fileMock('baz.php')
+            $this->fileMock('baz.php'),
         ]);
         $child->method('getPackages')->willReturn([]);
 

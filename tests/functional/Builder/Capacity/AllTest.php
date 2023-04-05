@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Plugin\Sylius\Builder\Capacity;
 
@@ -9,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 final class AllTest extends TestCase
 {
-    public function testWithoutEndpoint()
+    public function testWithoutEndpoint(): void
     {
         $capacity = new All();
 
@@ -19,7 +21,7 @@ final class AllTest extends TestCase
         $capacity->getNode();
     }
 
-    public function testWithEndpoint()
+    public function testWithEndpoint(): void
     {
         $capacity = new All();
 

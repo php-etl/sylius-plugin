@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Plugin\Sylius;
 
@@ -9,24 +11,24 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 final class ServiceTest extends TestCase
 {
-    public function validDataProvider(): \Generator
+    public static function validDataProvider(): \Generator
     {
-        /** Get */
+        /* Get */
         yield [
             'expected' => [
                 'expression_language' => [],
                 'extractor' => [
                     'type' => 'products',
                     'method' => 'all',
-                    'search' => []
+                    'search' => [],
                 ],
                 'client' => [
                     'api_url' => '1234',
                     'client_id' => '1234',
                     'secret' => '1234',
                     'username' => '1234',
-                    'password' => '1234'
-                ]
+                    'password' => '1234',
+                ],
             ],
             'actual' => [
                 'extractor' => [
@@ -38,12 +40,12 @@ final class ServiceTest extends TestCase
                     'client_id' => '1234',
                     'secret' => '1234',
                     'username' => '1234',
-                    'password' => '1234'
-                ]
-            ]
+                    'password' => '1234',
+                ],
+            ],
         ];
 
-        /** Upsert */
+        /* Upsert */
         yield [
             'expected' => [
                 'expression_language' => [],
@@ -56,8 +58,8 @@ final class ServiceTest extends TestCase
                     'client_id' => '1234',
                     'secret' => '1234',
                     'username' => '1234',
-                    'password' => '1234'
-                ]
+                    'password' => '1234',
+                ],
             ],
             'actual' => [
                 'expression_language' => [],
@@ -70,9 +72,9 @@ final class ServiceTest extends TestCase
                     'client_id' => '1234',
                     'secret' => '1234',
                     'username' => '1234',
-                    'password' => '1234'
-                ]
-            ]
+                    'password' => '1234',
+                ],
+            ],
         ];
     }
 
@@ -85,7 +87,7 @@ final class ServiceTest extends TestCase
         $service = new Sylius\Service();
         $this->assertTrue($service->validate(['sylius' => []]));
         $service->compile([
-            'sylius' => []
+            'sylius' => [],
         ]);
     }
 
@@ -118,11 +120,11 @@ final class ServiceTest extends TestCase
                 'client_id' => '1234',
                 'secret' => '1234',
                 'username' => '1234',
-            ]
+            ],
         ]);
     }
 
-    /** @dataProvider validDataProvider */
+    #[\PHPUnit\Framework\Attributes\DataProvider('validDataProvider')]
     public function testWithConfigurationAndProcessor(array $expected, array $actual): void
     {
         $service = new Sylius\Service(new ExpressionLanguage());

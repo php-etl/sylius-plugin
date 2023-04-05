@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace Kiboko\Plugin\Sylius\Capacity;
 
-use function Kiboko\Component\SatelliteToolbox\Configuration\compileValue;
 use Kiboko\Plugin\Sylius;
 use PhpParser\Builder;
 use PhpParser\Node;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
+use function Kiboko\Component\SatelliteToolbox\Configuration\compileValue;
+
 final class ListPerPage implements CapacityInterface
 {
-    private static $endpoints = [
+    private static array $endpoints = [
         // Simple resources Endpoints
         'channels',
         'countries',
@@ -40,14 +41,14 @@ final class ListPerPage implements CapacityInterface
         'zones',
     ];
 
-    private static $doubleEndpoints = [
+    private static array $doubleEndpoints = [
         // Double resources Endpoints
         'productReviews',
         'productVariants',
         'promotionCoupons',
     ];
 
-    public function __construct(private ExpressionLanguage $interpreter)
+    public function __construct(private readonly ExpressionLanguage $interpreter)
     {
     }
 
@@ -78,7 +79,7 @@ final class ListPerPage implements CapacityInterface
     public function getBuilder(array $config): Builder
     {
         $builder = (new Sylius\Builder\Capacity\ListPerPage())
-            ->withEndpoint(new Node\Identifier(sprintf('get%sApi', ucfirst($config['type']))))
+            ->withEndpoint(new Node\Identifier(sprintf('get%sApi', ucfirst((string) $config['type']))))
         ;
 
         if (isset($config['search']) && \is_array($config['search'])) {

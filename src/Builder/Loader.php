@@ -10,14 +10,11 @@ use PhpParser\Node;
 
 final class Loader implements StepBuilderInterface
 {
-    private ?Node\Expr $logger;
-    private ?Node\Expr $client;
+    private ?Node\Expr $logger = null;
+    private ?Node\Expr $client = null;
 
-    public function __construct(
-        private Builder $capacity,
-    ) {
-        $this->logger = null;
-        $this->client = null;
+    public function __construct(private readonly Builder $capacity)
+    {
     }
 
     public function withClient(Node\Expr $client): self
@@ -51,7 +48,7 @@ final class Loader implements StepBuilderInterface
                 name: null,
                 subNodes: [
                     'implements' => [
-                        new Node\Name\FullyQualified(name: 'Kiboko\\Contract\\Pipeline\\LoaderInterface'),
+                        new Node\Name\FullyQualified(name: \Kiboko\Contract\Pipeline\LoaderInterface::class),
                     ],
                     'stmts' => [
                         new Node\Stmt\ClassMethod(
@@ -61,12 +58,12 @@ final class Loader implements StepBuilderInterface
                                 'params' => [
                                     new Node\Param(
                                         var: new Node\Expr\Variable('client'),
-                                        type: new Node\Name\FullyQualified(name: 'Diglin\\Sylius\\ApiClient\\SyliusLegacyClientInterface'),
+                                        type: new Node\Name\FullyQualified(name: \Diglin\Sylius\ApiClient\SyliusLegacyClientInterface::class),
                                         flags: Node\Stmt\Class_::MODIFIER_PRIVATE,
                                     ),
                                     new Node\Param(
                                         var: new Node\Expr\Variable('logger'),
-                                        type: new Node\Name\FullyQualified(name: 'Psr\\Log\\LoggerInterface'),
+                                        type: new Node\Name\FullyQualified(name: \Psr\Log\LoggerInterface::class),
                                         flags: Node\Stmt\Class_::MODIFIER_PRIVATE,
                                     ),
                                 ],
@@ -138,7 +135,7 @@ final class Loader implements StepBuilderInterface
             ),
             args: [
                 new Node\Arg(value: $this->client),
-                new Node\Arg(value: $this->logger ?? new Node\Expr\New_(new Node\Name\FullyQualified('Psr\\Log\\NullLogger'))),
+                new Node\Arg(value: $this->logger ?? new Node\Expr\New_(new Node\Name\FullyQualified(\Psr\Log\NullLogger::class))),
             ],
         );
     }

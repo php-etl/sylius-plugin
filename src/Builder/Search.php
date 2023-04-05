@@ -63,7 +63,7 @@ final class Search implements Builder
     public function getNode(): Node
     {
         $instance = new Node\Expr\New_(
-            class: new Node\Name\FullyQualified('Diglin\\Sylius\\ApiClient\\Search\\SearchBuilder')
+            class: new Node\Name\FullyQualified(\Diglin\Sylius\ApiClient\Search\SearchBuilder::class)
         );
 
         foreach ($this->filters as $filterSpec) {

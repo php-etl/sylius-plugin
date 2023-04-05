@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Plugin\Sylius\Builder\Capacity;
 
@@ -9,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 final class ListPerPageTest extends TestCase
 {
-    public function testWithoutEndpoint()
+    public function testWithoutEndpoint(): void
     {
         $capacity = new ListPerPage();
 
@@ -19,7 +21,7 @@ final class ListPerPageTest extends TestCase
         $capacity->getNode();
     }
 
-    public function testWithEndpoint()
+    public function testWithEndpoint(): void
     {
         $capacity = new ListPerPage();
 
