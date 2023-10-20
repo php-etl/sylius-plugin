@@ -121,8 +121,8 @@ final class Client implements Builder
     private function getClientBuilderNode(): Node\Expr\MethodCall
     {
         $className = match ($this->apiType) {
-            'admin' => 'Diglin\\Sylius\\ApiClient\\SyliusAdminClientBuilder',
-            'store' => 'Diglin\\Sylius\\ApiClient\\SyliusShopClientBuilder',
+            'admin' => \Diglin\Sylius\ApiClient\SyliusAdminClientBuilder::class,
+            'store' => \Diglin\Sylius\ApiClient\SyliusShopClientBuilder::class,
             'legacy' => 'Diglin\\Sylius\\ApiClient\\SyliusClientBuilder',
             default => 'Diglin\\Sylius\\ApiClient\\SyliusClientBuilder',
         };
