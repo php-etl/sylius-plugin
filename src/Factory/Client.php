@@ -74,6 +74,7 @@ final readonly class Client implements Configurator\FactoryInterface
                 compileValueWhenExpression($this->interpreter, $config['api_url']),
                 compileValueWhenExpression($this->interpreter, $config['client_id']),
                 compileValueWhenExpression($this->interpreter, $config['secret']),
+                compileValueWhenExpression($this->interpreter, $config['api_type']),
             );
 
             if (isset($config['context'])) {

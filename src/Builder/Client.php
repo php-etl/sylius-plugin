@@ -19,7 +19,7 @@ final class Client implements Builder
     private ?Node\Expr $httpStreamFactory = null;
     private ?Node\Expr $fileSystem = null;
 
-    public function __construct(private readonly Node\Expr $baseUrl, private readonly Node\Expr $clientId, private readonly Node\Expr $secret)
+    public function __construct(private readonly Node\Expr $baseUrl, private readonly Node\Expr $clientId, private readonly Node\Expr $secret, private readonly null|Node\Expr $apiType)
     {
     }
 
@@ -69,15 +69,7 @@ final class Client implements Builder
 
     public function getNode(): Node\Expr\MethodCall
     {
-        $instance = new Node\Expr\MethodCall(
-            var: new Node\Expr\New_(
-                new Node\Name\FullyQualified('Diglin\\Sylius\\ApiClient\\SyliusClientBuilder'),
-            ),
-            name: new Node\Identifier('setBaseUri'),
-            args: [
-                new Node\Arg($this->baseUrl),
-            ],
-        );
+        $instance = $this->getClientBuilderNode();
 
         if (null !== $this->httpClient) {
             $instance = new Node\Expr\MethodCall(
@@ -123,6 +115,26 @@ final class Client implements Builder
             $instance,
             $this->getFactoryMethod(),
             $this->getFactoryArguments(),
+        );
+    }
+
+    private function getClientBuilderNode(): Node\Expr\MethodCall
+    {
+        $className = match ($this->apiType) {
+            'admin' => 'Diglin\\Sylius\\ApiClient\\SyliusAdminClientBuilder',
+            'store' => 'Diglin\\Sylius\\ApiClient\\SyliusShopClientBuilder',
+            'legacy' => 'Diglin\\Sylius\\ApiClient\\SyliusClientBuilder',
+            default => 'Diglin\\Sylius\\ApiClient\\SyliusClientBuilder',
+        };
+
+        return new Node\Expr\MethodCall(
+            var: new Node\Expr\New_(
+                new Node\Name\FullyQualified($className),
+            ),
+            name: new Node\Identifier('setBaseUri'),
+            args: [
+                new Node\Arg($this->baseUrl),
+            ],
         );
     }
 
