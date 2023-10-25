@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kiboko\Plugin\Sylius\Configuration;
 
+use phpDocumentor\Reflection\Types\Self_;
 use Symfony\Component\Config;
 
 use function Kiboko\Component\SatelliteToolbox\Configuration\asExpression;
@@ -11,7 +12,7 @@ use function Kiboko\Component\SatelliteToolbox\Configuration\isExpression;
 
 final class Extractor implements Config\Definition\ConfigurationInterface
 {
-    private static array $endpoints = [
+    private static array $endpointsLegacy = [
         // Core Endpoints
         'channels' => [
             'listPerPage',
@@ -125,11 +126,219 @@ final class Extractor implements Config\Definition\ConfigurationInterface
         ],
     ];
 
-    private static array $doubleEndpoints = [
+    private static array $endpointsAdmin = [
+        'address' => [
+            'get',
+        ],
+        'adjustment' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'administrator' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'avatarImage' => [
+            'get',
+        ],
+        'catalogPromotion' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'catalogPromotionTranslation' => [
+            'get',
+        ],
+        'channel' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'country' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'currency' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'customer' => [
+            'get',
+        ],
+        'customerGroup' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'exchangeRate' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'locale' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'order' => [
+            'listPerPage',
+            'all',
+            'get',
+            'listPaymentsPerPage',
+            'allPayments',
+            'listShipmentPerPage',
+            'allShipments'
+        ],
+        'orderItem' => [
+            'get',
+        ],
+        'orderItemUnit' => [
+            'get',
+        ],
+        'payment' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'paymentMethod' => [
+            'get',
+        ],
+        'product' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'productAssociationType' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'productAssociationTypeTranslation' => [
+            'get',
+        ],
+        'productImage' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'productOption' => [
+            'listPerPage',
+            'all',
+            'get',
+            'listValuesPerPage',
+            'allValues',
+        ],
+        'productOptionTranslation' => [
+            'get',
+        ],
+        'productOptionValue' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'productReview' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'productTaxon' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'productTranslation' => [
+            'get',
+        ],
+        'productVariant' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'productVariantTranslation' => [
+            'get',
+        ],
+        'promotion' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'province' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'shipment' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'shippingCategory' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'shippingMethod' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'ShopBillingData' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'taxCategory' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'taxon' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'taxonTranslation' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'zone' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'zoneMember' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+    ];
+
+    private static array $endpointsShop = [
+        // Core Endpoints
+    ];
+
+    private static array $doubleEndpointsLegacy = [
         // Double resources Endpoints
         'productReviews',
         'productVariants',
         'promotionCoupons',
+    ];
+
+    private static array $doubleEndpointsAdmin = [
+        // Double resources Endpoints
+        'adjustment',
+        'province',
+        'shopBillingData',
+        'zoneMember',
+    ];
+
+    private static array $doubleEndpointsShop = [
+        // Double resources Endpoints
     ];
 
     public function getConfigTreeBuilder(): \Symfony\Component\Config\Definition\Builder\TreeBuilder
@@ -143,12 +352,33 @@ final class Extractor implements Config\Definition\ConfigurationInterface
             ->validate()
             ->ifArray()
             ->then(function (array $item) {
+                switch($item['api_type']) {
+                    case 'admin':
+                        $endpoints = self::$endpointsAdmin;
+                        $doubleEndpoints = self::$doubleEndpointsAdmin;
+                        break;
+                    case 'shop':
+                        $endpoints = self::$endpointsShop;
+                        $doubleEndpoints = self::$doubleEndpointsShop;
+                        break;
+                    case 'legacy':
+                        $endpoints = self::$endpointsLegacy;
+                        $doubleEndpoints = self::$doubleEndpointsLegacy;
+                        break;
+                    default:
+                        $endpoints = [];
+                        $doubleEndpoints = [];
+                        break;
+                }
+                if (!\in_array(array_keys(array_merge($endpoints, $doubleEndpoints)), $item['type'])) {
+                    throw new \InvalidArgumentException(sprintf('the value should be one of [%s], got %s', implode(', ', array_keys($endpoints)), json_encode($item['type'], \JSON_THROW_ON_ERROR)));
+                }
                 if (
-                    \array_key_exists($item['type'], self::$endpoints)
-                    && !\in_array($item['method'], self::$endpoints[$item['type']])
-                    && !\in_array($item['type'], self::$doubleEndpoints)
+                    \array_key_exists($item['type'], $endpoints)
+                    && !\in_array($item['method'], $endpoints[$item['type']])
+                    && !\in_array($item['type'], $doubleEndpoints)
                 ) {
-                    throw new \InvalidArgumentException(sprintf('The value should be one of [%s], got %s.', implode(', ', self::$endpoints[$item['type']]), json_encode($item['method'], \JSON_THROW_ON_ERROR)));
+                    throw new \InvalidArgumentException(sprintf('The value should be one of [%s], got %s.', implode(', ', $endpoints[$item['type']]), json_encode($item['method'], \JSON_THROW_ON_ERROR)));
                 }
 
                 return $item;
