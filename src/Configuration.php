@@ -6,6 +6,8 @@ namespace Kiboko\Plugin\Sylius;
 
 use Kiboko\Contract\Configurator\PluginConfigurationInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
+use function Kiboko\Component\SatelliteToolbox\Configuration\asExpression;
+use function Kiboko\Component\SatelliteToolbox\Configuration\isExpression;
 
 final class Configuration implements PluginConfigurationInterface
 {
@@ -26,6 +28,14 @@ final class Configuration implements PluginConfigurationInterface
             ->children()
                 ->arrayNode('expression_language')
                     ->scalarPrototype()->end()
+                ->end()
+                ->scalarNode('api_type')
+                    ->isRequired()
+                    ->cannotBeEmpty()
+                    ->validate()
+                        ->ifTrue(isExpression())
+                        ->then(asExpression())
+                    ->end()
                 ->end()
                 ->append(node: $extractor->getConfigTreeBuilder()->getRootNode())
                 ->append(node: $loader->getConfigTreeBuilder()->getRootNode())

@@ -74,7 +74,6 @@ final readonly class Client implements Configurator\FactoryInterface
                 compileValueWhenExpression($this->interpreter, $config['api_url']),
                 compileValueWhenExpression($this->interpreter, $config['client_id']),
                 compileValueWhenExpression($this->interpreter, $config['secret']),
-                compileValueWhenExpression($this->interpreter, $config['api_type']),
             );
 
             if (isset($config['context'])) {
@@ -90,6 +89,10 @@ final readonly class Client implements Configurator\FactoryInterface
                 if (isset($config['context']['filesystem'])) {
                     $clientBuilder->withFileSystem($this->buildFactoryNode($config['context']['filesystem']));
                 }
+            }
+
+            if (isset($config['api_type'])) {
+                $clientBuilder->withApiType($config['api_type']);
             }
 
             if (isset($config['password'])) {

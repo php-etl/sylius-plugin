@@ -89,9 +89,11 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
                 $extractor = $extractorFactory->compile($config['extractor']);
                 $extractorBuilder = $extractor->getBuilder();
 
+                $clientFactory->withApiType($config['extractor']['api_type']);
                 $client = $clientFactory->compile($config['client']);
 
                 $extractorBuilder->withClient($client->getBuilder()->getNode());
+                $extractorBuilder->withApiType($config['extractor']['api_type']);
 
                 $extractor->merge($client);
 
@@ -103,9 +105,11 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
                 $loader = $loaderFactory->compile($config['loader']);
                 $loaderBuilder = $loader->getBuilder();
 
+                $clientFactory->withApiType($config['loader']['api_type']);
                 $client = $clientFactory->compile($config['client']);
 
                 $loaderBuilder->withClient($client->getBuilder()->getNode());
+                $loaderBuilder->withApiType($config['loader']['api_type']);
 
                 $loader->merge($client);
 

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Kiboko\Plugin\Sylius\Builder;
 
+use Diglin\Sylius\ApiClient\SyliusAdminClientBuilder;
+use Diglin\Sylius\ApiClient\SyliusShopClientBuilder;
 use Kiboko\Plugin\Sylius\MissingAuthenticationMethodException;
 use PhpParser\Builder;
 use PhpParser\Node;
@@ -18,8 +20,13 @@ final class Client implements Builder
     private ?Node\Expr $httpRequestFactory = null;
     private ?Node\Expr $httpStreamFactory = null;
     private ?Node\Expr $fileSystem = null;
+    private string $apiType = '';
 
-    public function __construct(private readonly Node\Expr $baseUrl, private readonly Node\Expr $clientId, private readonly Node\Expr $secret, private readonly null|Node\Expr $apiType)
+    public const API_ADMIN_KEY = 'admin';
+    public const API_SHOP_KEY = 'shop';
+    public const API_LEGACY_KEY = 'legacy';
+
+    public function __construct(private readonly Node\Expr $baseUrl, private readonly Node\Expr $clientId, private readonly Node\Expr $secret)
     {
     }
 
@@ -27,6 +34,13 @@ final class Client implements Builder
     {
         $this->token = $token;
         $this->refreshToken = $refreshToken;
+
+        return $this;
+    }
+
+    public function withApiType(string $apiType): self
+    {
+        $this->apiType = $apiType;
 
         return $this;
     }
@@ -121,10 +135,9 @@ final class Client implements Builder
     private function getClientBuilderNode(): Node\Expr\MethodCall
     {
         $className = match ($this->apiType) {
-            'admin' => \Diglin\Sylius\ApiClient\SyliusAdminClientBuilder::class,
-            'store' => \Diglin\Sylius\ApiClient\SyliusShopClientBuilder::class,
-            'legacy' => 'Diglin\\Sylius\\ApiClient\\SyliusClientBuilder',
-            default => 'Diglin\\Sylius\\ApiClient\\SyliusClientBuilder',
+            self::API_ADMIN_KEY => SyliusAdminClientBuilder::class,
+            self::API_SHOP_KEY => SyliusShopClientBuilder::class,
+            self::API_LEGACY_KEY => 'Diglin\\Sylius\\ApiClient\\SyliusClientBuilder'
         };
 
         return new Node\Expr\MethodCall(
