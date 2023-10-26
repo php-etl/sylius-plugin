@@ -13,7 +13,7 @@ use function Kiboko\Component\SatelliteToolbox\Configuration\compileValue;
 
 final class All implements CapacityInterface
 {
-    private static array $endpoints = [
+    private static array $endpointsLegacy = [
         // Simple resources Endpoints
         'channels',
         'countries',
@@ -41,11 +41,78 @@ final class All implements CapacityInterface
         'zones',
     ];
 
-    private static array $doubleEndpoints = [
+    private static array $endpointsAdmin = [
+        // Simple Ressource Endpoints
+        'adjustment',
+        'administrator',
+        'catalogPromotion',
+        'channel',
+        'country',
+        'currency',
+        'customerGroup',
+        'exchangeRate',
+        'locale',
+        'order',
+        'payment',
+        'product',
+        'productAssociationType',
+        'productImage',
+        'productOption',
+        'productOptionValue',
+        'productReview',
+        'productTaxon',
+        'productVariant',
+        'promotion',
+        'province',
+        'shipment',
+        'shippingCategory',
+        'shippingMethod',
+        'ShopBillingData',
+        'taxCategory',
+        'taxon',
+        'taxonTranslation',
+        'zone',
+        'zoneMember',
+    ];
+
+    private static array $endpointsShop = [
+        // Simple Ressource Endpoints
+        'address',
+        'adjustment',
+        'country',
+        'currency',
+        'locale',
+        'order',
+        'orderItem',
+        'payment',
+        'paymentMethod',
+        'product',
+        'productReview',
+        'productVariant',
+        'shipment',
+        'shippingMethod',
+        'taxon',
+    ];
+
+    private static array $doubleEndpointsLegacy = [
         // Double resources Endpoints
         'productReviews',
         'productVariants',
         'promotionCoupons',
+    ];
+
+    private static array $doubleEndpointsAdmin = [
+        // Double resources Endpoints
+        'adjustment',
+        'province',
+        'shopBillingData',
+        'zoneMember',
+    ];
+
+    private static array $doubleEndpointsShop = [
+        // Double resources Endpoints
+        'adjustment',
+        'order',
     ];
 
     public function __construct(private readonly ExpressionLanguage $interpreter)
@@ -54,13 +121,31 @@ final class All implements CapacityInterface
 
     public function applies(array $config): bool
     {
+        switch($config['api_type']) {
+            case 'admin':
+                $endpoints = self::$endpointsAdmin;
+                $doubleEndpoints = self::$doubleEndpointsAdmin;
+                break;
+            case 'shop':
+                $endpoints = self::$endpointsShop;
+                $doubleEndpoints = self::$doubleEndpointsShop;
+                break;
+            case 'legacy':
+                $endpoints = self::$endpointsLegacy;
+                $doubleEndpoints = self::$doubleEndpointsLegacy;
+                break;
+            default:
+                $endpoints = [];
+                $doubleEndpoints = [];
+                break;
+        }
         return isset($config['type'])
-            && (\in_array($config['type'], self::$endpoints) || \in_array($config['type'], self::$doubleEndpoints))
+            && (\in_array($config['type'], $endpoints) || \in_array($config['type'], $doubleEndpoints))
             && isset($config['method'])
             && 'all' === $config['method'];
     }
 
-    private function compileFilters(array ...$filters): Node
+    private function compileFilters(array ...$filters): Node\Expr
     {
         $builder = new Sylius\Builder\Search();
         foreach ($filters as $filter) {
