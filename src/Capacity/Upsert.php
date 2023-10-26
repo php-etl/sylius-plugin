@@ -10,7 +10,7 @@ use PhpParser\Node;
 
 final class Upsert implements CapacityInterface
 {
-    private static array $endpoints = [
+    private static array $endpointsLegacy = [
         // Core Endpoints
         'carts',
         'channels',
@@ -42,10 +42,41 @@ final class Upsert implements CapacityInterface
         'zones',
     ];
 
+    private static array $endpointsAdmin = [
+        // Core Endpoints
+        'administrator',
+        'catalogPromotion',
+        'customerGroup',
+        'exchangeRate',
+        'product',
+        'productAssociationType',
+        'productOption',
+        'productReview',
+        'productVariant',
+        'province',
+        'shippingCategory',
+        'shippingMethod',
+        'taxCategory',
+        'taxon',
+        'zone',
+    ];
+
+    private static array $endpointsShop = [
+        // Core Endpoints
+        'address',
+        'customer',
+        'order',
+    ];
+
     public function applies(array $config): bool
     {
+        $endpoints = match($config['api_type']) {
+            'admin' => self::$endpointsAdmin,
+            'shop' =>self::$endpointsShop,
+            'legacy' => self::$endpointsLegacy,
+        };
         return isset($config['type'])
-            && \in_array($config['type'], self::$endpoints)
+            && \in_array($config['type'], $endpoints)
             && isset($config['method'])
             && 'upsert' === $config['method'];
     }

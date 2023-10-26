@@ -10,7 +10,7 @@ use PhpParser\Node;
 
 final class Create implements CapacityInterface
 {
-    private static array $endpoints = [
+    private static array $endpointsLegacy = [
         // Core Endpoints
         'channels',
         'countries',
@@ -40,10 +40,51 @@ final class Create implements CapacityInterface
         'zones',
     ];
 
+    private static array $endpointsAdmin = [
+        // Core Endpoints
+        'administrator',
+        'avatarImage',
+        'catalogPromotion',
+        'channel',
+        'country',
+        'currency',
+        'customerGroup',
+        'exchangeRate',
+        'locale',
+        'product',
+        'productAssociationType',
+        'productOption',
+        'productVariant',
+        'promotion',
+        'resetPasswordRequest',
+        'shippingCategory',
+        'shippingMethod',
+        'taxCategory',
+        'taxon',
+        'verifyCustomerAccount',
+        'zone',
+    ];
+
+    private static array $endpointsShop = [
+        // Core Endpoints
+        'address',
+        'customer',
+        'order',
+        'orderItem',
+        'productReview',
+        'resetPasswordRequest',
+        'verifyCustomerAccount',
+    ];
+
     public function applies(array $config): bool
     {
+        $endpoints = match($config['api_type']) {
+            'admin' => self::$endpointsAdmin,
+            'shop' =>self::$endpointsShop,
+            'legacy' => self::$endpointsLegacy,
+        };
         return isset($config['type'])
-            && \in_array($config['type'], self::$endpoints)
+            && \in_array($config['type'], $endpoints)
             && isset($config['method'])
             && 'create' === $config['method'];
     }
