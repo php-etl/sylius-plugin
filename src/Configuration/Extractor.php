@@ -190,7 +190,7 @@ final class Extractor implements Config\Definition\ConfigurationInterface
             'get',
             'listPaymentsPerPage',
             'allPayments',
-            'listShipmentPerPage',
+            'listShipmentsPerPage',
             'allShipments'
         ],
         'orderItem' => [
@@ -320,6 +320,128 @@ final class Extractor implements Config\Definition\ConfigurationInterface
 
     private static array $endpointsShop = [
         // Core Endpoints
+        'address' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'adjustment' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'catalogPromotion' => [
+            'get',
+        ],
+        'channel' => [
+            'get',
+        ],
+        'country' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'currency' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'customer' => [
+            'get',
+        ],
+        'locale' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'order' => [
+            'listPerPage',
+            'all',
+            'get',
+            'listPaymentMethodsPerPage',
+            'allPaymentMethods',
+            'listShipmentMethodsPerPage',
+            'allShipmentMethods',
+            'listAdjustmentsPerPage',
+            'allAdjustments',
+            'listItemsPerPage',
+            'allItems',
+        ],
+        'orderItem' => [
+            'listPerPage',
+            'all',
+            'get',
+            'listAdjustmentsPerPage',
+            'allAdjustments',
+        ],
+        'orderItemUnit' => [
+            'get',
+        ],
+        'payment' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'paymentMethod' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'product' => [
+            'listPerPage',
+            'all',
+            'get',
+            'getBySlug',
+        ],
+        'productImage' => [
+            'get',
+        ],
+        'productOption' => [
+            'get',
+        ],
+        'productOptionValue' => [
+            'get',
+        ],
+        'productReview' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'productTaxon' => [
+            'get',
+        ],
+        'productTranslation' => [
+            'get',
+        ],
+        'productVariant' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'productVariantTranslation' => [
+            'get',
+        ],
+        'shipment' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'shippingMethod' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'shippingMethodTranslation' => [
+            'get',
+        ],
+        'taxon' => [
+            'listPerPage',
+            'all',
+            'get',
+        ],
+        'taxonTranslation' => [
+            'get',
+        ],
     ];
 
     private static array $doubleEndpointsLegacy = [
@@ -339,6 +461,8 @@ final class Extractor implements Config\Definition\ConfigurationInterface
 
     private static array $doubleEndpointsShop = [
         // Double resources Endpoints
+        'adjustment',
+        'order',
     ];
 
     public function getConfigTreeBuilder(): \Symfony\Component\Config\Definition\Builder\TreeBuilder
@@ -370,8 +494,8 @@ final class Extractor implements Config\Definition\ConfigurationInterface
                         $doubleEndpoints = [];
                         break;
                 }
-                if (!\in_array(array_keys(array_merge($endpoints, $doubleEndpoints)), $item['type'])) {
-                    throw new \InvalidArgumentException(sprintf('the value should be one of [%s], got %s', implode(', ', array_keys($endpoints)), json_encode($item['type'], \JSON_THROW_ON_ERROR)));
+                if (!\in_array($item['type'], array_merge(array_keys($endpoints), $doubleEndpoints))) {
+                    throw new \InvalidArgumentException(sprintf('the value should be one of [%s], got %s', implode(', ', array_merge(array_keys($endpoints), $doubleEndpoints)), json_encode($item['type'], \JSON_THROW_ON_ERROR)));
                 }
                 if (
                     \array_key_exists($item['type'], $endpoints)
@@ -380,19 +504,12 @@ final class Extractor implements Config\Definition\ConfigurationInterface
                 ) {
                     throw new \InvalidArgumentException(sprintf('The value should be one of [%s], got %s.', implode(', ', $endpoints[$item['type']]), json_encode($item['method'], \JSON_THROW_ON_ERROR)));
                 }
+                if (\in_array($item['type'], $doubleEndpoints) && !\array_key_exists('code', $item)) {
+                    throw new \InvalidArgumentException(sprintf('The %s type should have a "code" field set.', $item['type']));
+                }
 
                 return $item;
             })
-            ->end()
-            ->validate()
-                ->ifArray()
-                ->then(function (array $item) {
-                    if (\in_array($item['type'], self::$doubleEndpoints) && !\array_key_exists('code', $item)) {
-                        throw new \InvalidArgumentException(sprintf('The %s type should have a "code" field set.', $item['type']));
-                    }
-
-                    return $item;
-                })
             ->end()
             ->children()
                 ->scalarNode('api_type')
@@ -401,15 +518,6 @@ final class Extractor implements Config\Definition\ConfigurationInterface
                 ->end()
                 ->scalarNode('type')
                     ->isRequired()
-                    ->validate()
-                        ->ifNotInArray(array_merge(array_keys(self::$endpoints), self::$doubleEndpoints))
-                        ->thenInvalid(
-                            sprintf(
-                                'the value should be one of [%s], got %%s',
-                                implode(', ', array_merge(array_keys(self::$endpoints), self::$doubleEndpoints))
-                            )
-                        )
-                    ->end()
                 ->end()
                 ->scalarNode('method')->end()
                 ->scalarNode('code')

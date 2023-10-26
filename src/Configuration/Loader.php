@@ -220,7 +220,39 @@ final class Loader implements Config\Definition\ConfigurationInterface
 
     private static array $endpointsShop = [
         // Core Endpoints
-
+        'address' => [
+            'create',
+            'delete',
+            'upsert',
+        ],
+        'customer' => [
+            'create',
+            'upsert',
+            'changePassword',
+        ],
+        'order' => [
+            'create',
+            'upsert',
+            'choosePayment',
+            'chooseShipment',
+            'complete',
+        ],
+        'orderItem' => [
+            'create',
+            'delete',
+            'changeQuantity',
+        ],
+        'productReview' => [
+            'create',
+        ],
+        'resetPasswordRequest' => [
+            'create',
+            'verify',
+        ],
+        'verifyCustomerAccount' => [
+            'create',
+            'verify',
+        ],
     ];
 
     public function getConfigTreeBuilder(): \Symfony\Component\Config\Definition\Builder\TreeBuilder
@@ -237,7 +269,7 @@ final class Loader implements Config\Definition\ConfigurationInterface
                         'shop' => self::$endpointsShop,
                         'legacy' => self::$endpointsLegacy
                     };
-                    if (!\in_array(array_keys($endpoints), $item['type'])) {
+                    if (!\in_array($item['type'], array_keys($endpoints))) {
                         throw new \InvalidArgumentException(sprintf('the value should be one of [%s], got %s', implode(', ', array_keys($endpoints)), json_encode($item['type'], \JSON_THROW_ON_ERROR)));
                     }
                     if (!\in_array($item['method'], $endpoints[$item['type']])) {
