@@ -7,6 +7,7 @@ namespace Kiboko\Plugin\Sylius\Builder;
 use Diglin\Sylius\ApiClient\SyliusAdminClientBuilder;
 use Diglin\Sylius\ApiClient\SyliusShopClientBuilder;
 use Kiboko\Plugin\Sylius\MissingAuthenticationMethodException;
+use Kiboko\Plugin\Sylius\Validator\ApiType;
 use PhpParser\Builder;
 use PhpParser\Node;
 
@@ -20,7 +21,7 @@ final class Client implements Builder
     private ?Node\Expr $httpRequestFactory = null;
     private ?Node\Expr $httpStreamFactory = null;
     private ?Node\Expr $fileSystem = null;
-    private string $apiType = '';
+    private string $apiType;
 
     public const API_ADMIN_KEY = 'admin';
     public const API_SHOP_KEY = 'shop';
@@ -135,9 +136,9 @@ final class Client implements Builder
     private function getClientBuilderNode(): Node\Expr\MethodCall
     {
         $className = match ($this->apiType) {
-            self::API_ADMIN_KEY => SyliusAdminClientBuilder::class,
-            self::API_SHOP_KEY => SyliusShopClientBuilder::class,
-            self::API_LEGACY_KEY => 'Diglin\\Sylius\\ApiClient\\SyliusClientBuilder'
+            ApiType::ADMIN->value => SyliusAdminClientBuilder::class,
+            ApiType::SHOP->value => SyliusShopClientBuilder::class,
+            ApiType::LEGACY->value => 'Diglin\\Sylius\\ApiClient\\SyliusClientBuilder',
         };
 
         return new Node\Expr\MethodCall(

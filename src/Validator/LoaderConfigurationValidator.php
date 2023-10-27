@@ -252,9 +252,9 @@ class LoaderConfigurationValidator implements ConfigurationValidatorInterface
     public static function validate(array $item): array
     {
         $endpoints = match ($item['api_type']) {
-            'admin' => self::$endpointsAdmin,
-            'shop' => self::$endpointsShop,
-            'legacy' => self::$endpointsLegacy
+            ApiType::ADMIN->value => self::$endpointsAdmin,
+            ApiType::SHOP->value => self::$endpointsShop,
+            ApiType::LEGACY->value => self::$endpointsLegacy
         };
         if (!\in_array($item['type'], array_keys($endpoints))) {
             throw new \InvalidArgumentException(sprintf('the value should be one of [%s], got %s', implode(', ', array_keys($endpoints)), json_encode($item['type'], \JSON_THROW_ON_ERROR)));

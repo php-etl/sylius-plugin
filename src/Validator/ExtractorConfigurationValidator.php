@@ -459,15 +459,15 @@ class ExtractorConfigurationValidator implements ConfigurationValidatorInterface
     public static function validate(array $item): array
     {
         switch($item['api_type']) {
-            case 'admin':
+            case ApiType::ADMIN->value:
                 $endpoints = self::$endpointsAdmin;
                 $doubleEndpoints = self::$doubleEndpointsAdmin;
                 break;
-            case 'shop':
+            case ApiType::SHOP->value:
                 $endpoints = self::$endpointsShop;
                 $doubleEndpoints = self::$doubleEndpointsShop;
                 break;
-            case 'legacy':
+            case ApiType::LEGACY->value:
                 $endpoints = self::$endpointsLegacy;
                 $doubleEndpoints = self::$doubleEndpointsLegacy;
                 break;
