@@ -18,9 +18,7 @@ final class Loader implements Config\Definition\ConfigurationInterface
         $builder->getRootNode()
             ->validate()
             ->ifArray()
-                ->then(function (array $item) {
-                    return LoaderConfigurationValidator::validate($item);
-                })
+                ->then(fn(array $item) => LoaderConfigurationValidator::validate($item))
             ->end()
             ->children()
                 ->scalarNode('api_type')

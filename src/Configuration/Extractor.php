@@ -24,9 +24,7 @@ final class Extractor implements Config\Definition\ConfigurationInterface
         $builder->getRootNode()
             ->validate()
             ->ifArray()
-            ->then(function (array $item) {
-                return ExtractorConfigurationValidator::validate($item);
-            })
+            ->then(fn(array $item) => ExtractorConfigurationValidator::validate($item))
             ->end()
             ->children()
                 ->scalarNode('api_type')
