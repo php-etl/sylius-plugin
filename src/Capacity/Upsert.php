@@ -7,7 +7,6 @@ namespace Kiboko\Plugin\Sylius\Capacity;
 use Kiboko\Plugin\Sylius;
 use PhpParser\Builder;
 use PhpParser\Node;
-use UnhandledMatchError;
 
 final class Upsert implements CapacityInterface
 {
@@ -78,7 +77,7 @@ final class Upsert implements CapacityInterface
             'admin' => self::$endpointsAdmin,
             'shop' => self::$endpointsShop,
             'legacy' => self::$endpointsLegacy,
-            default => throw new UnhandledMatchError($config['api_type'])
+            default => throw new \UnhandledMatchError($config['api_type'])
         };
 
         return isset($config['type'])

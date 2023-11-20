@@ -10,7 +10,6 @@ use Kiboko\Plugin\Sylius\MissingAuthenticationMethodException;
 use Kiboko\Plugin\Sylius\Validator\ApiType;
 use PhpParser\Builder;
 use PhpParser\Node;
-use UnhandledMatchError;
 
 final class Client implements Builder
 {
@@ -138,7 +137,7 @@ final class Client implements Builder
             ApiType::ADMIN->value => SyliusAdminClientBuilder::class,
             ApiType::SHOP->value => SyliusShopClientBuilder::class,
             ApiType::LEGACY->value => 'Diglin\\Sylius\\ApiClient\\SyliusClientBuilder',
-            default => throw new UnhandledMatchError($this->apiType)
+            default => throw new \UnhandledMatchError($this->apiType)
         };
 
         return new Node\Expr\MethodCall(
