@@ -78,6 +78,9 @@ final class Create implements CapacityInterface
 
     public function applies(array $config): bool
     {
+        if (!isset($config['api_type'])) {
+            return false;
+        }
         $endpoints = match($config['api_type']) {
             'admin' => self::$endpointsAdmin,
             'shop' =>self::$endpointsShop,

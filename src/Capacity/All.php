@@ -121,6 +121,9 @@ final class All implements CapacityInterface
 
     public function applies(array $config): bool
     {
+        if (!isset($config['api_type'])) {
+            return false;
+        }
         switch($config['api_type']) {
             case 'admin':
                 $endpoints = self::$endpointsAdmin;
