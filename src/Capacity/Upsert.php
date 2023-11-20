@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Kiboko\Plugin\Sylius\Capacity;
 
 use Kiboko\Plugin\Sylius;
+use Kiboko\Plugin\Sylius\Validator\ApiType;
 use PhpParser\Builder;
 use PhpParser\Node;
 
@@ -70,14 +71,11 @@ final class Upsert implements CapacityInterface
 
     public function applies(array $config): bool
     {
-        if (!isset($config['api_type'])) {
-            return false;
-        }
         $endpoints = match ($config['api_type']) {
             'admin' => self::$endpointsAdmin,
             'shop' => self::$endpointsShop,
             'legacy' => self::$endpointsLegacy,
-            default => throw new \UnhandledMatchError($config['api_type'])
+            default => throw new \InvalidArgumentException(sprintf('The value of api_type should be one of [%s], got %s.', implode(', ', ApiType::casesValue()), json_encode($config['api_type'], \JSON_THROW_ON_ERROR)))
         };
 
         return isset($config['type'])

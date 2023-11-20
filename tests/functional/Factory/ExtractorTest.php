@@ -6,6 +6,7 @@ namespace functional\Kiboko\Plugin\Sylius\Factory;
 
 use Kiboko\Contract\Configurator\InvalidConfigurationException;
 use Kiboko\Plugin\Sylius\Factory\Extractor;
+use Kiboko\Plugin\Sylius\Factory\Loader;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
@@ -30,7 +31,18 @@ final class ExtractorTest extends TestCase
         ];
     }
 
-    public static function wrongConfigs(): \Generator
+    public static function wrongApiType(): \Generator
+    {
+        yield [
+            'config' => [
+                'type' => 'products',
+                'method' => 'get',
+                'api_type' => 'wrong',
+            ],
+        ];
+    }
+
+    public static function missingApiType(): \Generator
     {
         yield [
             'config' => [
@@ -39,6 +51,43 @@ final class ExtractorTest extends TestCase
         yield [
             'config' => [
                 'wrong',
+            ],
+        ];
+        yield [
+            'config' => [
+                'type' => 'products',
+            ],
+        ];
+        yield [
+            'config' => [
+                'method' => 'get',
+            ],
+        ];
+        yield [
+            'config' => [
+                'type' => 'products',
+                'method' => 'get',
+            ],
+        ];
+    }
+
+    public static function missingCapacityConfigs(): \Generator
+    {
+        yield [
+            'config' => [
+                'api_type' => 'legacy',
+            ],
+        ];
+        yield [
+            'config' => [
+                'type' => 'products',
+                'api_type' => 'legacy',
+            ],
+        ];
+        yield [
+            'config' => [
+                'api_type' => 'legacy',
+                'method' => 'get',
             ],
         ];
         yield [
@@ -55,17 +104,6 @@ final class ExtractorTest extends TestCase
                 'api_type' => 'legacy',
             ],
         ];
-        yield [
-            'config' => [
-                'type' => 'products',
-                'api_type' => 'legacy',
-            ],
-        ];
-        yield [
-            'config' => [
-                'type' => 'products',
-            ],
-        ];
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('validDataProvider')]
@@ -76,7 +114,34 @@ final class ExtractorTest extends TestCase
         $client->compile($config);
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('wrongConfigs')]
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('wrongApiType')]
+    public function testWrongApiType(array $config)
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage('The value of api_type should be one of [admin, shop, legacy], got "wrong".');
+
+        $client = new Loader();
+        $this->assertFalse($client->validate($config));
+        $client->compile($config);
+    }
+
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('missingApiType')]
+    public function testMissingApiType(array $config)
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage('The value of api_type should be one of [admin, shop, legacy], got null.');
+
+        $client = new Loader();
+        $this->assertFalse($client->validate($config));
+        $client->compile($config);
+    }
+
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('missingCapacityConfigs')]
     public function testMissingCapacity(array $config): void
     {
         $this->expectException(InvalidConfigurationException::class);
