@@ -7,6 +7,7 @@ namespace Kiboko\Plugin\Sylius\Builder;
 use Kiboko\Contract\Configurator\StepBuilderInterface;
 use PhpParser\Builder;
 use PhpParser\Node;
+use UnhandledMatchError;
 
 final class Loader implements StepBuilderInterface
 {
@@ -141,6 +142,7 @@ final class Loader implements StepBuilderInterface
             Client::API_ADMIN_KEY => \Diglin\Sylius\ApiClient\SyliusAdminClientInterface::class,
             Client::API_LEGACY_KEY => \Diglin\Sylius\ApiClient\SyliusLegacyClientInterface::class,
             Client::API_SHOP_KEY => \Diglin\Sylius\ApiClient\SyliusShopClientInterface::class,
+            default => throw new UnhandledMatchError($this->apiType)
         };
 
         return [

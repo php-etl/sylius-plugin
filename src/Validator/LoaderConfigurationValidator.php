@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Kiboko\Plugin\Sylius\Validator;
 
+use UnhandledMatchError;
+
 class LoaderConfigurationValidator implements ConfigurationValidatorInterface
 {
     private static array $endpointsLegacy = [
@@ -260,7 +262,8 @@ class LoaderConfigurationValidator implements ConfigurationValidatorInterface
         return match (self::$currentApiType) {
             ApiType::ADMIN->value => self::$endpointsAdmin,
             ApiType::SHOP->value => self::$endpointsShop,
-            ApiType::LEGACY->value => self::$endpointsLegacy
+            ApiType::LEGACY->value => self::$endpointsLegacy,
+            default => throw new UnhandledMatchError(self::$currentApiType),
         };
     }
 

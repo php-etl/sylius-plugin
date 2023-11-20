@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Kiboko\Plugin\Sylius\Validator;
 
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
+use UnhandledMatchError;
 
 class ExtractorConfigurationValidator implements ConfigurationValidatorInterface
 {
@@ -461,14 +462,13 @@ class ExtractorConfigurationValidator implements ConfigurationValidatorInterface
         'order',
     ];
 
-    private static array $item = [];
-
     public static function getEndpointsApiType(): array
     {
         return match (self::$currentApiType) {
             ApiType::ADMIN->value => self::$endpointsAdmin,
             ApiType::SHOP->value => self::$endpointsShop,
-            ApiType::LEGACY->value => self::$endpointsLegacy
+            ApiType::LEGACY->value => self::$endpointsLegacy,
+            default => throw new UnhandledMatchError(self::$currentApiType)
         };
     }
 
@@ -477,7 +477,8 @@ class ExtractorConfigurationValidator implements ConfigurationValidatorInterface
         return match (self::$currentApiType) {
             ApiType::ADMIN->value => self::$doubleEndpointsAdmin,
             ApiType::SHOP->value => self::$doubleEndpointsShop,
-            ApiType::LEGACY->value => self::$doubleEndpointsLegacy
+            ApiType::LEGACY->value => self::$doubleEndpointsLegacy,
+            default => throw new UnhandledMatchError(self::$currentApiType)
         };
     }
     public static string $currentApiType;
