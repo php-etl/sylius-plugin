@@ -2,6 +2,9 @@
 
 namespace Kiboko\Plugin\Sylius\Validator;
 
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
+use function PHPUnit\Framework\isEmpty;
+
 class ExtractorConfigurationValidator implements ConfigurationValidatorInterface
 {
     private static array $endpointsLegacy = [
@@ -456,40 +459,77 @@ class ExtractorConfigurationValidator implements ConfigurationValidatorInterface
         'adjustment',
         'order',
     ];
+
+    private static array $item = [];
+
+    public static function getEndpointsApiType(): array
+    {
+        return match (self::$currentApiType) {
+            ApiType::ADMIN->value => self::$endpointsAdmin,
+            ApiType::SHOP->value => self::$endpointsShop,
+            ApiType::LEGACY->value => self::$endpointsLegacy
+        };
+    }
+
+    public static function getDoubleEndpointsApiType(): array
+    {
+        return match (self::$currentApiType) {
+            ApiType::ADMIN->value => self::$doubleEndpointsAdmin,
+            ApiType::SHOP->value => self::$doubleEndpointsShop,
+            ApiType::LEGACY->value => self::$doubleEndpointsLegacy
+        };
+    }
+    public static string $currentApiType;
+    public static string $currentType;
+
     public static function validate(array $item): array
     {
-        switch($item['api_type']) {
-            case ApiType::ADMIN->value:
-                $endpoints = self::$endpointsAdmin;
-                $doubleEndpoints = self::$doubleEndpointsAdmin;
-                break;
-            case ApiType::SHOP->value:
-                $endpoints = self::$endpointsShop;
-                $doubleEndpoints = self::$doubleEndpointsShop;
-                break;
-            case ApiType::LEGACY->value:
-                $endpoints = self::$endpointsLegacy;
-                $doubleEndpoints = self::$doubleEndpointsLegacy;
-                break;
-            default:
-                $endpoints = [];
-                $doubleEndpoints = [];
-                break;
+        if(\in_array($item['type'], self::getDoubleEndpointsApiType()) && !\array_key_exists('code', $item)) {
+            throw new InvalidConfigurationException('The code parameters is required and cannot be empty because you choose a type: ' . $item['type']);
         }
-        if (!\in_array($item['type'], array_merge(array_keys($endpoints), $doubleEndpoints))) {
-            throw new \InvalidArgumentException(sprintf('the value should be one of [%s], got %s', implode(', ', array_merge(array_keys($endpoints), $doubleEndpoints)), json_encode($item['type'], \JSON_THROW_ON_ERROR)));
-        }
-        if (
-            \array_key_exists($item['type'], $endpoints)
-            && !\in_array($item['method'], $endpoints[$item['type']])
-            && !\in_array($item['type'], $doubleEndpoints)
-        ) {
-            throw new \InvalidArgumentException(sprintf('The value should be one of [%s], got %s.', implode(', ', $endpoints[$item['type']]), json_encode($item['method'], \JSON_THROW_ON_ERROR)));
-        }
-        if (\in_array($item['type'], $doubleEndpoints) && !\array_key_exists('code', $item)) {
-            throw new \InvalidArgumentException(sprintf('The %s type should have a "code" field set.', $item['type']));
-        }
-
         return $item;
+    }
+
+    public static function validateApiType(string $apiType)
+    {
+        self::$currentApiType = $apiType;
+        if(!\in_array($apiType, ApiType::casesValue())){
+            throw new \InvalidArgumentException(sprintf('the value should be one of [%s], got %s.', implode(', ', ApiType::casesValue()), json_encode($apiType, \JSON_THROW_ON_ERROR)));
+        }
+        return $apiType;
+    }
+
+    public static function validateType(string $type)
+    {
+        self::$currentType = $type;
+        $endpoints = self::getEndpointsApiType();
+        $doubleEndpoints = self::getDoubleEndpointsApiType();
+        if (!\in_array($type, array_merge(array_keys($endpoints), $doubleEndpoints))) {
+            throw new \InvalidArgumentException(sprintf('the value should be one of [%s], got %s.', implode(', ', array_merge(array_keys($endpoints), $doubleEndpoints)), json_encode($type, \JSON_THROW_ON_ERROR)));
+        }
+        return $type;
+    }
+
+    public static function validateMethod(string $method)
+    {
+        $endpoints = self::getEndpointsApiType();
+        $doubleEndpoints = self::getDoubleEndpointsApiType();
+        if (
+            \array_key_exists(self::$currentType, $endpoints)
+            && !\in_array($method, $endpoints[self::$currentType])
+            && !\in_array(self::$currentType, $doubleEndpoints)
+        ) {
+            throw new \InvalidArgumentException(sprintf('The value should be one of [%s], got %s.', implode(', ', $endpoints[self::$currentType]), json_encode($method, \JSON_THROW_ON_ERROR)));
+        }
+        return $method;
+    }
+
+    public static function validateCode(string $code)
+    {
+        $doubleEndpoints = self::getDoubleEndpointsApiType();
+        if (\in_array(self::$currentType, $doubleEndpoints)) {
+            throw new \InvalidArgumentException(sprintf('The %s type should have a "code" field set.', self::$currentType), json_encode($code, \JSON_THROW_ON_ERROR));
+        }
+        return $code;
     }
 }

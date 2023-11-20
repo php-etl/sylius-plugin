@@ -47,6 +47,7 @@ final class LoaderTest extends BuilderTestCase
 
         $builder = new Loader($capacity);
         $builder->withClient($client->getNode());
+        $builder->withApiType('legacy');
 
         $this->assertBuildsLoaderLoadsExactly(
             [
@@ -95,6 +96,7 @@ final class LoaderTest extends BuilderTestCase
 
         $builder = new Loader($capacity);
         $builder->withClient($client->getNode());
+        $builder->withApiType('legacy');
 
         $this->assertBuildsLoaderLoadsExactly(
             [

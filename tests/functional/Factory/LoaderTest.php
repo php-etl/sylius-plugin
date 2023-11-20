@@ -16,6 +16,7 @@ final class LoaderTest extends TestCase
             [
                 'type' => 'products',
                 'method' => 'create',
+                'api_type' => 'legacy',
             ],
         ];
 
@@ -23,6 +24,7 @@ final class LoaderTest extends TestCase
             [
                 'type' => 'products',
                 'method' => 'upsert',
+                'api_type' => 'legacy',
             ],
         ];
     }
@@ -42,17 +44,20 @@ final class LoaderTest extends TestCase
             'config' => [
                 'type' => 'wrong',
                 'method' => 'all',
+                'api_type' => 'legacy',
             ],
         ];
         yield [
             'config' => [
                 'type' => 'products',
                 'method' => 'wrong',
+                'api_type' => 'legacy',
             ],
         ];
         yield [
             'config' => [
                 'type' => 'products',
+                'api_type' => 'legacy',
             ],
         ];
     }

@@ -2,6 +2,8 @@
 
 namespace Kiboko\Plugin\Sylius\Validator;
 
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
+
 class LoaderConfigurationValidator implements ConfigurationValidatorInterface
 {
     private static array $endpointsLegacy = [
@@ -249,19 +251,59 @@ class LoaderConfigurationValidator implements ConfigurationValidatorInterface
             'verify',
         ],
     ];
-    public static function validate(array $item): array
+
+
+    public static string $currentApiType;
+    public static string $currentType;
+
+    public static function getEndpointsApiType(): array
     {
-        $endpoints = match ($item['api_type']) {
+        return match (self::$currentApiType) {
             ApiType::ADMIN->value => self::$endpointsAdmin,
             ApiType::SHOP->value => self::$endpointsShop,
             ApiType::LEGACY->value => self::$endpointsLegacy
         };
+    }
+    public static function validate(array $item): array
+    {
+        $endpoints = self::getEndpointsApiType();
         if (!\in_array($item['type'], array_keys($endpoints))) {
-            throw new \InvalidArgumentException(sprintf('the value should be one of [%s], got %s', implode(', ', array_keys($endpoints)), json_encode($item['type'], \JSON_THROW_ON_ERROR)));
+            throw new \InvalidArgumentException(sprintf('the value "type" should be one of [%s], got %s', implode(', ', array_keys($endpoints)), json_encode($item['type'], \JSON_THROW_ON_ERROR)));
         }
         if (!\in_array($item['method'], $endpoints[$item['type']])) {
-            throw new \InvalidArgumentException(sprintf('the value should be one of [%s], got %s', implode(', ', $endpoints[$item['type']]), json_encode($item['method'], \JSON_THROW_ON_ERROR)));
+            throw new \InvalidArgumentException(sprintf('the value "method" should be one of [%s], got %s', implode(', ', $endpoints[$item['type']]), json_encode($item['method'], \JSON_THROW_ON_ERROR)));
         }
         return $item;
+    }
+
+    public static function validateApiType(string $apiType)
+    {
+        self::$currentApiType = $apiType;
+        if(!\in_array($apiType, ApiType::casesValue())){
+            throw new \InvalidArgumentException(sprintf('the value should be one of [%s], got %s.', implode(', ', ApiType::casesValue()), json_encode($apiType, \JSON_THROW_ON_ERROR)));
+        }
+        return $apiType;
+    }
+
+    public static function validateType(string $type)
+    {
+        self::$currentType = $type;
+        $endpoints = self::getEndpointsApiType();
+        if (!\in_array($type, array_keys($endpoints))) {
+            throw new \InvalidArgumentException(sprintf('the value should be one of [%s], got %s.', implode(', ', array_keys($endpoints)), json_encode($type, \JSON_THROW_ON_ERROR)));
+        }
+        return $type;
+    }
+
+    public static function validateMethod(string $method)
+    {
+        $endpoints = self::getEndpointsApiType();
+        if (
+            \array_key_exists(self::$currentType, $endpoints)
+            && !\in_array($method, $endpoints[self::$currentType])
+        ) {
+            throw new \InvalidArgumentException(sprintf('The value should be one of [%s], got %s.', implode(', ', $endpoints[self::$currentType]), json_encode($method, \JSON_THROW_ON_ERROR)));
+        }
+        return $method;
     }
 }

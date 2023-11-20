@@ -17,6 +17,7 @@ final class ExtractorTest extends TestCase
             [
                 'type' => 'products',
                 'method' => 'all',
+                'api_type' => 'legacy',
             ],
         ];
 
@@ -24,6 +25,7 @@ final class ExtractorTest extends TestCase
             [
                 'type' => 'products',
                 'method' => 'listPerPage',
+                'api_type' => 'legacy',
             ],
         ];
     }
@@ -43,12 +45,20 @@ final class ExtractorTest extends TestCase
             'config' => [
                 'type' => 'wrong',
                 'method' => 'all',
+                'api_type' => 'legacy',
             ],
         ];
         yield [
             'config' => [
                 'type' => 'products',
                 'method' => 'wrong',
+                'api_type' => 'legacy',
+            ],
+        ];
+        yield [
+            'config' => [
+                'type' => 'products',
+                'api_type' => 'legacy',
             ],
         ];
         yield [

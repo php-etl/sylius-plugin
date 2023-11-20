@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kiboko\Plugin\Sylius\Configuration;
 
+use Kiboko\Plugin\Sylius\Validator\ApiType;
 use Kiboko\Plugin\Sylius\Validator\LoaderConfigurationValidator;
 use Symfony\Component\Config;
 
@@ -16,22 +17,27 @@ final class Loader implements Config\Definition\ConfigurationInterface
 
         /* @phpstan-ignore-next-line */
         $builder->getRootNode()
-            ->validate()
-            ->ifArray()
-                ->then(fn(array $item) => LoaderConfigurationValidator::validate($item))
-            ->end()
             ->children()
                 ->scalarNode('api_type')
                     ->isRequired()
                     ->cannotBeEmpty()
+                    ->validate()
+                        ->always(fn(string $item) => LoaderConfigurationValidator::validateApiType($item))
+                    ->end()
                 ->end()
                 ->scalarNode('type')
                     ->isRequired()
                     ->cannotBeEmpty()
+                    ->validate()
+                        ->always(fn(string $item) => LoaderConfigurationValidator::validateType($item))
+                    ->end()
                 ->end()
                 ->scalarNode('method')
                     ->isRequired()
                     ->cannotBeEmpty()
+                    ->validate()
+                        ->always(fn(string $item) => LoaderConfigurationValidator::validateMethod($item))
+                    ->end()
                 ->end()
             ->end()
         ;
