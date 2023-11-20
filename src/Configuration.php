@@ -6,8 +6,6 @@ namespace Kiboko\Plugin\Sylius;
 
 use Kiboko\Contract\Configurator\PluginConfigurationInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
-use function Kiboko\Component\SatelliteToolbox\Configuration\asExpression;
-use function Kiboko\Component\SatelliteToolbox\Configuration\isExpression;
 
 final class Configuration implements PluginConfigurationInterface
 {

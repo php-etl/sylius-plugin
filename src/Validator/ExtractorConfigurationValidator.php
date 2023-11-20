@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Kiboko\Plugin\Sylius\Validator;
 
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
-use function PHPUnit\Framework\isEmpty;
 
 class ExtractorConfigurationValidator implements ConfigurationValidatorInterface
 {
@@ -186,7 +187,7 @@ class ExtractorConfigurationValidator implements ConfigurationValidatorInterface
             'listPaymentsPerPage',
             'allPayments',
             'listShipmentsPerPage',
-            'allShipments'
+            'allShipments',
         ],
         'orderItem' => [
             'get',
@@ -484,18 +485,20 @@ class ExtractorConfigurationValidator implements ConfigurationValidatorInterface
 
     public static function validate(array $item): array
     {
-        if(\in_array($item['type'], self::getDoubleEndpointsApiType()) && !\array_key_exists('code', $item)) {
-            throw new InvalidConfigurationException('The code parameters is required and cannot be empty because you choose a type: ' . $item['type']);
+        if (\in_array($item['type'], self::getDoubleEndpointsApiType()) && !\array_key_exists('code', $item)) {
+            throw new InvalidConfigurationException('The code parameters is required and cannot be empty because you choose a type: '.$item['type']);
         }
+
         return $item;
     }
 
     public static function validateApiType(string $apiType)
     {
         self::$currentApiType = $apiType;
-        if(!\in_array($apiType, ApiType::casesValue())){
+        if (!\in_array($apiType, ApiType::casesValue())) {
             throw new \InvalidArgumentException(sprintf('the value should be one of [%s], got %s.', implode(', ', ApiType::casesValue()), json_encode($apiType, \JSON_THROW_ON_ERROR)));
         }
+
         return $apiType;
     }
 
@@ -507,6 +510,7 @@ class ExtractorConfigurationValidator implements ConfigurationValidatorInterface
         if (!\in_array($type, array_merge(array_keys($endpoints), $doubleEndpoints))) {
             throw new \InvalidArgumentException(sprintf('the value should be one of [%s], got %s.', implode(', ', array_merge(array_keys($endpoints), $doubleEndpoints)), json_encode($type, \JSON_THROW_ON_ERROR)));
         }
+
         return $type;
     }
 
@@ -521,6 +525,7 @@ class ExtractorConfigurationValidator implements ConfigurationValidatorInterface
         ) {
             throw new \InvalidArgumentException(sprintf('The value should be one of [%s], got %s.', implode(', ', $endpoints[self::$currentType]), json_encode($method, \JSON_THROW_ON_ERROR)));
         }
+
         return $method;
     }
 
@@ -530,6 +535,7 @@ class ExtractorConfigurationValidator implements ConfigurationValidatorInterface
         if (\in_array(self::$currentType, $doubleEndpoints)) {
             throw new \InvalidArgumentException(sprintf('The %s type should have a "code" field set.', self::$currentType), json_encode($code, \JSON_THROW_ON_ERROR));
         }
+
         return $code;
     }
 }

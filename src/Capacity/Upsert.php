@@ -73,11 +73,12 @@ final class Upsert implements CapacityInterface
         if (!isset($config['api_type'])) {
             return false;
         }
-        $endpoints = match($config['api_type']) {
+        $endpoints = match ($config['api_type']) {
             'admin' => self::$endpointsAdmin,
-            'shop' =>self::$endpointsShop,
+            'shop' => self::$endpointsShop,
             'legacy' => self::$endpointsLegacy,
         };
+
         return isset($config['type'])
             && \in_array($config['type'], $endpoints)
             && isset($config['method'])

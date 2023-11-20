@@ -50,7 +50,7 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
     {
         try {
             return $this->processor->processConfiguration($this->configuration, $config);
-        } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
+        } catch (Symfony\InvalidConfigurationException|Symfony\InvalidTypeException $exception) {
             throw new InvalidConfigurationException($exception->getMessage(), 0, $exception);
         }
     }
@@ -61,7 +61,7 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
             $this->processor->processConfiguration($this->configuration, $config);
 
             return true;
-        } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException) {
+        } catch (Symfony\InvalidConfigurationException|Symfony\InvalidTypeException) {
             return false;
         }
     }
@@ -118,7 +118,7 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
             throw new InvalidConfigurationException('Could not determine if the factory should build an extractor or a loader.');
         } catch (MissingAuthenticationMethodException $exception) {
             throw new InvalidConfigurationException('Your Sylius API configuration is missing an authentication method, you should either define "username" or "token" options.', 0, $exception);
-        } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
+        } catch (Symfony\InvalidConfigurationException|Symfony\InvalidTypeException $exception) {
             throw new InvalidConfigurationException($exception->getMessage(), 0, $exception);
         }
     }

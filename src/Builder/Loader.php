@@ -14,9 +14,7 @@ final class Loader implements StepBuilderInterface
     private ?Node\Expr $client = null;
     private string $apiType;
 
-    public function __construct(private readonly Builder $capacity)
-    {
-    }
+    public function __construct(private readonly Builder $capacity) {}
 
     public function withClient(Node\Expr $client): self
     {
@@ -139,12 +137,12 @@ final class Loader implements StepBuilderInterface
 
     public function getParamsNode(): array
     {
-
         $className = match ($this->apiType) {
             Client::API_ADMIN_KEY => \Diglin\Sylius\ApiClient\SyliusAdminClientInterface::class,
             Client::API_LEGACY_KEY => \Diglin\Sylius\ApiClient\SyliusLegacyClientInterface::class,
             Client::API_SHOP_KEY => \Diglin\Sylius\ApiClient\SyliusShopClientInterface::class,
         };
+
         return [
             new Node\Param(
                 var: new Node\Expr\Variable('client'),

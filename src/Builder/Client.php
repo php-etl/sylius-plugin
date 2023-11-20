@@ -27,9 +27,7 @@ final class Client implements Builder
     public const API_SHOP_KEY = 'shop';
     public const API_LEGACY_KEY = 'legacy';
 
-    public function __construct(private readonly Node\Expr $baseUrl, private readonly Node\Expr $clientId, private readonly Node\Expr $secret)
-    {
-    }
+    public function __construct(private readonly Node\Expr $baseUrl, private readonly Node\Expr $clientId, private readonly Node\Expr $secret) {}
 
     public function withToken(Node\Expr $token, Node\Expr $refreshToken): self
     {

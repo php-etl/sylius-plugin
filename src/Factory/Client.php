@@ -37,7 +37,7 @@ final readonly class Client implements Configurator\FactoryInterface
     {
         try {
             return $this->processor->processConfiguration($this->configuration, $config);
-        } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
+        } catch (Symfony\InvalidConfigurationException|Symfony\InvalidTypeException $exception) {
             throw new Configurator\InvalidConfigurationException($exception->getMessage(), 0, $exception);
         }
     }
@@ -110,7 +110,7 @@ final readonly class Client implements Configurator\FactoryInterface
             return new Repository\Client($clientBuilder);
         } catch (Sylius\MissingAuthenticationMethodException $exception) {
             throw new Configurator\InvalidConfigurationException(message: 'Your Sylius API configuration is missing an authentication method, you should either define "username" or "token" options.', previous: $exception);
-        } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
+        } catch (Symfony\InvalidConfigurationException|Symfony\InvalidTypeException $exception) {
             throw new Configurator\InvalidConfigurationException(message: $exception->getMessage(), previous: $exception);
         }
     }

@@ -115,16 +115,14 @@ final class All implements CapacityInterface
         'order',
     ];
 
-    public function __construct(private readonly ExpressionLanguage $interpreter)
-    {
-    }
+    public function __construct(private readonly ExpressionLanguage $interpreter) {}
 
     public function applies(array $config): bool
     {
         if (!isset($config['api_type'])) {
             return false;
         }
-        switch($config['api_type']) {
+        switch ($config['api_type']) {
             case 'admin':
                 $endpoints = self::$endpointsAdmin;
                 $doubleEndpoints = self::$doubleEndpointsAdmin;
@@ -142,6 +140,7 @@ final class All implements CapacityInterface
                 $doubleEndpoints = [];
                 break;
         }
+
         return isset($config['type'])
             && (\in_array($config['type'], $endpoints) || \in_array($config['type'], $doubleEndpoints))
             && isset($config['method'])

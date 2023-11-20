@@ -13,10 +13,10 @@ enum ApiType: string
     public static function casesValue(): array
     {
         $apiTypeCases = [];
-        foreach (ApiType::cases() as $cases)
-        {
+        foreach (ApiType::cases() as $cases) {
             $apiTypeCases[] = $cases->value;
         }
+
         return $apiTypeCases;
     }
 }
