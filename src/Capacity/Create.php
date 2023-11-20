@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kiboko\Plugin\Sylius\Capacity;
 
+use Kiboko\Contract\Configurator\InvalidConfigurationException;
 use Kiboko\Plugin\Sylius;
 use Kiboko\Plugin\Sylius\Validator\ApiType;
 use PhpParser\Builder;
@@ -79,6 +80,9 @@ final class Create implements CapacityInterface
 
     public function applies(array $config): bool
     {
+        if(!isset($config['api_type'])) {
+            throw new InvalidConfigurationException('Your Sylius API configuration is using some unsupported capacity, check your "api_type" properties to a suitable set.');
+        }
         $endpoints = match ($config['api_type']) {
             'admin' => self::$endpointsAdmin,
             'shop' => self::$endpointsShop,

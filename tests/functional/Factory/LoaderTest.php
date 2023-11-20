@@ -128,9 +128,9 @@ final class LoaderTest extends TestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('missingApiType')]
     public function testMissingApiType(array $config)
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('The value of api_type should be one of [admin, shop, legacy], got null.');
+        $this->expectExceptionMessage('Your Sylius API configuration is using some unsupported capacity, check your "api_type" properties to a suitable set.');
 
         $client = new Loader();
         $this->assertFalse($client->validate($config));
