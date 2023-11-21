@@ -80,7 +80,7 @@ final class Create implements CapacityInterface
 
     public function applies(array $config): bool
     {
-        if(!isset($config['api_type'])) {
+        if (!isset($config['api_type'])) {
             throw new InvalidConfigurationException('Your Sylius API configuration is using some unsupported capacity, check your "api_type" properties to a suitable set.');
         }
         $endpoints = match ($config['api_type']) {
