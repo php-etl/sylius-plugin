@@ -21,12 +21,39 @@ final class ExtractorTest extends TestCase
                 'api_type' => 'legacy',
             ],
         ];
-
         yield [
             [
                 'type' => 'products',
                 'method' => 'listPerPage',
                 'api_type' => 'legacy',
+            ],
+        ];
+        yield [
+            [
+                'type' => 'product',
+                'method' => 'all',
+                'api_type' => 'admin',
+            ],
+        ];
+        yield [
+            [
+                'type' => 'product',
+                'method' => 'listPerPage',
+                'api_type' => 'admin',
+            ],
+        ];
+        yield [
+            [
+                'type' => 'product',
+                'method' => 'all',
+                'api_type' => 'shop',
+            ],
+        ];
+        yield [
+            [
+                'type' => 'product',
+                'method' => 'listPerPage',
+                'api_type' => 'shop',
             ],
         ];
     }
@@ -36,7 +63,7 @@ final class ExtractorTest extends TestCase
         yield [
             'config' => [
                 'type' => 'products',
-                'method' => 'get',
+                'method' => 'all',
                 'api_type' => 'wrong',
             ],
         ];
@@ -48,7 +75,12 @@ final class ExtractorTest extends TestCase
         ];
         yield [
             'config' => [
-                'method' => 'get',
+                'method' => 'all',
+                'api_type' => 'wrong',
+            ],
+        ];
+        yield [
+            'config' => [
                 'api_type' => 'wrong',
             ],
         ];
@@ -72,13 +104,13 @@ final class ExtractorTest extends TestCase
         ];
         yield [
             'config' => [
-                'method' => 'get',
+                'method' => 'all',
             ],
         ];
         yield [
             'config' => [
                 'type' => 'products',
-                'method' => 'get',
+                'method' => 'all',
             ],
         ];
     }
@@ -92,6 +124,16 @@ final class ExtractorTest extends TestCase
         ];
         yield [
             'config' => [
+                'api_type' => 'admin',
+            ],
+        ];
+        yield [
+            'config' => [
+                'api_type' => 'shop',
+            ],
+        ];
+        yield [
+            'config' => [
                 'type' => 'products',
                 'api_type' => 'legacy',
             ],
@@ -99,7 +141,31 @@ final class ExtractorTest extends TestCase
         yield [
             'config' => [
                 'api_type' => 'legacy',
-                'method' => 'get',
+                'method' => 'all',
+            ],
+        ];
+        yield [
+            'config' => [
+                'type' => 'product',
+                'api_type' => 'admin',
+            ],
+        ];
+        yield [
+            'config' => [
+                'api_type' => 'admin',
+                'method' => 'all',
+            ],
+        ];
+        yield [
+            'config' => [
+                'type' => 'product',
+                'api_type' => 'shop',
+            ],
+        ];
+        yield [
+            'config' => [
+                'api_type' => 'shop',
+                'method' => 'all',
             ],
         ];
         yield [
@@ -114,6 +180,59 @@ final class ExtractorTest extends TestCase
                 'type' => 'products',
                 'method' => 'wrong',
                 'api_type' => 'legacy',
+            ],
+        ];
+        yield [
+            'config' => [
+                'type' => 'wrong',
+                'method' => 'all',
+                'api_type' => 'admin',
+            ],
+        ];
+        yield [
+            'config' => [
+                'type' => 'products',
+                'method' => 'wrong',
+                'api_type' => 'admin',
+            ],
+        ];
+        yield [
+            'config' => [
+                'type' => 'wrong',
+                'method' => 'all',
+                'api_type' => 'shop',
+            ],
+        ];
+        yield [
+            'config' => [
+                'type' => 'products',
+                'method' => 'wrong',
+                'api_type' => 'shop',
+            ],
+        ];
+    }
+
+    public static function wrongConfigs(): \Generator
+    {
+        yield [
+            'config' => [
+                'azerty' => 'tata',
+                'api_type' => 'legacy',
+            ],
+        ];
+        yield [
+            'config' => [
+                'azerty' => 'tata',
+                'meyuiop' => 'toto',
+                'api_type' => 'admin',
+            ],
+        ];
+        yield [
+            'config' => [
+                'azerty' => 'tata',
+                'meyuiop' => 'toto',
+                'qsdfgh' => 'tutu',
+                'api_type' => 'shop',
             ],
         ];
     }
@@ -155,6 +274,18 @@ final class ExtractorTest extends TestCase
 
     #[\PHPUnit\Framework\Attributes\DataProvider('missingCapacityConfigs')]
     public function testMissingCapacity(array $config): void
+    {
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage('Your Sylius API configuration is using some unsupported capacity, check your "type" and "method" properties to a suitable set.');
+
+        $client = new Extractor(new ExpressionLanguage());
+        $this->assertFalse($client->validate($config));
+        $client->compile($config);
+    }
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('wrongConfigs')]
+    public function testWrongConfigs(array $config): void
     {
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionCode(0);

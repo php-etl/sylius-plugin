@@ -61,6 +61,90 @@ final class ExtractorTest extends TestCase
                 'search' => [],
             ],
         ];
+        yield [
+            'config' => [
+                'type' => 'product',
+                'method' => 'get',
+                'api_type' => 'admin',
+                'search' => [],
+            ],
+            'expected' => [
+                'type' => 'product',
+                'method' => 'get',
+                'api_type' => 'admin',
+                'search' => [],
+            ],
+        ];
+        yield [
+            'config' => [
+                'type' => 'product',
+                'method' => 'all',
+                'api_type' => 'admin',
+                'search' => [],
+            ],
+            'expected' => [
+                'type' => 'product',
+                'method' => 'all',
+                'api_type' => 'admin',
+                'search' => [],
+            ],
+        ];
+        yield [
+            'config' => [
+                'type' => 'product',
+                'method' => 'listPerPage',
+                'api_type' => 'admin',
+                'search' => [],
+            ],
+            'expected' => [
+                'type' => 'product',
+                'method' => 'listPerPage',
+                'api_type' => 'admin',
+                'search' => [],
+            ],
+        ];
+        yield [
+            'config' => [
+                'type' => 'product',
+                'method' => 'get',
+                'api_type' => 'shop',
+                'search' => [],
+            ],
+            'expected' => [
+                'type' => 'product',
+                'method' => 'get',
+                'api_type' => 'shop',
+                'search' => [],
+            ],
+        ];
+        yield [
+            'config' => [
+                'type' => 'product',
+                'method' => 'all',
+                'api_type' => 'shop',
+                'search' => [],
+            ],
+            'expected' => [
+                'type' => 'product',
+                'method' => 'all',
+                'api_type' => 'shop',
+                'search' => [],
+            ],
+        ];
+        yield [
+            'config' => [
+                'type' => 'product',
+                'method' => 'listPerPage',
+                'api_type' => 'shop',
+                'search' => [],
+            ],
+            'expected' => [
+                'type' => 'product',
+                'method' => 'listPerPage',
+                'api_type' => 'shop',
+                'search' => [],
+            ],
+        ];
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('validDataProvider')]
