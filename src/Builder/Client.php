@@ -167,20 +167,33 @@ final class Client implements Builder
     private function getFactoryArguments(): array
     {
         if (null !== $this->password) {
+            if ($this->apiType === ApiType::LEGACY->value) {
+                return [
+                    $this->clientId,
+                    $this->secret,
+                    $this->username,
+                    $this->password,
+                ];
+            }
+
             return [
-                $this->clientId,
-                $this->secret,
                 $this->username,
                 $this->password,
             ];
         }
 
         if (null !== $this->refreshToken) {
+            if ($this->apiType === ApiType::LEGACY->value) {
+                return [
+                    $this->clientId,
+                    $this->secret,
+                    $this->token,
+                    $this->refreshToken,
+                ];
+            }
+
             return [
-                $this->clientId,
-                $this->secret,
                 $this->token,
-                $this->refreshToken,
             ];
         }
 
