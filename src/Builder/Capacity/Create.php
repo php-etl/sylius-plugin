@@ -15,9 +15,7 @@ final class Create implements Builder
     private null|Node\Expr $code = null;
     private null|Node\Expr $data = null;
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function withEndpoint(Node\Expr|Node\Identifier $endpoint): self
     {

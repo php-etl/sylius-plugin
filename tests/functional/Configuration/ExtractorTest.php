@@ -23,11 +23,13 @@ final class ExtractorTest extends TestCase
             'config' => [
                 'type' => 'products',
                 'method' => 'all',
+                'api_type' => 'legacy',
                 'search' => [],
             ],
             'expected' => [
                 'type' => 'products',
                 'method' => 'all',
+                'api_type' => 'legacy',
                 'search' => [],
             ],
         ];
@@ -35,11 +37,13 @@ final class ExtractorTest extends TestCase
             'config' => [
                 'type' => 'products',
                 'method' => 'listPerPage',
+                'api_type' => 'legacy',
                 'search' => [],
             ],
             'expected' => [
                 'type' => 'products',
                 'method' => 'listPerPage',
+                'api_type' => 'legacy',
                 'search' => [],
             ],
         ];
@@ -47,11 +51,97 @@ final class ExtractorTest extends TestCase
             'config' => [
                 'type' => 'products',
                 'method' => 'get',
+                'api_type' => 'legacy',
                 'search' => [],
             ],
             'expected' => [
                 'type' => 'products',
                 'method' => 'get',
+                'api_type' => 'legacy',
+                'search' => [],
+            ],
+        ];
+        yield [
+            'config' => [
+                'type' => 'product',
+                'method' => 'get',
+                'api_type' => 'admin',
+                'search' => [],
+            ],
+            'expected' => [
+                'type' => 'product',
+                'method' => 'get',
+                'api_type' => 'admin',
+                'search' => [],
+            ],
+        ];
+        yield [
+            'config' => [
+                'type' => 'product',
+                'method' => 'all',
+                'api_type' => 'admin',
+                'search' => [],
+            ],
+            'expected' => [
+                'type' => 'product',
+                'method' => 'all',
+                'api_type' => 'admin',
+                'search' => [],
+            ],
+        ];
+        yield [
+            'config' => [
+                'type' => 'product',
+                'method' => 'listPerPage',
+                'api_type' => 'admin',
+                'search' => [],
+            ],
+            'expected' => [
+                'type' => 'product',
+                'method' => 'listPerPage',
+                'api_type' => 'admin',
+                'search' => [],
+            ],
+        ];
+        yield [
+            'config' => [
+                'type' => 'product',
+                'method' => 'get',
+                'api_type' => 'shop',
+                'search' => [],
+            ],
+            'expected' => [
+                'type' => 'product',
+                'method' => 'get',
+                'api_type' => 'shop',
+                'search' => [],
+            ],
+        ];
+        yield [
+            'config' => [
+                'type' => 'product',
+                'method' => 'all',
+                'api_type' => 'shop',
+                'search' => [],
+            ],
+            'expected' => [
+                'type' => 'product',
+                'method' => 'all',
+                'api_type' => 'shop',
+                'search' => [],
+            ],
+        ];
+        yield [
+            'config' => [
+                'type' => 'product',
+                'method' => 'listPerPage',
+                'api_type' => 'shop',
+                'search' => [],
+            ],
+            'expected' => [
+                'type' => 'product',
+                'method' => 'listPerPage',
+                'api_type' => 'shop',
                 'search' => [],
             ],
         ];
@@ -65,7 +155,7 @@ final class ExtractorTest extends TestCase
         $this->assertSame($expected, $this->processor->processConfiguration($client, [$config]));
     }
 
-    public function testWrongMethod(): void
+    public function testWrongApiType(): void
     {
         $client = new Configuration\Extractor();
 
@@ -73,13 +163,14 @@ final class ExtractorTest extends TestCase
             Config\Definition\Exception\InvalidConfigurationException::class,
         );
         $this->expectExceptionMessage(
-            'Invalid configuration for path "extractor": The value should be one of [listPerPage, all, get], got "invalidValue".',
+            'Invalid configuration for path "extractor.api_type": the value should be one of [admin, shop, legacy], got "invalidValue".',
         );
 
         $this->processor->processConfiguration($client, [
             [
+                'api_type' => 'invalidValue',
                 'type' => 'products',
-                'method' => 'invalidValue',
+                'method' => 'all'
             ],
         ]);
     }
@@ -92,12 +183,34 @@ final class ExtractorTest extends TestCase
             Config\Definition\Exception\InvalidConfigurationException::class,
         );
         $this->expectExceptionMessage(
-            'Invalid configuration for path "extractor.type": the value should be one of [channels, countries, carts, currencies, customers, exchangeRates, locales, orders, payments, paymentMethods, products, productAttributes, productAssociationTypes, productOptions, promotions, shipments, shippingCategories, taxCategories, taxRates, taxons, users, zones, productReviews, productVariants, promotionCoupons], got "wrong"',
+            'Invalid configuration for path "extractor.type": the value should be one of [channels, countries, carts, currencies, customers, exchangeRates, locales, orders, payments, paymentMethods, products, productAttributes, productAssociationTypes, productOptions, promotions, shipments, shippingCategories, taxCategories, taxRates, taxons, users, zones, productReviews, productVariants, promotionCoupons], got "wrong".',
         );
 
         $this->processor->processConfiguration($client, [
             [
                 'type' => 'wrong',
+                'api_type' => 'legacy',
+                'method' => 'all'
+            ],
+        ]);
+    }
+
+    public function testWrongMethod(): void
+    {
+        $client = new Configuration\Extractor();
+
+        $this->expectException(
+            Config\Definition\Exception\InvalidConfigurationException::class,
+        );
+        $this->expectExceptionMessage(
+            'Invalid configuration for path "extractor.method": The value should be one of [listPerPage, all, get], got "invalidValue".',
+        );
+
+        $this->processor->processConfiguration($client, [
+            [
+                'type' => 'products',
+                'method' => 'invalidValue',
+                'api_type' => 'legacy',
             ],
         ]);
     }
@@ -110,13 +223,14 @@ final class ExtractorTest extends TestCase
             Config\Definition\Exception\InvalidConfigurationException::class,
         );
         $this->expectExceptionMessage(
-            'The productReviews type should have a "code" field set.',
+            'The code parameters is required and cannot be empty because you choose a type: productReviews',
         );
 
         $this->processor->processConfiguration($client, [
             [
                 'type' => 'productReviews',
                 'method' => 'get',
+                'api_type' => 'legacy',
             ],
         ]);
     }

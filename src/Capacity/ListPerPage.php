@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Kiboko\Plugin\Sylius\Capacity;
 
+use Kiboko\Contract\Configurator\InvalidConfigurationException;
 use Kiboko\Plugin\Sylius;
+use Kiboko\Plugin\Sylius\Validator\ApiType;
 use PhpParser\Builder;
 use PhpParser\Node;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
@@ -13,7 +15,7 @@ use function Kiboko\Component\SatelliteToolbox\Configuration\compileValue;
 
 final class ListPerPage implements CapacityInterface
 {
-    private static array $endpoints = [
+    private static array $endpointsLegacy = [
         // Simple resources Endpoints
         'channels',
         'countries',
@@ -41,26 +43,110 @@ final class ListPerPage implements CapacityInterface
         'zones',
     ];
 
-    private static array $doubleEndpoints = [
+    private static array $endpointsAdmin = [
+        // Simple Ressource Endpoints
+        'adjustment',
+        'administrator',
+        'catalogPromotion',
+        'channel',
+        'country',
+        'currency',
+        'customerGroup',
+        'exchangeRate',
+        'locale',
+        'order',
+        'payment',
+        'product',
+        'productAssociationType',
+        'productImage',
+        'productOption',
+        'productOptionValue',
+        'productReview',
+        'productTaxon',
+        'productVariant',
+        'promotion',
+        'province',
+        'shipment',
+        'shippingCategory',
+        'shippingMethod',
+        'ShopBillingData',
+        'taxCategory',
+        'taxon',
+        'taxonTranslation',
+        'zone',
+        'zoneMember',
+    ];
+
+    private static array $endpointsShop = [
+        // Simple Ressource Endpoints
+        'address',
+        'adjustment',
+        'country',
+        'currency',
+        'locale',
+        'order',
+        'orderItem',
+        'payment',
+        'paymentMethod',
+        'product',
+        'productReview',
+        'productVariant',
+        'shipment',
+        'shippingMethod',
+        'taxon',
+    ];
+
+    private static array $doubleEndpointsLegacy = [
         // Double resources Endpoints
         'productReviews',
         'productVariants',
         'promotionCoupons',
     ];
+    private static array $doubleEndpointsAdmin = [
+        // Double resources Endpoints
+        'adjustment',
+        'province',
+        'shopBillingData',
+        'zoneMember',
+    ];
 
-    public function __construct(private readonly ExpressionLanguage $interpreter)
-    {
-    }
+    private static array $doubleEndpointsShop = [
+        // Double resources Endpoints
+        'adjustment',
+        'order',
+    ];
+
+    public function __construct(private readonly ExpressionLanguage $interpreter) {}
 
     public function applies(array $config): bool
     {
+        if (!isset($config['api_type'])) {
+            throw new InvalidConfigurationException('Your Sylius API configuration is using some unsupported capacity, check your "api_type" properties to a suitable set.');
+        }
+        switch ($config['api_type']) {
+            case 'admin':
+                $endpoints = self::$endpointsAdmin;
+                $doubleEndpoints = self::$doubleEndpointsAdmin;
+                break;
+            case 'shop':
+                $endpoints = self::$endpointsShop;
+                $doubleEndpoints = self::$doubleEndpointsShop;
+                break;
+            case 'legacy':
+                $endpoints = self::$endpointsLegacy;
+                $doubleEndpoints = self::$doubleEndpointsLegacy;
+                break;
+            default:
+                throw new \InvalidArgumentException(sprintf('The value of api_type should be one of [%s], got %s.', implode(', ', ApiType::casesValue()), json_encode($config['api_type'], \JSON_THROW_ON_ERROR)));
+        }
+
         return isset($config['type'])
-            && (\in_array($config['type'], self::$endpoints) || \in_array($config['type'], self::$doubleEndpoints))
+            && (\in_array($config['type'], $endpoints) || \in_array($config['type'], $doubleEndpoints))
             && isset($config['method'])
             && 'listPerPage' === $config['method'];
     }
 
-    private function compileFilters(array ...$filters): Node
+    private function compileFilters(array ...$filters): Node\Expr
     {
         $builder = new Sylius\Builder\Search();
         foreach ($filters as $filter) {

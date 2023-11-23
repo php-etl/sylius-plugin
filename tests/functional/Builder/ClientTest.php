@@ -41,6 +41,8 @@ final class ClientTest extends BuilderTestCase
         $this->expectException(MissingAuthenticationMethodException::class);
         $this->expectExceptionMessage('Please check your client builder, you should either call withToken() or withPassword() methods.');
 
+        $client->withApiType('legacy');
+
         $client->getNode();
     }
 }

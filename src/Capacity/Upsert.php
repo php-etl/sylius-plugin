@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace Kiboko\Plugin\Sylius\Capacity;
 
+use Kiboko\Contract\Configurator\InvalidConfigurationException;
 use Kiboko\Plugin\Sylius;
+use Kiboko\Plugin\Sylius\Validator\ApiType;
 use PhpParser\Builder;
 use PhpParser\Node;
 
 final class Upsert implements CapacityInterface
 {
-    private static array $endpoints = [
+    private static array $endpointsLegacy = [
         // Core Endpoints
         'carts',
         'channels',
@@ -42,10 +44,46 @@ final class Upsert implements CapacityInterface
         'zones',
     ];
 
+    private static array $endpointsAdmin = [
+        // Core Endpoints
+        'administrator',
+        'catalogPromotion',
+        'customerGroup',
+        'exchangeRate',
+        'product',
+        'productAssociationType',
+        'productOption',
+        'productReview',
+        'productVariant',
+        'province',
+        'shippingCategory',
+        'shippingMethod',
+        'taxCategory',
+        'taxon',
+        'zone',
+    ];
+
+    private static array $endpointsShop = [
+        // Core Endpoints
+        'address',
+        'customer',
+        'order',
+    ];
+
     public function applies(array $config): bool
     {
+        if (!isset($config['api_type'])) {
+            throw new InvalidConfigurationException('Your Sylius API configuration is using some unsupported capacity, check your "api_type" properties to a suitable set.');
+        }
+        $endpoints = match ($config['api_type']) {
+            'admin' => self::$endpointsAdmin,
+            'shop' => self::$endpointsShop,
+            'legacy' => self::$endpointsLegacy,
+            default => throw new \InvalidArgumentException(sprintf('The value of api_type should be one of [%s], got %s.', implode(', ', ApiType::casesValue()), json_encode($config['api_type'], \JSON_THROW_ON_ERROR)))
+        };
+
         return isset($config['type'])
-            && \in_array($config['type'], self::$endpoints)
+            && \in_array($config['type'], $endpoints)
             && isset($config['method'])
             && 'upsert' === $config['method'];
     }

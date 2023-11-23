@@ -4,12 +4,18 @@ declare(strict_types=1);
 
 namespace Kiboko\Plugin\Sylius\Builder;
 
+use Diglin\Sylius\ApiClient\SyliusAdminClientBuilder;
+use Diglin\Sylius\ApiClient\SyliusShopClientBuilder;
 use Kiboko\Plugin\Sylius\MissingAuthenticationMethodException;
+use Kiboko\Plugin\Sylius\Validator\ApiType;
 use PhpParser\Builder;
 use PhpParser\Node;
 
 final class Client implements Builder
 {
+
+    private ?Node\Expr $clientId = null;
+    private ?Node\Expr $secret = null;
     private ?Node\Expr $username = null;
     private ?Node\Expr $password = null;
     private ?Node\Expr $token = null;
@@ -18,15 +24,33 @@ final class Client implements Builder
     private ?Node\Expr $httpRequestFactory = null;
     private ?Node\Expr $httpStreamFactory = null;
     private ?Node\Expr $fileSystem = null;
+    private string $apiType;
 
-    public function __construct(private readonly Node\Expr $baseUrl, private readonly Node\Expr $clientId, private readonly Node\Expr $secret)
+    public const API_ADMIN_KEY = 'admin';
+    public const API_SHOP_KEY = 'shop';
+    public const API_LEGACY_KEY = 'legacy';
+
+    public function __construct(private readonly Node\Expr $baseUrl) {}
+
+    public function withSecret(Node\Expr $clientId, Node\Expr $secret): self
     {
+        $this->clientId = $clientId;
+        $this->secret = $secret;
+
+        return $this;
     }
 
     public function withToken(Node\Expr $token, Node\Expr $refreshToken): self
     {
         $this->token = $token;
         $this->refreshToken = $refreshToken;
+
+        return $this;
+    }
+
+    public function withApiType(string $apiType): self
+    {
+        $this->apiType = $apiType;
 
         return $this;
     }
@@ -69,15 +93,7 @@ final class Client implements Builder
 
     public function getNode(): Node\Expr\MethodCall
     {
-        $instance = new Node\Expr\MethodCall(
-            var: new Node\Expr\New_(
-                new Node\Name\FullyQualified('Diglin\\Sylius\\ApiClient\\SyliusClientBuilder'),
-            ),
-            name: new Node\Identifier('setBaseUri'),
-            args: [
-                new Node\Arg($this->baseUrl),
-            ],
-        );
+        $instance = $this->getClientBuilderNode();
 
         if (null !== $this->httpClient) {
             $instance = new Node\Expr\MethodCall(
@@ -126,6 +142,26 @@ final class Client implements Builder
         );
     }
 
+    private function getClientBuilderNode(): Node\Expr\MethodCall
+    {
+        $className = match ($this->apiType) {
+            ApiType::ADMIN->value => SyliusAdminClientBuilder::class,
+            ApiType::SHOP->value => SyliusShopClientBuilder::class,
+            ApiType::LEGACY->value => 'Diglin\\Sylius\\ApiClient\\SyliusClientBuilder',
+            default => throw new \UnhandledMatchError($this->apiType)
+        };
+
+        return new Node\Expr\MethodCall(
+            var: new Node\Expr\New_(
+                new Node\Name\FullyQualified($className),
+            ),
+            name: new Node\Identifier('setBaseUri'),
+            args: [
+                new Node\Arg($this->baseUrl),
+            ],
+        );
+    }
+
     private function getFactoryMethod(): string
     {
         if (null !== $this->password) {
@@ -142,20 +178,33 @@ final class Client implements Builder
     private function getFactoryArguments(): array
     {
         if (null !== $this->password) {
+            if ($this->apiType === ApiType::LEGACY->value) {
+                return [
+                    $this->clientId,
+                    $this->secret,
+                    $this->username,
+                    $this->password,
+                ];
+            }
+
             return [
-                $this->clientId,
-                $this->secret,
                 $this->username,
                 $this->password,
             ];
         }
 
         if (null !== $this->refreshToken) {
+            if ($this->apiType === ApiType::LEGACY->value) {
+                return [
+                    $this->clientId,
+                    $this->secret,
+                    $this->token,
+                    $this->refreshToken,
+                ];
+            }
+
             return [
-                $this->clientId,
-                $this->secret,
                 $this->token,
-                $this->refreshToken,
             ];
         }
 

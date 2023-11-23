@@ -12,14 +12,20 @@ final class Extractor implements StepBuilderInterface
 {
     private ?Node\Expr $logger = null;
     private ?Node\Expr $client = null;
+    private string $apiType;
 
-    public function __construct(private readonly Builder $capacity)
-    {
-    }
+    public function __construct(private readonly Builder $capacity) {}
 
     public function withClient(Node\Expr $client): self
     {
         $this->client = $client;
+
+        return $this;
+    }
+
+    public function withApiType(string $apiType): self
+    {
+        $this->apiType = $apiType;
 
         return $this;
     }
@@ -55,18 +61,7 @@ final class Extractor implements StepBuilderInterface
                             name: new Node\Identifier(name: '__construct'),
                             subNodes: [
                                 'flags' => Node\Stmt\Class_::MODIFIER_PUBLIC,
-                                'params' => [
-                                    new Node\Param(
-                                        var: new Node\Expr\Variable('client'),
-                                        type: new Node\Name\FullyQualified(name: \Diglin\Sylius\ApiClient\SyliusLegacyClientInterface::class),
-                                        flags: Node\Stmt\Class_::MODIFIER_PUBLIC,
-                                    ),
-                                    new Node\Param(
-                                        var: new Node\Expr\Variable('logger'),
-                                        type: new Node\Name\FullyQualified(name: \Psr\Log\LoggerInterface::class),
-                                        flags: Node\Stmt\Class_::MODIFIER_PUBLIC,
-                                    ),
-                                ],
+                                'params' => $this->getParamsNode(),
                             ],
                         ),
                         new Node\Stmt\ClassMethod(
@@ -132,5 +127,28 @@ final class Extractor implements StepBuilderInterface
                 new Node\Arg(value: $this->logger ?? new Node\Expr\New_(new Node\Name\FullyQualified(\Psr\Log\NullLogger::class))),
             ],
         );
+    }
+
+    public function getParamsNode(): array
+    {
+        $className = match ($this->apiType) {
+            Client::API_ADMIN_KEY => \Diglin\Sylius\ApiClient\SyliusAdminClientInterface::class,
+            Client::API_LEGACY_KEY => \Diglin\Sylius\ApiClient\SyliusLegacyClientInterface::class,
+            Client::API_SHOP_KEY => \Diglin\Sylius\ApiClient\SyliusShopClientInterface::class,
+            default => throw new \UnhandledMatchError($this->apiType)
+        };
+
+        return [
+            new Node\Param(
+                var: new Node\Expr\Variable('client'),
+                type: new Node\Name\FullyQualified(name: $className),
+                flags: Node\Stmt\Class_::MODIFIER_PRIVATE,
+            ),
+            new Node\Param(
+                var: new Node\Expr\Variable('logger'),
+                type: new Node\Name\FullyQualified(name: \Psr\Log\LoggerInterface::class),
+                flags: Node\Stmt\Class_::MODIFIER_PRIVATE,
+            ),
+        ];
     }
 }
