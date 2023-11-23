@@ -13,6 +13,9 @@ use PhpParser\Node;
 
 final class Client implements Builder
 {
+
+    private ?Node\Expr $clientId = null;
+    private ?Node\Expr $secret = null;
     private ?Node\Expr $username = null;
     private ?Node\Expr $password = null;
     private ?Node\Expr $token = null;
@@ -27,7 +30,15 @@ final class Client implements Builder
     public const API_SHOP_KEY = 'shop';
     public const API_LEGACY_KEY = 'legacy';
 
-    public function __construct(private readonly Node\Expr $baseUrl, private readonly Node\Expr $clientId, private readonly Node\Expr $secret) {}
+    public function __construct(private readonly Node\Expr $baseUrl) {}
+
+    public function withSecret(Node\Expr $clientId, Node\Expr $secret): self
+    {
+        $this->clientId = $clientId;
+        $this->secret = $secret;
+
+        return $this;
+    }
 
     public function withToken(Node\Expr $token, Node\Expr $refreshToken): self
     {

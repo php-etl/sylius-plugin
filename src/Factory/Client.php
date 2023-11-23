@@ -72,8 +72,6 @@ final readonly class Client implements Configurator\FactoryInterface
         try {
             $clientBuilder = new Sylius\Builder\Client(
                 compileValueWhenExpression($this->interpreter, $config['api_url']),
-                compileValueWhenExpression($this->interpreter, $config['client_id']),
-                compileValueWhenExpression($this->interpreter, $config['secret']),
             );
 
             if (isset($config['context'])) {
@@ -93,6 +91,15 @@ final readonly class Client implements Configurator\FactoryInterface
 
             if (isset($config['api_type'])) {
                 $clientBuilder->withApiType($config['api_type']);
+            }
+
+            if (isset($config['client_id']) && isset($config['secret'])) {
+                if (isset($config['api_type']) && $config['api_type'] === Sylius\Validator\ApiType::LEGACY->value) {
+                    $clientBuilder->withSecret(
+                        compileValueWhenExpression($this->interpreter, $config['client_id']),
+                        compileValueWhenExpression($this->interpreter, $config['secret'])
+                    );
+                }
             }
 
             if (isset($config['password'])) {
