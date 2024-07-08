@@ -93,7 +93,7 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
                 $client = $clientFactory->compile($config['client']);
 
                 $extractorBuilder
-                    ->withClientType(ApiType::ADMIN == ApiType::from($config['version']) ? new Node\Name\FullyQualified(name: 'Diglin\\Sylius\\ApiClient\\SyliusAdminClientInterface') : new Node\Name\FullyQualified(name: 'Diglin\\Sylius\\ApiClient\\SyliusShopClientInterface'))
+                    ->withClientType(ApiType::ADMIN == ApiType::from($config['version']) ? new Node\Name\FullyQualified(name: \Diglin\Sylius\ApiClient\SyliusAdminClientInterface::class) : new Node\Name\FullyQualified(name: \Diglin\Sylius\ApiClient\SyliusShopClientInterface::class))
                     ->withClient($client->getBuilder()->getNode())
                 ;
 
@@ -110,7 +110,7 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
                 $client = $clientFactory->compile($config['client']);
 
                 $loaderBuilder
-                    ->withClientType(ApiType::ADMIN == ApiType::from($config['version']) ? new Node\Name\FullyQualified(name: 'Diglin\\Sylius\\ApiClient\\SyliusAdminClientInterface') : new Node\Name\FullyQualified(name: 'Diglin\\Sylius\\ApiClient\\SyliusShopClientInterface'))
+                    ->withClientType(ApiType::ADMIN == ApiType::from($config['version']) ? new Node\Name\FullyQualified(name: \Diglin\Sylius\ApiClient\SyliusAdminClientInterface::class) : new Node\Name\FullyQualified(name: \Diglin\Sylius\ApiClient\SyliusShopClientInterface::class))
                     ->withClient($client->getBuilder()->getNode())
                 ;
 

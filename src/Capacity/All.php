@@ -20,10 +20,7 @@ final readonly class All implements CapacityInterface
 
     public function applies(array $config): bool
     {
-        $endpoints = array_merge(
-            Sylius\Validator\ExtractorConfigurationValidator::ADMIN_VALID_TYPES,
-            Sylius\Validator\ExtractorConfigurationValidator::SHOP_VALID_TYPES,
-        );
+        $endpoints = [...Sylius\Validator\ExtractorConfigurationValidator::ADMIN_VALID_TYPES, ...Sylius\Validator\ExtractorConfigurationValidator::SHOP_VALID_TYPES];
 
         return isset($config['type'])
             && \array_key_exists($config['type'], $endpoints)

@@ -94,7 +94,7 @@ final readonly class Client implements Configurator\FactoryInterface
             $clientBuilder->withClientBuilder(
                 new Node\Expr\New_(
                     new Node\Name\FullyQualified(
-                        Sylius\ApiType::ADMIN == $this->type ? 'Diglin\\Sylius\\ApiClient\\SyliusAdminClientBuilder' : 'Diglin\\Sylius\\ApiClient\\SyliusShopClientBuilder'
+                        Sylius\ApiType::ADMIN == $this->type ? \Diglin\Sylius\ApiClient\SyliusAdminClientBuilder::class : \Diglin\Sylius\ApiClient\SyliusShopClientBuilder::class
                     ),
                 )
             );
