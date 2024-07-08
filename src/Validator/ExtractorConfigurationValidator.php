@@ -6,536 +6,286 @@ namespace Kiboko\Plugin\Sylius\Validator;
 
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
-class ExtractorConfigurationValidator implements ConfigurationValidatorInterface
+class ExtractorConfigurationValidator
 {
-    private static array $endpointsLegacy = [
-        // Core Endpoints
-        'channels' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'countries' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'carts' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'currencies' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'customers' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'exchangeRates' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'locales' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'orders' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'payments' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'paymentMethods' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'products' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'productAttributes' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'productAssociationTypes' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'productOptions' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'promotions' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'shipments' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'shippingCategories' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'taxCategories' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'taxRates' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'taxons' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'users' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'zones' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-    ];
-
-    private static array $endpointsAdmin = [
+    public const ADMIN_VALID_TYPES = [
         'address' => [
             'get',
         ],
         'adjustment' => [
-            'listPerPage',
-            'all',
             'get',
         ],
         'administrator' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'avatarImage' => [
-            'get',
-        ],
-        'catalogPromotion' => [
-            'listPerPage',
             'all',
             'get',
         ],
         'catalogPromotionTranslation' => [
             'get',
         ],
-        'channel' => [
-            'listPerPage',
+        'catalogPromotion' => [
             'all',
+            'get',
+        ],
+        'channel' => [
+            'all',
+            'get',
+        ],
+        'shopBillingData' => [
             'get',
         ],
         'country' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'currency' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'customer' => [
-            'get',
-        ],
-        'customerGroup' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'exchangeRate' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'locale' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'order' => [
-            'listPerPage',
-            'all',
-            'get',
-            'listPaymentsPerPage',
-            'allPayments',
-            'listShipmentsPerPage',
-            'allShipments',
-        ],
-        'orderItem' => [
-            'get',
-        ],
-        'orderItemUnit' => [
-            'get',
-        ],
-        'payment' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'paymentMethod' => [
-            'get',
-        ],
-        'product' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'productAssociationType' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'productAssociationTypeTranslation' => [
-            'get',
-        ],
-        'productImage' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'productOption' => [
-            'listPerPage',
-            'all',
-            'get',
-            'listValuesPerPage',
-            'allValues',
-        ],
-        'productOptionTranslation' => [
-            'get',
-        ],
-        'productOptionValue' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'productReview' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'productTaxon' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'productTranslation' => [
-            'get',
-        ],
-        'productVariant' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'productVariantTranslation' => [
-            'get',
-        ],
-        'promotion' => [
-            'listPerPage',
             'all',
             'get',
         ],
         'province' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'shipment' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'shippingCategory' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'shippingMethod' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'ShopBillingData' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'taxCategory' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'taxon' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'taxonTranslation' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'zone' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'zoneMember' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-    ];
-
-    private static array $endpointsShop = [
-        // Core Endpoints
-        'address' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'adjustment' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
-        'catalogPromotion' => [
-            'get',
-        ],
-        'channel' => [
-            'get',
-        ],
-        'country' => [
-            'listPerPage',
             'all',
             'get',
         ],
         'currency' => [
-            'listPerPage',
+            'all',
+            'get',
+        ],
+        'customerGroups' => [
             'all',
             'get',
         ],
         'customer' => [
+            'all',
+            'get',
+        ],
+        'exchangeRate' => [
+            'all',
+            'get',
+        ],
+        'gatewayConfiguration' => [
             'get',
         ],
         'locale' => [
-            'listPerPage',
             'all',
             'get',
-        ],
-        'order' => [
-            'listPerPage',
-            'all',
-            'get',
-            'listPaymentMethodsPerPage',
-            'allPaymentMethods',
-            'listShipmentMethodsPerPage',
-            'allShipmentMethods',
-            'listAdjustmentsPerPage',
-            'allAdjustments',
-            'listItemsPerPage',
-            'allItems',
-        ],
-        'orderItem' => [
-            'listPerPage',
-            'all',
-            'get',
-            'listAdjustmentsPerPage',
-            'allAdjustments',
         ],
         'orderItemUnit' => [
             'get',
         ],
-        'payment' => [
-            'listPerPage',
+        'orderItem' => [
+            'get',
+        ],
+        'order' => [
             'all',
             'get',
         ],
         'paymentMethod' => [
-            'listPerPage',
+            'all' ,
+            'get',
+        ],
+        'payment' => [
             'all',
             'get',
         ],
-        'product' => [
-            'listPerPage',
+        'shipment' => [
             'all',
             'get',
-            'getBySlug',
         ],
-        'productImage' => [
+        'productAssociationType' => [
+            'all',
+            'get',
+        ],
+        'productAttribute' => [
+            'all',
             'get',
         ],
         'productOption' => [
-            'get',
-        ],
-        'productOptionValue' => [
+            'all',
             'get',
         ],
         'productReview' => [
-            'listPerPage',
             'all',
             'get',
         ],
         'productTaxon' => [
+            'all' ,
             'get',
         ],
         'productTranslation' => [
             'get',
         ],
-        'productVariant' => [
-            'listPerPage',
-            'all',
-            'get',
-        ],
         'productVariantTranslation' => [
             'get',
         ],
-        'shipment' => [
-            'listPerPage',
+        'productVariant' => [
             'all',
             'get',
         ],
-        'shippingMethod' => [
-            'listPerPage',
+        'product' => [
+            'all',
+            'get'
+        ],
+        'promotionCoupon' => [
+            'all',
+            'get',
+        ],
+        'promotionTranslation' => [
+            'get',
+        ],
+        'promotion' => [
+            'all',
+            'get',
+        ],
+        'shippingCategory' => [
             'all',
             'get',
         ],
         'shippingMethodTranslation' => [
             'get',
         ],
-        'taxon' => [
-            'listPerPage',
+        'shippingMethod' => [
             'all',
             'get',
         ],
-        'taxonTranslation' => [
+        'taxCategory' => [
+            'all',
+            'get',
+        ],
+        'taxRate' => [
+            'all',
+            'get',
+        ],
+        'taxonImage' => [
+            'all',
+            'get',
+        ],
+        'taxon' => [
+            'all',
+            'get',
+        ],
+        'zoneMember' => [
+            'get',
+        ],
+        'zone' => [
+            'all',
             'get',
         ],
     ];
 
-    private static array $doubleEndpointsLegacy = [
-        // Double resources Endpoints
-        'productReviews',
-        'productVariants',
-        'promotionCoupons',
+    public const SHOP_VALID_TYPES = [
+        'address' => [
+            'all',
+            'get',
+        ],
+        'adjustment' => [
+            'get',
+        ],
+        'catalogPromotion' => [
+            'get',
+        ],
+        'channel' => [
+            'all',
+            'get',
+        ],
+        'country' => [
+            'all',
+            'get',
+        ],
+        'province' => [
+            'get',
+        ],
+        'currency' => [
+            'all',
+            'get',
+        ],
+        'customer' => [
+            'get',
+        ],
+        'exchangeRate' => [
+            'all',
+            'get',
+        ],
+        'locale' => [
+            'all',
+            'get',
+        ],
+        'orderItemUnit' => [
+            'get',
+        ],
+        'orderItem' => [
+            'get',
+        ],
+        'order' => [
+            'all',
+            'get',
+        ],
+        'paymentMethod' => [
+            'all' ,
+            'get',
+        ],
+        'payment' => [
+            'get',
+        ],
+        'shipment' => [
+            'get',
+        ],
+        'productAssociationType' => [
+            'get',
+        ],
+        'productAttribute' => [
+            'get',
+        ],
+        'productOption' => [
+            'get',
+        ],
+        'productReview' => [
+            'all',
+            'get',
+        ],
+        'productTaxon' => [
+            'get',
+        ],
+        'productVariant' => [
+            'all',
+            'get',
+        ],
+        'product' => [
+            'all',
+            'get'
+        ],
+        'shippingMethod' => [
+            'all',
+            'get',
+        ],
+        'taxonImage' => [
+            'get',
+        ],
+        'taxon' => [
+            'all',
+            'get',
+        ],
     ];
 
-    private static array $doubleEndpointsAdmin = [
-        // Double resources Endpoints
-        'adjustment',
-        'province',
-        'shopBillingData',
-        'zoneMember',
-    ];
-
-    private static array $doubleEndpointsShop = [
-        // Double resources Endpoints
-        'adjustment',
-        'order',
-    ];
-
-    public static function getEndpointsApiType(): array
+    public static function validate(string $type, string $method, string $version = 'admin'): void
     {
-        return match (self::$currentApiType) {
-            ApiType::ADMIN->value => self::$endpointsAdmin,
-            ApiType::SHOP->value => self::$endpointsShop,
-            ApiType::LEGACY->value => self::$endpointsLegacy,
-            default => throw new \UnhandledMatchError(self::$currentApiType)
-        };
-    }
+        $validTypes = $version === 'admin' ? self::ADMIN_VALID_TYPES : self::SHOP_VALID_TYPES;
 
-    public static function getDoubleEndpointsApiType(): array
-    {
-        return match (self::$currentApiType) {
-            ApiType::ADMIN->value => self::$doubleEndpointsAdmin,
-            ApiType::SHOP->value => self::$doubleEndpointsShop,
-            ApiType::LEGACY->value => self::$doubleEndpointsLegacy,
-            default => throw new \UnhandledMatchError(self::$currentApiType)
-        };
-    }
-    public static string $currentApiType;
-    public static string $currentType;
-
-    public static function validate(array $item): array
-    {
-        if (\in_array($item['type'], self::getDoubleEndpointsApiType()) && !\array_key_exists('code', $item)) {
-            throw new InvalidConfigurationException('The code parameters is required and cannot be empty because you choose a type: '.$item['type']);
+        if ($validTypes === null) {
+            throw new InvalidConfigurationException(sprintf('Unknown version "%s".', $version));
         }
 
-        return $item;
-    }
-
-    public static function validateApiType(string $apiType)
-    {
-        self::$currentApiType = $apiType;
-        if (!\in_array($apiType, ApiType::casesValue())) {
-            throw new \InvalidArgumentException(sprintf('the value should be one of [%s], got %s.', implode(', ', ApiType::casesValue()), json_encode($apiType, \JSON_THROW_ON_ERROR)));
+        if (!array_key_exists($type, $validTypes)) {
+            throw new InvalidConfigurationException(sprintf(
+                'Invalid extractor type "%s" for version "%s". Valid types are: %s.',
+                $type,
+                $version,
+                implode(', ', array_keys($validTypes))
+            ));
         }
 
-        return $apiType;
-    }
-
-    public static function validateType(string $type)
-    {
-        self::$currentType = $type;
-        $endpoints = self::getEndpointsApiType();
-        $doubleEndpoints = self::getDoubleEndpointsApiType();
-        if (!\in_array($type, array_merge(array_keys($endpoints), $doubleEndpoints))) {
-            throw new \InvalidArgumentException(sprintf('the value should be one of [%s], got %s.', implode(', ', array_merge(array_keys($endpoints), $doubleEndpoints)), json_encode($type, \JSON_THROW_ON_ERROR)));
+        if (!in_array($method, $validTypes[$type], true)) {
+            throw new InvalidConfigurationException(sprintf(
+                'Invalid method "%s" for extractor type "%s" and version "%s". Valid methods are: %s.',
+                $method,
+                $type,
+                $version,
+                implode(', ', $validTypes[$type])
+            ));
         }
-
-        return $type;
-    }
-
-    public static function validateMethod(string $method)
-    {
-        $endpoints = self::getEndpointsApiType();
-        $doubleEndpoints = self::getDoubleEndpointsApiType();
-        if (
-            \array_key_exists(self::$currentType, $endpoints)
-            && !\in_array($method, $endpoints[self::$currentType])
-            && !\in_array(self::$currentType, $doubleEndpoints)
-        ) {
-            throw new \InvalidArgumentException(sprintf('The value should be one of [%s], got %s.', implode(', ', $endpoints[self::$currentType]), json_encode($method, \JSON_THROW_ON_ERROR)));
-        }
-
-        return $method;
-    }
-
-    public static function validateCode(string $code)
-    {
-        $doubleEndpoints = self::getDoubleEndpointsApiType();
-        if (\in_array(self::$currentType, $doubleEndpoints)) {
-            throw new \InvalidArgumentException(sprintf('The %s type should have a "code" field set.', self::$currentType), json_encode($code, \JSON_THROW_ON_ERROR));
-        }
-
-        return $code;
     }
 }

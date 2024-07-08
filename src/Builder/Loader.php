@@ -12,7 +12,7 @@ final class Loader implements StepBuilderInterface
 {
     private ?Node\Expr $logger = null;
     private ?Node\Expr $client = null;
-    private string $apiType;
+    private ?Node $type = null;
 
     public function __construct(private readonly Builder $capacity) {}
 
@@ -23,9 +23,9 @@ final class Loader implements StepBuilderInterface
         return $this;
     }
 
-    public function withApiType(string $apiType): self
+    public function withClientType(Node $type): self
     {
-        $this->apiType = $apiType;
+        $this->type = $type;
 
         return $this;
     }
@@ -137,17 +137,10 @@ final class Loader implements StepBuilderInterface
 
     public function getParamsNode(): array
     {
-        $className = match ($this->apiType) {
-            Client::API_ADMIN_KEY => \Diglin\Sylius\ApiClient\SyliusAdminClientInterface::class,
-            Client::API_LEGACY_KEY => \Diglin\Sylius\ApiClient\SyliusLegacyClientInterface::class,
-            Client::API_SHOP_KEY => \Diglin\Sylius\ApiClient\SyliusShopClientInterface::class,
-            default => throw new \UnhandledMatchError($this->apiType)
-        };
-
         return [
             new Node\Param(
                 var: new Node\Expr\Variable('client'),
-                type: new Node\Name\FullyQualified(name: $className),
+                type: $this->type,
                 flags: Node\Stmt\Class_::MODIFIER_PRIVATE,
             ),
             new Node\Param(

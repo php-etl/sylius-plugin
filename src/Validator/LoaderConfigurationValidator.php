@@ -4,107 +4,20 @@ declare(strict_types=1);
 
 namespace Kiboko\Plugin\Sylius\Validator;
 
-class LoaderConfigurationValidator implements ConfigurationValidatorInterface
-{
-    private static array $endpointsLegacy = [
-        // Core Endpoints
-        'channels' => [
-            'create',
-            'delete',
-        ],
-        'countries' => [
-            'create',
-            'delete',
-        ],
-        'carts' => [
-            'create',
-            'delete',
-        ],
-        'currencies' => [
-            'create',
-            'delete',
-        ],
-        'customers' => [
-            'create',
-            'delete',
-        ],
-        'exchangeRates' => [
-            'create',
-            'delete',
-        ],
-        'locales' => [
-            'create',
-            'delete',
-        ],
-        'orders' => [
-            'create',
-            'delete',
-        ],
-        'payments' => [
-            'create',
-            'delete',
-        ],
-        'paymentMethods' => [
-            'create',
-            'delete',
-        ],
-        'products' => [
-            'create',
-            'upsert',
-            'delete',
-        ],
-        'productAttributes' => [
-            'create',
-            'delete',
-        ],
-        'productAssociationTypes' => [
-            'create',
-            'delete',
-        ],
-        'productOptions' => [
-            'create',
-            'delete',
-        ],
-        'promotions' => [
-            'create',
-            'delete',
-        ],
-        'shipments' => [
-            'create',
-            'delete',
-        ],
-        'shippingCategories' => [
-            'create',
-            'delete',
-        ],
-        'taxCategories' => [
-            'create',
-            'delete',
-        ],
-        'taxRates' => [
-            'create',
-            'delete',
-        ],
-        'taxons' => [
-            'create',
-            'delete',
-        ],
-        'users' => [
-            'create',
-            'delete',
-        ],
-        'zones' => [
-            'create',
-            'delete',
-        ],
-    ];
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
-    private static array $endpointsAdmin = [
-        // Core Endpoints
+class LoaderConfigurationValidator
+{
+    public const ADMIN_VALID_TYPES = [
+        'address' => [
+            'create',
+            'delete',
+            'update',
+        ],
         'administrator' => [
             'create',
             'delete',
-            'upsert',
+            'update',
         ],
         'avatarImage' => [
             'create',
@@ -112,203 +25,188 @@ class LoaderConfigurationValidator implements ConfigurationValidatorInterface
         ],
         'catalogPromotion' => [
             'create',
-            'upsert',
+            'update',
+            'delete',
         ],
         'channel' => [
             'create',
+            'update',
             'delete',
         ],
         'country' => [
             'create',
-            'delete',
+            'update',
+        ],
+        'province' => [
+            'update',
         ],
         'currency' => [
             'create',
-            'delete',
         ],
         'customerGroup' => [
             'create',
             'delete',
-            'upsert',
+            'update',
+        ],
+        'customer' => [
+            'create',
+            'delete',
+            'update',
         ],
         'exchangeRate' => [
             'create',
             'delete',
-            'upsert',
+            'update',
         ],
         'locale' => [
             'create',
+            'delete',
         ],
-        'order' => [
-            'cancel',
-        ],
-        'payment' => [
-            'complete',
-        ],
-        'product' => [
+        'paymentMethod' => [
             'create',
             'delete',
-            'upsert',
+            'update',
         ],
         'productAssociationType' => [
             'create',
             'delete',
-            'upsert',
+            'update',
+        ],
+        'productAssociation' => [
+            'create',
+            'delete',
+            'update',
+        ],
+        'productAttribute' => [
+            'create',
+            'delete',
+            'update',
+        ],
+        'productImage' => [
+            'delete',
+            'update',
         ],
         'productOption' => [
             'create',
+            'update',
             'delete',
         ],
         'productReview' => [
-            'upsert',
+            'create',
+            'update',
             'delete',
-            'accept',
-            'reject',
+        ],
+        'productTaxon' => [
+            'create',
+            'update',
+            'delete',
         ],
         'productVariant' => [
             'create',
-            'upsert',
+            'update',
+            'delete',
+        ],
+        'product' => [
+            'create',
+            'delete',
+            'update',
+        ],
+        'promotionCoupon' => [
+            'create',
+            'update',
+            'delete',
         ],
         'promotion' => [
             'create',
+            'update',
             'delete',
-        ],
-        'province' => [
-            'upsert',
-        ],
-        'resetPasswordRequest' => [
-            'create',
-            'acknowledge',
-        ],
-        'shipment' => [
-            'ship',
         ],
         'shippingCategory' => [
             'create',
             'delete',
-            'upsert',
+            'update',
         ],
         'shippingMethod' => [
             'create',
             'delete',
-            'upsert',
-            'archive',
-            'restore',
+            'update',
         ],
         'taxCategory' => [
             'create',
             'delete',
-            'upsert',
+            'update',
+        ],
+        'taxRate' => [
+            'create',
+            'delete',
+            'update',
+        ],
+        'taxonImage' => [
+            'delete',
+            'update',
         ],
         'taxon' => [
             'create',
-            'upsert',
-        ],
-        'verifyCustomerAccount' => [
-            'create',
-            'acknowledge',
+            'update',
+            'delete',
         ],
         'zone' => [
             'create',
             'delete',
-            'upsert',
+            'update',
         ],
     ];
 
-    private static array $endpointsShop = [
-        // Core Endpoints
+    public const SHOP_VALID_TYPES = [
         'address' => [
             'create',
             'delete',
-            'upsert',
+            'update',
         ],
         'customer' => [
             'create',
-            'upsert',
-            'changePassword',
+            'update',
         ],
         'order' => [
             'create',
-            'upsert',
-            'choosePayment',
-            'chooseShipment',
-            'complete',
+            'update',
+            'delete',
         ],
         'orderItem' => [
             'create',
             'delete',
-            'changeQuantity',
         ],
         'productReview' => [
             'create',
         ],
-        'resetPasswordRequest' => [
-            'create',
-            'verify',
-        ],
-        'verifyCustomerAccount' => [
-            'create',
-            'verify',
-        ],
     ];
 
-    public static string $currentApiType;
-    public static string $currentType;
 
-    public static function getEndpointsApiType(): array
+    public static function validate(string $type, string $method, string $version = 'admin'): void
     {
-        return match (self::$currentApiType) {
-            ApiType::ADMIN->value => self::$endpointsAdmin,
-            ApiType::SHOP->value => self::$endpointsShop,
-            ApiType::LEGACY->value => self::$endpointsLegacy,
-            default => throw new \UnhandledMatchError(self::$currentApiType),
-        };
-    }
+        $validTypes = $version === 'admin' ? self::ADMIN_VALID_TYPES : self::SHOP_VALID_TYPES;
 
-    public static function validate(array $item): array
-    {
-        $endpoints = self::getEndpointsApiType();
-        if (!\in_array($item['type'], array_keys($endpoints))) {
-            throw new \InvalidArgumentException(sprintf('the value "type" should be one of [%s], got %s', implode(', ', array_keys($endpoints)), json_encode($item['type'], \JSON_THROW_ON_ERROR)));
-        }
-        if (!\in_array($item['method'], $endpoints[$item['type']])) {
-            throw new \InvalidArgumentException(sprintf('the value "method" should be one of [%s], got %s', implode(', ', $endpoints[$item['type']]), json_encode($item['method'], \JSON_THROW_ON_ERROR)));
+        if ($validTypes === null) {
+            throw new InvalidConfigurationException(sprintf('Unknown version "%s".', $version));
         }
 
-        return $item;
-    }
-
-    public static function validateApiType(string $apiType)
-    {
-        self::$currentApiType = $apiType;
-        if (!\in_array($apiType, ApiType::casesValue())) {
-            throw new \InvalidArgumentException(sprintf('the value should be one of [%s], got %s.', implode(', ', ApiType::casesValue()), json_encode($apiType, \JSON_THROW_ON_ERROR)));
+        if (!array_key_exists($type, $validTypes)) {
+            throw new InvalidConfigurationException(sprintf(
+                'Invalid loader type "%s" for version "%s". Valid types are: %s.',
+                $type,
+                $version,
+                implode(', ', array_keys($validTypes))
+            ));
         }
 
-        return $apiType;
-    }
-
-    public static function validateType(string $type)
-    {
-        self::$currentType = $type;
-        $endpoints = self::getEndpointsApiType();
-        if (!\in_array($type, array_keys($endpoints))) {
-            throw new \InvalidArgumentException(sprintf('the value should be one of [%s], got %s.', implode(', ', array_keys($endpoints)), json_encode($type, \JSON_THROW_ON_ERROR)));
+        if (!in_array($method, $validTypes[$type], true)) {
+            throw new InvalidConfigurationException(sprintf(
+                'Invalid method "%s" for extractor type "%s" and version "%s". Valid methods are: %s.',
+                $method,
+                $type,
+                $version,
+                implode(', ', $validTypes[$type])
+            ));
         }
-
-        return $type;
-    }
-
-    public static function validateMethod(string $method)
-    {
-        $endpoints = self::getEndpointsApiType();
-        if (
-            \array_key_exists(self::$currentType, $endpoints)
-            && !\in_array($method, $endpoints[self::$currentType])
-        ) {
-            throw new \InvalidArgumentException(sprintf('The value should be one of [%s], got %s.', implode(', ', $endpoints[self::$currentType]), json_encode($method, \JSON_THROW_ON_ERROR)));
-        }
-
-        return $method;
     }
 }

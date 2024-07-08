@@ -6,14 +6,13 @@ namespace Kiboko\Plugin\Sylius\Builder;
 
 use Diglin\Sylius\ApiClient\SyliusAdminClientBuilder;
 use Diglin\Sylius\ApiClient\SyliusShopClientBuilder;
+use Kiboko\Plugin\Sylius\ApiType;
 use Kiboko\Plugin\Sylius\MissingAuthenticationMethodException;
-use Kiboko\Plugin\Sylius\Validator\ApiType;
 use PhpParser\Builder;
 use PhpParser\Node;
 
 final class Client implements Builder
 {
-
     private ?Node\Expr $clientId = null;
     private ?Node\Expr $secret = null;
     private ?Node\Expr $username = null;
@@ -24,11 +23,7 @@ final class Client implements Builder
     private ?Node\Expr $httpRequestFactory = null;
     private ?Node\Expr $httpStreamFactory = null;
     private ?Node\Expr $fileSystem = null;
-    private string $apiType;
-
-    public const API_ADMIN_KEY = 'admin';
-    public const API_SHOP_KEY = 'shop';
-    public const API_LEGACY_KEY = 'legacy';
+    private ?Node\Expr $client = null;
 
     public function __construct(private readonly Node\Expr $baseUrl) {}
 
@@ -44,13 +39,6 @@ final class Client implements Builder
     {
         $this->token = $token;
         $this->refreshToken = $refreshToken;
-
-        return $this;
-    }
-
-    public function withApiType(string $apiType): self
-    {
-        $this->apiType = $apiType;
 
         return $this;
     }
@@ -91,9 +79,16 @@ final class Client implements Builder
         return $this;
     }
 
+    public function withClientBuilder(Node\Expr $client): self
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
     public function getNode(): Node\Expr\MethodCall
     {
-        $instance = $this->getClientBuilderNode();
+        $instance = $this->client;
 
         if (null !== $this->httpClient) {
             $instance = new Node\Expr\MethodCall(
@@ -144,17 +139,8 @@ final class Client implements Builder
 
     private function getClientBuilderNode(): Node\Expr\MethodCall
     {
-        $className = match ($this->apiType) {
-            ApiType::ADMIN->value => SyliusAdminClientBuilder::class,
-            ApiType::SHOP->value => SyliusShopClientBuilder::class,
-            ApiType::LEGACY->value => 'Diglin\\Sylius\\ApiClient\\SyliusClientBuilder',
-            default => throw new \UnhandledMatchError($this->apiType)
-        };
-
         return new Node\Expr\MethodCall(
-            var: new Node\Expr\New_(
-                new Node\Name\FullyQualified($className),
-            ),
+            var: $this->client,
             name: new Node\Identifier('setBaseUri'),
             args: [
                 new Node\Arg($this->baseUrl),
@@ -178,15 +164,6 @@ final class Client implements Builder
     private function getFactoryArguments(): array
     {
         if (null !== $this->password) {
-            if ($this->apiType === ApiType::LEGACY->value) {
-                return [
-                    $this->clientId,
-                    $this->secret,
-                    $this->username,
-                    $this->password,
-                ];
-            }
-
             return [
                 $this->username,
                 $this->password,

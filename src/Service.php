@@ -10,6 +10,7 @@ use Kiboko\Contract\Configurator\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Exception as Symfony;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+use PhpParser\Node;
 
 #[Configurator\Pipeline(
     name: 'sylius',
@@ -89,11 +90,11 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
                 $extractor = $extractorFactory->compile($config['extractor']);
                 $extractorBuilder = $extractor->getBuilder();
 
-                $config['client']['api_type'] = $config['extractor']['api_type'];
                 $client = $clientFactory->compile($config['client']);
 
-                $extractorBuilder->withClient($client->getBuilder()->getNode());
-                $extractorBuilder->withApiType($config['extractor']['api_type']);
+                $extractorBuilder
+                    ->withClientType(ApiType::from($config['version']) == ApiType::ADMIN ? new Node\Name\FullyQualified(name: 'Diglin\\Sylius\\ApiClient\\SyliusAdminClientInterface') : new Node\Name\FullyQualified(name: 'Diglin\\Sylius\\ApiClient\\SyliusShopClientInterface'))
+                    ->withClient($client->getBuilder()->getNode());
 
                 $extractor->merge($client);
 
@@ -105,11 +106,11 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
                 $loader = $loaderFactory->compile($config['loader']);
                 $loaderBuilder = $loader->getBuilder();
 
-                $config['client']['api_type'] = $config['loader']['api_type'];
                 $client = $clientFactory->compile($config['client']);
 
-                $loaderBuilder->withClient($client->getBuilder()->getNode());
-                $loaderBuilder->withApiType($config['loader']['api_type']);
+                $loaderBuilder
+                    ->withClientType(ApiType::from($config['version']) == ApiType::ADMIN ? new Node\Name\FullyQualified(name: 'Diglin\\Sylius\\ApiClient\\SyliusAdminClientInterface') : new Node\Name\FullyQualified(name: 'Diglin\\Sylius\\ApiClient\\SyliusShopClientInterface'))
+                    ->withClient($client->getBuilder()->getNode());
 
                 $loader->merge($client);
 
