@@ -18,21 +18,15 @@ final class Client implements Config\Definition\ConfigurationInterface
         /* @phpstan-ignore-next-line */
         $builder->getRootNode()
             ->validate()
-                ->ifTrue(function ($v) {
-                    return !empty($v['token']) && (!empty($v['username']) || !empty($v['password']));
-                })
+                ->ifTrue(fn($v) => !empty($v['token']) && (!empty($v['username']) || !empty($v['password'])))
                 ->thenInvalid('You cannot specify both a token and a username/password combination.')
             ->end()
             ->validate()
-                ->ifTrue(function ($v) {
-                    return (!empty($v['username']) && empty($v['password'])) || (empty($v['username']) && !empty($v['password']));
-                })
+                ->ifTrue(fn($v) => (!empty($v['username']) && empty($v['password'])) || (empty($v['username']) && !empty($v['password'])))
                 ->thenInvalid('Both username and password must be defined together.')
             ->end()
             ->validate()
-                ->ifTrue(function ($v) {
-                     return empty($v['token']) && (empty($v['username']) || empty($v['password']));
-                })
+                ->ifTrue(fn($v) => empty($v['token']) && (empty($v['username']) || empty($v['password'])))
                 ->thenInvalid('You must specify either a token or a username and password combination.')
             ->end()
             ->children()

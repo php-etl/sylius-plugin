@@ -8,7 +8,7 @@ use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
 class LoaderConfigurationValidator
 {
-    public const ADMIN_VALID_TYPES = [
+    final public const ADMIN_VALID_TYPES = [
         'address' => [
             'create',
             'delete',
@@ -157,7 +157,7 @@ class LoaderConfigurationValidator
         ],
     ];
 
-    public const SHOP_VALID_TYPES = [
+    final public const SHOP_VALID_TYPES = [
         'address' => [
             'create',
             'delete',

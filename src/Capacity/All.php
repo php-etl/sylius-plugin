@@ -11,16 +11,13 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 use function Kiboko\Component\SatelliteToolbox\Configuration\compileValueWhenExpression;
 
-final class All implements CapacityInterface
+final readonly class All implements CapacityInterface
 {
-    public function __construct(private readonly ExpressionLanguage $interpreter) {}
+    public function __construct(private ExpressionLanguage $interpreter) {}
 
     public function applies(array $config): bool
     {
-        $endpoints = array_merge(
-            Sylius\Validator\ExtractorConfigurationValidator::ADMIN_VALID_TYPES,
-            Sylius\Validator\ExtractorConfigurationValidator::SHOP_VALID_TYPES,
-        );
+        $endpoints = [...Sylius\Validator\ExtractorConfigurationValidator::ADMIN_VALID_TYPES, ...Sylius\Validator\ExtractorConfigurationValidator::SHOP_VALID_TYPES];
 
         return isset($config['type'])
             && \array_key_exists($config['type'], $endpoints)

@@ -8,7 +8,7 @@ use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
 class ExtractorConfigurationValidator
 {
-    public const ADMIN_VALID_TYPES = [
+    final public const ADMIN_VALID_TYPES = [
         'address' => [
             'get',
         ],
@@ -167,7 +167,7 @@ class ExtractorConfigurationValidator
         ],
     ];
 
-    public const SHOP_VALID_TYPES = [
+    final public const SHOP_VALID_TYPES = [
         'address' => [
             'all',
             'get',

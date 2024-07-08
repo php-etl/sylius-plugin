@@ -93,7 +93,7 @@ use PhpParser\Node;
                 $client = $clientFactory->compile($config['client']);
 
                 $extractorBuilder
-                    ->withClientType(ApiType::from($config['version']) == ApiType::ADMIN ? new Node\Name\FullyQualified(name: 'Diglin\\Sylius\\ApiClient\\SyliusAdminClientInterface') : new Node\Name\FullyQualified(name: 'Diglin\\Sylius\\ApiClient\\SyliusShopClientInterface'))
+                    ->withClientType(ApiType::from($config['version']) == ApiType::ADMIN ? new Node\Name\FullyQualified(name: \Diglin\Sylius\ApiClient\SyliusAdminClientInterface::class) : new Node\Name\FullyQualified(name: \Diglin\Sylius\ApiClient\SyliusShopClientInterface::class))
                     ->withClient($client->getBuilder()->getNode());
 
                 $extractor->merge($client);
@@ -109,7 +109,7 @@ use PhpParser\Node;
                 $client = $clientFactory->compile($config['client']);
 
                 $loaderBuilder
-                    ->withClientType(ApiType::from($config['version']) == ApiType::ADMIN ? new Node\Name\FullyQualified(name: 'Diglin\\Sylius\\ApiClient\\SyliusAdminClientInterface') : new Node\Name\FullyQualified(name: 'Diglin\\Sylius\\ApiClient\\SyliusShopClientInterface'))
+                    ->withClientType(ApiType::from($config['version']) == ApiType::ADMIN ? new Node\Name\FullyQualified(name: \Diglin\Sylius\ApiClient\SyliusAdminClientInterface::class) : new Node\Name\FullyQualified(name: \Diglin\Sylius\ApiClient\SyliusShopClientInterface::class))
                     ->withClient($client->getBuilder()->getNode());
 
                 $loader->merge($client);
