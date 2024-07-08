@@ -14,7 +14,10 @@ final class Loader implements StepBuilderInterface
     private ?Node\Expr $client = null;
     private ?Node $type = null;
 
-    public function __construct(private readonly Builder $capacity) {}
+    public function __construct(
+        private readonly Builder $capacity
+    ) {
+    }
 
     public function withClient(Node\Expr $client): self
     {

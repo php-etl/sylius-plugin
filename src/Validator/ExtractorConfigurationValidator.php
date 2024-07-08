@@ -75,7 +75,7 @@ class ExtractorConfigurationValidator
             'get',
         ],
         'paymentMethod' => [
-            'all' ,
+            'all',
             'get',
         ],
         'payment' => [
@@ -103,7 +103,7 @@ class ExtractorConfigurationValidator
             'get',
         ],
         'productTaxon' => [
-            'all' ,
+            'all',
             'get',
         ],
         'productTranslation' => [
@@ -118,7 +118,7 @@ class ExtractorConfigurationValidator
         ],
         'product' => [
             'all',
-            'get'
+            'get',
         ],
         'promotionCoupon' => [
             'all',
@@ -215,7 +215,7 @@ class ExtractorConfigurationValidator
             'get',
         ],
         'paymentMethod' => [
-            'all' ,
+            'all',
             'get',
         ],
         'payment' => [
@@ -246,7 +246,7 @@ class ExtractorConfigurationValidator
         ],
         'product' => [
             'all',
-            'get'
+            'get',
         ],
         'shippingMethod' => [
             'all',
@@ -263,29 +263,18 @@ class ExtractorConfigurationValidator
 
     public static function validate(string $type, string $method, string $version = 'admin'): void
     {
-        $validTypes = $version === 'admin' ? self::ADMIN_VALID_TYPES : self::SHOP_VALID_TYPES;
+        $validTypes = 'admin' === $version ? self::ADMIN_VALID_TYPES : self::SHOP_VALID_TYPES;
 
-        if ($validTypes === null) {
+        if (null === $validTypes) {
             throw new InvalidConfigurationException(sprintf('Unknown version "%s".', $version));
         }
 
-        if (!array_key_exists($type, $validTypes)) {
-            throw new InvalidConfigurationException(sprintf(
-                'Invalid extractor type "%s" for version "%s". Valid types are: %s.',
-                $type,
-                $version,
-                implode(', ', array_keys($validTypes))
-            ));
+        if (!\array_key_exists($type, $validTypes)) {
+            throw new InvalidConfigurationException(sprintf('Invalid extractor type "%s" for version "%s". Valid types are: %s.', $type, $version, implode(', ', array_keys($validTypes))));
         }
 
-        if (!in_array($method, $validTypes[$type], true)) {
-            throw new InvalidConfigurationException(sprintf(
-                'Invalid method "%s" for extractor type "%s" and version "%s". Valid methods are: %s.',
-                $method,
-                $type,
-                $version,
-                implode(', ', $validTypes[$type])
-            ));
+        if (!\in_array($method, $validTypes[$type], true)) {
+            throw new InvalidConfigurationException(sprintf('Invalid method "%s" for extractor type "%s" and version "%s". Valid methods are: %s.', $method, $type, $version, implode(', ', $validTypes[$type])));
         }
     }
 }

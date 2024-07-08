@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Kiboko\Plugin\Sylius\Capacity;
 
-use Kiboko\Contract\Configurator\InvalidConfigurationException;
 use Kiboko\Plugin\Sylius;
 use PhpParser\Builder;
 use PhpParser\Node;

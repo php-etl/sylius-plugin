@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Kiboko\Plugin\Sylius\Configuration;
 
-use Kiboko\Plugin\Sylius\Validator\ExtractorConfigurationValidator;
 use Symfony\Component\Config;
 
 use function Kiboko\Component\SatelliteToolbox\Configuration\asExpression;
@@ -12,7 +11,7 @@ use function Kiboko\Component\SatelliteToolbox\Configuration\isExpression;
 
 final class Extractor implements Config\Definition\ConfigurationInterface
 {
-    public function getConfigTreeBuilder(): \Symfony\Component\Config\Definition\Builder\TreeBuilder
+    public function getConfigTreeBuilder(): Config\Definition\Builder\TreeBuilder
     {
         $filters = new Search();
 

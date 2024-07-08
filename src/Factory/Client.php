@@ -76,39 +76,39 @@ final readonly class Client implements Configurator\FactoryInterface
                 compileValueWhenExpression($this->interpreter, $config['api_url']),
             );
 
-//            if (isset($config['context'])) {
-//                if (isset($config['context']['http_client'])) {
-//                    $clientBuilder->withHttpClient($this->buildFactoryNode($config['context']['http_client']));
-//                }
-//                if (isset($config['context']['http_request_factory'])) {
-//                    $clientBuilder->withHttpRequestFactory($this->buildFactoryNode($config['context']['http_request_factory']));
-//                }
-//                if (isset($config['context']['http_stream_factory'])) {
-//                    $clientBuilder->withHttpStreamFactory($this->buildFactoryNode($config['context']['http_stream_factory']));
-//                }
-//                if (isset($config['context']['filesystem'])) {
-//                    $clientBuilder->withFileSystem($this->buildFactoryNode($config['context']['filesystem']));
-//                }
-//            }
+            //            if (isset($config['context'])) {
+            //                if (isset($config['context']['http_client'])) {
+            //                    $clientBuilder->withHttpClient($this->buildFactoryNode($config['context']['http_client']));
+            //                }
+            //                if (isset($config['context']['http_request_factory'])) {
+            //                    $clientBuilder->withHttpRequestFactory($this->buildFactoryNode($config['context']['http_request_factory']));
+            //                }
+            //                if (isset($config['context']['http_stream_factory'])) {
+            //                    $clientBuilder->withHttpStreamFactory($this->buildFactoryNode($config['context']['http_stream_factory']));
+            //                }
+            //                if (isset($config['context']['filesystem'])) {
+            //                    $clientBuilder->withFileSystem($this->buildFactoryNode($config['context']['filesystem']));
+            //                }
+            //            }
 
             $clientBuilder->withClientBuilder(
                 new Node\Expr\New_(
                     new Node\Name\FullyQualified(
-                        $this->type == Sylius\ApiType::ADMIN ? \Diglin\Sylius\ApiClient\SyliusAdminClientBuilder::class : \Diglin\Sylius\ApiClient\SyliusShopClientBuilder::class
+                        Sylius\ApiType::ADMIN == $this->type ? 'Diglin\\Sylius\\ApiClient\\SyliusAdminClientBuilder' : 'Diglin\\Sylius\\ApiClient\\SyliusShopClientBuilder'
                     ),
                 )
             );
 
-//            if (isset($config['client_id']) && isset($config['secret'])) {
-//                if (isset($config['api_type']) && $config['api_type'] === Sylius\Validator\ApiType::LEGACY->value) {
-//                    $clientBuilder->withSecret(
-//                        compileValueWhenExpression($this->interpreter, $config['client_id']),
-//                        compileValueWhenExpression($this->interpreter, $config['secret'])
-//                    );
-//                }
-//            }
+            //            if (isset($config['client_id']) && isset($config['secret'])) {
+            //                if (isset($config['api_type']) && $config['api_type'] === Sylius\Validator\ApiType::LEGACY->value) {
+            //                    $clientBuilder->withSecret(
+            //                        compileValueWhenExpression($this->interpreter, $config['client_id']),
+            //                        compileValueWhenExpression($this->interpreter, $config['secret'])
+            //                    );
+            //                }
+            //            }
 
-            if (isset($config['username']) && isset($config['password'])) {
+            if (isset($config['username'], $config['password'])) {
                 $clientBuilder->withPassword(
                     compileValueWhenExpression($this->interpreter, $config['username']),
                     compileValueWhenExpression($this->interpreter, $config['password']),

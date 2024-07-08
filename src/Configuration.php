@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Kiboko\Plugin\Sylius;
 
-use Kiboko\Contract\Configurator\InvalidConfigurationException;
 use Kiboko\Contract\Configurator\PluginConfigurationInterface;
 use Kiboko\Plugin\Sylius\Validator\ExtractorConfigurationValidator;
 use Kiboko\Plugin\Sylius\Validator\LoaderConfigurationValidator;

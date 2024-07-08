@@ -11,22 +11,22 @@ use function Kiboko\Component\SatelliteToolbox\Configuration\isExpression;
 
 final class Client implements Config\Definition\ConfigurationInterface
 {
-    public function getConfigTreeBuilder(): \Symfony\Component\Config\Definition\Builder\TreeBuilder
+    public function getConfigTreeBuilder(): Config\Definition\Builder\TreeBuilder
     {
         $builder = new Config\Definition\Builder\TreeBuilder('client');
 
         /* @phpstan-ignore-next-line */
         $builder->getRootNode()
             ->validate()
-                ->ifTrue(fn($v) => !empty($v['token']) && (!empty($v['username']) || !empty($v['password'])))
+                ->ifTrue(fn ($value) => !empty($value['token']) && (!empty($value['username']) || !empty($value['password'])))
                 ->thenInvalid('You cannot specify both a token and a username/password combination.')
             ->end()
             ->validate()
-                ->ifTrue(fn($v) => (!empty($v['username']) && empty($v['password'])) || (empty($v['username']) && !empty($v['password'])))
+                ->ifTrue(fn ($value) => (!empty($value['username']) && empty($value['password'])) || (empty($value['username']) && !empty($value['password'])))
                 ->thenInvalid('Both username and password must be defined together.')
             ->end()
             ->validate()
-                ->ifTrue(fn($v) => empty($v['token']) && (empty($v['username']) || empty($v['password'])))
+                ->ifTrue(fn ($value) => empty($value['token']) && (empty($value['username']) || empty($value['password'])))
                 ->thenInvalid('You must specify either a token or a username and password combination.')
             ->end()
             ->children()

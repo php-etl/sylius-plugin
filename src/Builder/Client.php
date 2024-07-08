@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Kiboko\Plugin\Sylius\Builder;
 
-use Diglin\Sylius\ApiClient\SyliusAdminClientBuilder;
-use Diglin\Sylius\ApiClient\SyliusShopClientBuilder;
 use Kiboko\Plugin\Sylius\ApiType;
 use Kiboko\Plugin\Sylius\MissingAuthenticationMethodException;
 use PhpParser\Builder;
@@ -25,7 +23,10 @@ final class Client implements Builder
     private ?Node\Expr $fileSystem = null;
     private ?Node\Expr $client = null;
 
-    public function __construct(private readonly Node\Expr $baseUrl) {}
+    public function __construct(
+        private readonly Node\Expr $baseUrl,
+    ) {
+    }
 
     public function withSecret(Node\Expr $clientId, Node\Expr $secret): self
     {
