@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Kiboko\Plugin\Sylius\Builder;
 
+use Kiboko\Plugin\Sylius\ApiType;
 use Kiboko\Plugin\Sylius\MissingAuthenticationMethodException;
 use PhpParser\Builder;
 use PhpParser\Node;
 
 final class Client implements Builder
 {
+    private ?Node\Expr $clientId = null;
+    private ?Node\Expr $secret = null;
     private ?Node\Expr $username = null;
     private ?Node\Expr $password = null;
     private ?Node\Expr $token = null;
@@ -18,9 +21,19 @@ final class Client implements Builder
     private ?Node\Expr $httpRequestFactory = null;
     private ?Node\Expr $httpStreamFactory = null;
     private ?Node\Expr $fileSystem = null;
+    private ?Node\Expr $client = null;
 
-    public function __construct(private readonly Node\Expr $baseUrl, private readonly Node\Expr $clientId, private readonly Node\Expr $secret)
+    public function __construct(
+        private readonly Node\Expr $baseUrl,
+    ) {
+    }
+
+    public function withSecret(Node\Expr $clientId, Node\Expr $secret): self
     {
+        $this->clientId = $clientId;
+        $this->secret = $secret;
+
+        return $this;
     }
 
     public function withToken(Node\Expr $token, Node\Expr $refreshToken): self
@@ -67,17 +80,16 @@ final class Client implements Builder
         return $this;
     }
 
+    public function withClientBuilder(Node\Expr $client): self
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
     public function getNode(): Node\Expr\MethodCall
     {
-        $instance = new Node\Expr\MethodCall(
-            var: new Node\Expr\New_(
-                new Node\Name\FullyQualified('Diglin\\Sylius\\ApiClient\\SyliusClientBuilder'),
-            ),
-            name: new Node\Identifier('setBaseUri'),
-            args: [
-                new Node\Arg($this->baseUrl),
-            ],
-        );
+        $instance = $this->client;
 
         if (null !== $this->httpClient) {
             $instance = new Node\Expr\MethodCall(
@@ -126,6 +138,17 @@ final class Client implements Builder
         );
     }
 
+    private function getClientBuilderNode(): Node\Expr\MethodCall
+    {
+        return new Node\Expr\MethodCall(
+            var: $this->client,
+            name: new Node\Identifier('setBaseUri'),
+            args: [
+                new Node\Arg($this->baseUrl),
+            ],
+        );
+    }
+
     private function getFactoryMethod(): string
     {
         if (null !== $this->password) {
@@ -143,19 +166,23 @@ final class Client implements Builder
     {
         if (null !== $this->password) {
             return [
-                $this->clientId,
-                $this->secret,
                 $this->username,
                 $this->password,
             ];
         }
 
         if (null !== $this->refreshToken) {
+            if ($this->apiType === ApiType::LEGACY->value) {
+                return [
+                    $this->clientId,
+                    $this->secret,
+                    $this->token,
+                    $this->refreshToken,
+                ];
+            }
+
             return [
-                $this->clientId,
-                $this->secret,
                 $this->token,
-                $this->refreshToken,
             ];
         }
 

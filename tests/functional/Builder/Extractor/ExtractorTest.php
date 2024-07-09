@@ -46,6 +46,7 @@ final class ExtractorTest extends BuilderTestCase
 
         $builder = new Extractor($capacity);
         $builder->withClient($client->getNode());
+        $builder->withApiType('legacy');
 
         $this->assertBuildsExtractorExtractsExactly(
             [
@@ -189,6 +190,7 @@ final class ExtractorTest extends BuilderTestCase
 
         $builder = new Extractor($capacity);
         $builder->withClient($client->getNode());
+        $builder->withApiType('legacy');
 
         $this->assertBuildsExtractorExtractsExactly(
             [

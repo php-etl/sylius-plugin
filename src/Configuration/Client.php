@@ -11,79 +11,26 @@ use function Kiboko\Component\SatelliteToolbox\Configuration\isExpression;
 
 final class Client implements Config\Definition\ConfigurationInterface
 {
-    public function getConfigTreeBuilder(): \Symfony\Component\Config\Definition\Builder\TreeBuilder
+    public function getConfigTreeBuilder(): Config\Definition\Builder\TreeBuilder
     {
         $builder = new Config\Definition\Builder\TreeBuilder('client');
 
         /* @phpstan-ignore-next-line */
         $builder->getRootNode()
             ->validate()
-            ->ifArray()
-            ->then(function (array $value) {
-                if (isset($value['username']) && !isset($value['password'])) {
-                    throw new Config\Definition\Exception\InvalidConfigurationException('The configuration option "password" should be defined if you use the username authentication method for Sylius API.');
-                }
-                if (isset($value['token']) && !isset($value['refresh_token'])) {
-                    throw new Config\Definition\Exception\InvalidConfigurationException('The configuration option "refreshToken" should be defined if you use the token authentication method for Sylius API.');
-                }
-                if (isset($value['username'], $value['token']) || (!isset($value['username']) && !isset($value['token']))
-                ) {
-                    throw new Config\Definition\Exception\InvalidConfigurationException('You must choose between "username" and "token" as authentication method for Sylius API, both are mutually exclusive.');
-                }
-
-                return $value;
-            })
+                ->ifTrue(fn ($value) => !empty($value['token']) && (!empty($value['username']) || !empty($value['password'])))
+                ->thenInvalid('You cannot specify both a token and a username/password combination.')
+            ->end()
+            ->validate()
+                ->ifTrue(fn ($value) => (!empty($value['username']) && empty($value['password'])) || (empty($value['username']) && !empty($value['password'])))
+                ->thenInvalid('Both username and password must be defined together.')
+            ->end()
+            ->validate()
+                ->ifTrue(fn ($value) => empty($value['token']) && (empty($value['username']) || empty($value['password'])))
+                ->thenInvalid('You must specify either a token or a username and password combination.')
             ->end()
             ->children()
-                ->arrayNode('context')
-                    ->children()
-                        ->scalarNode('http_client')
-                            ->cannotBeEmpty()
-                            ->validate()
-                                ->ifTrue(isExpression())
-                                ->then(asExpression())
-                            ->end()
-                        ->end()
-                        ->scalarNode('http_request_factory')
-                            ->cannotBeEmpty()
-                            ->validate()
-                                ->ifTrue(isExpression())
-                                ->then(asExpression())
-                            ->end()
-                        ->end()
-                        ->scalarNode('http_stream_factory')
-                            ->cannotBeEmpty()
-                            ->validate()
-                                ->ifTrue(isExpression())
-                                ->then(asExpression())
-                            ->end()
-                        ->end()
-                        ->scalarNode('filesystem')
-                            ->cannotBeEmpty()
-                            ->validate()
-                                ->ifTrue(isExpression())
-                                ->then(asExpression())
-                            ->end()
-                        ->end()
-                    ->end()
-                ->end()
                 ->scalarNode('api_url')
-                    ->isRequired()
-                    ->cannotBeEmpty()
-                    ->validate()
-                        ->ifTrue(isExpression())
-                        ->then(asExpression())
-                    ->end()
-                ->end()
-                ->scalarNode('client_id')
-                    ->isRequired()
-                    ->cannotBeEmpty()
-                    ->validate()
-                        ->ifTrue(isExpression())
-                        ->then(asExpression())
-                    ->end()
-                ->end()
-                ->scalarNode('secret')
                     ->isRequired()
                     ->cannotBeEmpty()
                     ->validate()
@@ -106,13 +53,6 @@ final class Client implements Config\Definition\ConfigurationInterface
                     ->end()
                 ->end()
                 ->scalarNode('token')
-                    ->cannotBeEmpty()
-                    ->validate()
-                        ->ifTrue(isExpression())
-                        ->then(asExpression())
-                    ->end()
-                ->end()
-                ->scalarNode('refresh_token')
                     ->cannotBeEmpty()
                     ->validate()
                         ->ifTrue(isExpression())

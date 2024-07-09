@@ -19,8 +19,10 @@ final readonly class Client implements Configurator\FactoryInterface
     private Processor $processor;
     private ConfigurationInterface $configuration;
 
-    public function __construct(private ExpressionLanguage $interpreter)
-    {
+    public function __construct(
+        private ExpressionLanguage $interpreter,
+        private Sylius\ApiType $type = Sylius\ApiType::ADMIN,
+    ) {
         $this->processor = new Processor();
         $this->configuration = new Sylius\Configuration\Client();
     }
@@ -37,7 +39,7 @@ final readonly class Client implements Configurator\FactoryInterface
     {
         try {
             return $this->processor->processConfiguration($this->configuration, $config);
-        } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
+        } catch (Symfony\InvalidConfigurationException|Symfony\InvalidTypeException $exception) {
             throw new Configurator\InvalidConfigurationException($exception->getMessage(), 0, $exception);
         }
     }
@@ -72,31 +74,46 @@ final readonly class Client implements Configurator\FactoryInterface
         try {
             $clientBuilder = new Sylius\Builder\Client(
                 compileValueWhenExpression($this->interpreter, $config['api_url']),
-                compileValueWhenExpression($this->interpreter, $config['client_id']),
-                compileValueWhenExpression($this->interpreter, $config['secret']),
             );
 
-            if (isset($config['context'])) {
-                if (isset($config['context']['http_client'])) {
-                    $clientBuilder->withHttpClient($this->buildFactoryNode($config['context']['http_client']));
-                }
-                if (isset($config['context']['http_request_factory'])) {
-                    $clientBuilder->withHttpRequestFactory($this->buildFactoryNode($config['context']['http_request_factory']));
-                }
-                if (isset($config['context']['http_stream_factory'])) {
-                    $clientBuilder->withHttpStreamFactory($this->buildFactoryNode($config['context']['http_stream_factory']));
-                }
-                if (isset($config['context']['filesystem'])) {
-                    $clientBuilder->withFileSystem($this->buildFactoryNode($config['context']['filesystem']));
-                }
-            }
+            //            if (isset($config['context'])) {
+            //                if (isset($config['context']['http_client'])) {
+            //                    $clientBuilder->withHttpClient($this->buildFactoryNode($config['context']['http_client']));
+            //                }
+            //                if (isset($config['context']['http_request_factory'])) {
+            //                    $clientBuilder->withHttpRequestFactory($this->buildFactoryNode($config['context']['http_request_factory']));
+            //                }
+            //                if (isset($config['context']['http_stream_factory'])) {
+            //                    $clientBuilder->withHttpStreamFactory($this->buildFactoryNode($config['context']['http_stream_factory']));
+            //                }
+            //                if (isset($config['context']['filesystem'])) {
+            //                    $clientBuilder->withFileSystem($this->buildFactoryNode($config['context']['filesystem']));
+            //                }
+            //            }
 
-            if (isset($config['password'])) {
+            $clientBuilder->withClientBuilder(
+                new Node\Expr\New_(
+                    new Node\Name\FullyQualified(
+                        Sylius\ApiType::ADMIN == $this->type ? \Diglin\Sylius\ApiClient\SyliusAdminClientBuilder::class : \Diglin\Sylius\ApiClient\SyliusShopClientBuilder::class
+                    ),
+                )
+            );
+
+            //            if (isset($config['client_id']) && isset($config['secret'])) {
+            //                if (isset($config['api_type']) && $config['api_type'] === Sylius\Validator\ApiType::LEGACY->value) {
+            //                    $clientBuilder->withSecret(
+            //                        compileValueWhenExpression($this->interpreter, $config['client_id']),
+            //                        compileValueWhenExpression($this->interpreter, $config['secret'])
+            //                    );
+            //                }
+            //            }
+
+            if (isset($config['username'], $config['password'])) {
                 $clientBuilder->withPassword(
                     compileValueWhenExpression($this->interpreter, $config['username']),
                     compileValueWhenExpression($this->interpreter, $config['password']),
                 );
-            } elseif (isset($config['refresh_token'])) {
+            } elseif (isset($config['token'])) {
                 $clientBuilder->withToken(
                     compileValueWhenExpression($this->interpreter, $config['token']),
                     compileValueWhenExpression($this->interpreter, $config['refresh_token']),
@@ -106,7 +123,7 @@ final readonly class Client implements Configurator\FactoryInterface
             return new Repository\Client($clientBuilder);
         } catch (Sylius\MissingAuthenticationMethodException $exception) {
             throw new Configurator\InvalidConfigurationException(message: 'Your Sylius API configuration is missing an authentication method, you should either define "username" or "token" options.', previous: $exception);
-        } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
+        } catch (Symfony\InvalidConfigurationException|Symfony\InvalidTypeException $exception) {
             throw new Configurator\InvalidConfigurationException(message: $exception->getMessage(), previous: $exception);
         }
     }

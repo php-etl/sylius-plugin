@@ -11,13 +11,9 @@ use PhpParser\Node;
 
 final class Upsert implements Builder
 {
-    private null|Node\Expr|Node\Identifier $endpoint = null;
-    private null|Node\Expr $code = null;
-    private null|Node\Expr $data = null;
-
-    public function __construct()
-    {
-    }
+    private Node\Expr|Node\Identifier|null $endpoint = null;
+    private ?Node\Expr $code = null;
+    private ?Node\Expr $data = null;
 
     public function withEndpoint(Node\Expr|Node\Identifier $endpoint): self
     {

@@ -10,40 +10,12 @@ use PhpParser\Node;
 
 final class Create implements CapacityInterface
 {
-    private static array $endpoints = [
-        // Core Endpoints
-        'channels',
-        'countries',
-        'carts',
-        'channels',
-        'countries',
-        'currencies',
-        'customers',
-        'exchangeRates',
-        'locales',
-        'orders',
-        'payments',
-        'paymentMethods',
-        'products',
-        'productAttributes',
-        'productAssociationTypes',
-        'productOptions',
-        'productReviews',
-        'productVariants',
-        'promotions',
-        'promotionCoupons',
-        'shipments',
-        'taxCategories',
-        'taxRates',
-        'taxons',
-        'users',
-        'zones',
-    ];
-
     public function applies(array $config): bool
     {
+        $endpoints = [...Sylius\Validator\ExtractorConfigurationValidator::ADMIN_VALID_TYPES, ...Sylius\Validator\ExtractorConfigurationValidator::SHOP_VALID_TYPES];
+
         return isset($config['type'])
-            && \in_array($config['type'], self::$endpoints)
+            && \array_key_exists($config['type'], $endpoints)
             && isset($config['method'])
             && 'create' === $config['method'];
     }

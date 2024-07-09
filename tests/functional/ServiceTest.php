@@ -20,6 +20,7 @@ final class ServiceTest extends TestCase
                 'extractor' => [
                     'type' => 'products',
                     'method' => 'all',
+                    'api_type' => 'legacy',
                     'search' => [],
                 ],
                 'client' => [
@@ -34,6 +35,7 @@ final class ServiceTest extends TestCase
                 'extractor' => [
                     'type' => 'products',
                     'method' => 'all',
+                    'api_type' => 'legacy',
                 ],
                 'client' => [
                     'api_url' => '1234',
@@ -52,6 +54,7 @@ final class ServiceTest extends TestCase
                 'loader' => [
                     'type' => 'products',
                     'method' => 'upsert',
+                    'api_type' => 'legacy',
                 ],
                 'client' => [
                     'api_url' => '1234',
@@ -66,6 +69,7 @@ final class ServiceTest extends TestCase
                 'loader' => [
                     'type' => 'products',
                     'method' => 'upsert',
+                    'api_type' => 'legacy',
                 ],
                 'client' => [
                     'api_url' => '1234',
@@ -113,6 +117,7 @@ final class ServiceTest extends TestCase
             'loader' => [
                 'type' => 'products',
                 'method' => 'upsert',
+                'api_type' => 'legacy',
                 'code' => 'azerty123',
             ],
             'client' => [

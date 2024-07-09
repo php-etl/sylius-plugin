@@ -9,14 +9,15 @@ use PhpParser\Node;
 
 final class Search implements Builder
 {
-    public function __construct(private array $filters = [])
-    {
+    public function __construct(
+        private array $filters = []
+    ) {
     }
 
     public function addFilter(
         Node\Expr $field,
         Node\Expr $operator,
-        Node\Expr $value = null,
+        ?Node\Expr $value = null,
         ?Node\Expr $scope = null,
         ?Node\Expr $locale = null
     ): self {
@@ -28,7 +29,7 @@ final class Search implements Builder
                 value: $operator,
             ),
             new Node\Arg(
-                value: $value,
+                value: $value ?? new Node\Expr\ConstFetch(new Node\Name('null')),
             ),
         ];
 
@@ -41,7 +42,7 @@ final class Search implements Builder
         }
         if (null !== $locale) {
             $options[] = new Node\Expr\ArrayItem(
-                value: $scope,
+                value: $locale,
                 key: new Node\Scalar\String_('locale'),
             );
         }
@@ -60,7 +61,7 @@ final class Search implements Builder
         return $this;
     }
 
-    public function getNode(): Node
+    public function getNode(): Node\Expr
     {
         $instance = new Node\Expr\New_(
             class: new Node\Name\FullyQualified(\Diglin\Sylius\ApiClient\Search\SearchBuilder::class)

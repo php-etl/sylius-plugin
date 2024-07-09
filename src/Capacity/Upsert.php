@@ -10,42 +10,12 @@ use PhpParser\Node;
 
 final class Upsert implements CapacityInterface
 {
-    private static array $endpoints = [
-        // Core Endpoints
-        'carts',
-        'channels',
-        'countries',
-        'carts',
-        'channels',
-        'countries',
-        'currencies',
-        'customers',
-        'exchangeRates',
-        'locales',
-        'orders',
-        'paymentMethods',
-        'payments',
-        'products',
-        'productAttributes',
-        'productAssociationTypes',
-        'productOptions',
-        'productReviews',
-        'productVariants',
-        'promotions',
-        'promotionCoupons',
-        'shipments',
-        'shippingCategories',
-        'taxCategories',
-        'taxRates',
-        'taxons',
-        'users',
-        'zones',
-    ];
-
     public function applies(array $config): bool
     {
+        $endpoints = [...Sylius\Validator\ExtractorConfigurationValidator::ADMIN_VALID_TYPES, ...Sylius\Validator\ExtractorConfigurationValidator::SHOP_VALID_TYPES];
+
         return isset($config['type'])
-            && \in_array($config['type'], self::$endpoints)
+            && \array_key_exists($config['type'], $endpoints)
             && isset($config['method'])
             && 'upsert' === $config['method'];
     }

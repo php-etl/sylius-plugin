@@ -9,67 +9,35 @@ use PhpParser\Builder;
 use PhpParser\Node;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
-use function Kiboko\Component\SatelliteToolbox\Configuration\compileValue;
+use function Kiboko\Component\SatelliteToolbox\Configuration\compileValueWhenExpression;
 
-final class All implements CapacityInterface
+final readonly class All implements CapacityInterface
 {
-    private static array $endpoints = [
-        // Simple resources Endpoints
-        'channels',
-        'countries',
-        'carts',
-        'channels',
-        'countries',
-        'currencies',
-        'customers',
-        'exchangeRates',
-        'locales',
-        'orders',
-        'payments',
-        'paymentMethods',
-        'products',
-        'productAttributes',
-        'productAssociationTypes',
-        'productOptions',
-        'promotions',
-        'shipments',
-        'shippingCategories',
-        'taxCategories',
-        'taxRates',
-        'taxons',
-        'users',
-        'zones',
-    ];
-
-    private static array $doubleEndpoints = [
-        // Double resources Endpoints
-        'productReviews',
-        'productVariants',
-        'promotionCoupons',
-    ];
-
-    public function __construct(private readonly ExpressionLanguage $interpreter)
-    {
+    public function __construct(
+        private readonly ExpressionLanguage $interpreter
+    ) {
     }
 
     public function applies(array $config): bool
     {
+        $endpoints = [...Sylius\Validator\ExtractorConfigurationValidator::ADMIN_VALID_TYPES, ...Sylius\Validator\ExtractorConfigurationValidator::SHOP_VALID_TYPES];
+
         return isset($config['type'])
-            && (\in_array($config['type'], self::$endpoints) || \in_array($config['type'], self::$doubleEndpoints))
+            && \array_key_exists($config['type'], $endpoints)
             && isset($config['method'])
             && 'all' === $config['method'];
     }
 
-    private function compileFilters(array ...$filters): Node
+    private function compileFilters(array ...$filters): Node\Expr
     {
         $builder = new Sylius\Builder\Search();
         foreach ($filters as $filter) {
             $builder->addFilter(
-                field: compileValue($this->interpreter, $filter['field']),
-                operator: compileValue($this->interpreter, $filter['operator']),
-                value: compileValue($this->interpreter, $filter['value']),
-                scope: \array_key_exists('scope', $filter) ? compileValue($this->interpreter, $filter['scope']) : null,
-                locale: \array_key_exists('locale', $filter) ? compileValue($this->interpreter, $filter['locale']) : null
+                field: compileValueWhenExpression($this->interpreter, $filter['field']),
+                operator: compileValueWhenExpression($this->interpreter, $filter['operator']),
+                value: compileValueWhenExpression($this->interpreter, $filter['value']),
+                scope: \array_key_exists('scope', $filter) ? compileValueWhenExpression($this->interpreter, $filter['scope']) : null,
+                locale: \array_key_exists('locale', $filter) ? compileValueWhenExpression($this->interpreter, $filter['locale']) : null
             );
         }
 
