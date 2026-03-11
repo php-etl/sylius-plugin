@@ -1,5 +1,9 @@
 {
     "name": "php-etl/sylius-plugin",
+    "repositories": [
+        {"type": "path", "url": "../fast-map"},
+        {"type": "path", "url": "../../tools/fast-map-config"}
+    ],
     "description": "Adapters for the Sylius API client",
     "type": "gyroscops-plugin",
     "license": "MIT",
@@ -12,9 +16,9 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^8.2",
+        "php": "^8.4",
         "ext-json": "*",
-        "nikic/php-parser": "^4.10",
+        "nikic/php-parser": "^5.6",
         "symfony/config": "^6.0",
         "php-etl/configurator-contracts": "0.8.*",
         "php-etl/packaging-contracts": "0.3.*",
@@ -26,12 +30,12 @@
         "symfony/yaml": "^6.0",
         "php-etl/bucket-contracts": "0.2.*",
         "phpunit/phpunit": "^10.0",
-        "laminas/laminas-diactoros": "^2.6",
+        "guzzlehttp/psr7": "^2.6",
         "phpunit/php-invoker": "*",
         "php-etl/sylius-api-php-client": "^2.1@dev",
         "friendsofphp/php-cs-fixer": "^3.0",
-        "infection/infection": "^0.26.18",
-        "rector/rector": "^0.15",
+        "infection/infection": "^0.28",
+        "rector/rector": "^2.3",
         "php-etl/phpunit-extension": "*",
         "php-etl/bucket": "*",
         "symfony/http-client": "^6.2"
